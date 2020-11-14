@@ -1,11 +1,12 @@
 const { AkairoClient, CommandHandler, InhibitorHandler, ListenerHandler } = require('discord-akairo');
+const config = require('./src/config');
 
 class RadaClient extends AkairoClient {
     constructor() {
         super({ownerID: ['286509757546758156']}, {disableMentions: 'everyone'});
         this.commandHandler = new CommandHandler(this, {
         	directory: './src/commands/',
-        	prefix: '.',
+        	prefix: process.env.PRODUCTION ? config.prefix : config.devPrefix,
         	blockBots: true,
         	allowMention: true,
         	handleEdits: true,
