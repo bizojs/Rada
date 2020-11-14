@@ -1,0 +1,17 @@
+{
+  "name": "rada",
+  "version": "1.0.0",
+  "description": "multi-purpose discord bot",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "br4d",
+  "license": "ISC",
+  "dependencies": {
+    "colors": "^1.4.0",
+    "discord-akairo": "^8.1.0",
+    "discord.js": "^12.4.1",
+    "dotenv": "^8.2.0"
+  }
+}
