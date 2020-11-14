@@ -9,9 +9,11 @@
   "author": "br4d",
   "license": "ISC",
   "dependencies": {
+    "@aero/centra": "^1.0.6",
     "colors": "^1.4.0",
     "discord-akairo": "^8.1.0",
     "discord.js": "^12.4.1",
-    "dotenv": "^8.2.0"
+    "dotenv": "^8.2.0",
+    "os": "^0.1.1"
   }
 }
