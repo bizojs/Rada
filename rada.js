@@ -1,5 +1,6 @@
 const { AkairoClient, CommandHandler, InhibitorHandler, ListenerHandler } = require('discord-akairo');
 const config = require('./src/config');
+require('dotenv').config();
 
 class RadaClient extends AkairoClient {
     constructor() {
@@ -31,6 +32,4 @@ class RadaClient extends AkairoClient {
     }
 }
 const client = new RadaClient();
-
-require('dotenv').config();
 client.login(process.env.TOKEN);
