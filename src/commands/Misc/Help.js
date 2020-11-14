@@ -40,8 +40,8 @@ class HelpCommand extends Command {
             let commandMap = [];
             this.client.commandHandler.categories
                 .get(c.id)
-                .forEach(m => commandMap.push(`${m.id} - ${m.description}`));
-            embed.addField(c.id, commandMap.length > 1 ? commandMap.join('\n') : commandMap)
+                .forEach(m => commandMap.push(m.id));
+            embed.addField(c.id, commandMap.length > 1 ? commandMap.join(', ') : commandMap)
         })
         return embed;
     }
