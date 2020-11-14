@@ -7,7 +7,7 @@ class RadaClient extends AkairoClient {
         super({ownerID: ['286509757546758156']}, {disableMentions: 'everyone'});
         this.commandHandler = new CommandHandler(this, {
         	directory: './src/commands/',
-        	prefix: process.env.PRODUCTION ? config.prefix : config.devPrefix,
+        	prefix: config.production ? config.prefix : config.devPrefix,
         	blockBots: true,
         	allowMention: true,
         	handleEdits: true,
