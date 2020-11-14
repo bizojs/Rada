@@ -1,5 +1,5 @@
 const { Listener } = require('discord-akairo');
-const CustomLog = require('../../lib/log');
+const CustomLog = require('../../../lib/log');
 const terminal = new CustomLog;
 
 class ReadyListener extends Listener {
@@ -14,7 +14,7 @@ class ReadyListener extends Listener {
     	this.client.presence.set({
             status: 'online',
             activity: {
-                name: 'Rada v1 in progress',
+                name: `${this.client.user.username} v1 in progress`,
                 type: 'WATCHING'
             }
         });
