@@ -6,7 +6,7 @@ class HasteCommand extends Command {
     constructor() {
         super('hastebin', {
           aliases: ['hastebin', 'haste'],
-          category: 'Miscellaneous',
+          category: 'Utility',
           description: 'Uploads text/code to a shareable hastebin link',
           cooldown: 60000,
           ratelimit: 1
