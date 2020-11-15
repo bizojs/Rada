@@ -11,6 +11,9 @@ class ReadyListener extends Listener {
     }
 
     exec() {
+        terminal.success(`Loaded ${this.client.listenerHandler.modules.size} listeners`);
+        terminal.success(`Loaded ${this.client.inhibitorHandler.modules.size} inhibitors`);
+        terminal.success(`Loaded ${this.client.commandHandler.modules.size} commands`);
     	this.client.presence.set({
             status: 'online',
             activity: {

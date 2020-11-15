@@ -8,7 +8,7 @@ require('dotenv').config();
 class RadaClient extends AkairoClient {
     constructor() {
         super({
-        	ownerID: ['286509757546758156']
+        	ownerID: config.owners
         }, {
         	disableMentions: 'everyone',
         	fetchAllMembers: true,
@@ -25,13 +25,11 @@ class RadaClient extends AkairoClient {
         	directory: './src/commands/',
         	prefix: (message) => {
                 if (message.guild) {
-                    // The third param is the default.
                     return this.settings.get(message.guild.id, 'prefix', config.production ? config.prefix : config.devPrefix);
                 }
 
                 return config.production ? config.prefix : config.devPrefix;
             },
-        	// config.production ? config.prefix : config.devPrefix,
         	blockBots: true,
         	allowMention: true,
         	handleEdits: true,
@@ -56,6 +54,16 @@ class RadaClient extends AkairoClient {
     	await this.settings.init();
     	terminal.success('Connected to Dabatase');
     	return super.login(token);
+    }
+    daysBetween(startDate, endDate) {
+        if (!endDate) endDate = Date.now();
+        const treatAsUTC = (date) => {
+            var result = new Date(date);
+            result.setMinutes(result.getMinutes() - result.getTimezoneOffset());
+            return result;
+        };
+        let millisecondsPerDay = 24 * 60 * 60 * 1000;
+        return (treatAsUTC(endDate) - treatAsUTC(startDate)) / millisecondsPerDay;
     }
 }
 const client = new RadaClient();

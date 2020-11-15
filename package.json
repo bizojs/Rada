@@ -2,9 +2,11 @@
   "name": "rada",
   "version": "1.0.0",
   "description": "multi-purpose discord bot",
-  "main": "index.js",
+  "main": "rada.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "node .",
+    "lint": "eslint . --fix",
+    "start": "node ."
   },
   "author": "br4d",
   "license": "ISC",

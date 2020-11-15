@@ -6,7 +6,7 @@ class HelpCommand extends Command {
         super('help', {
             aliases: ['help', 'h'],
             category: 'Miscellaneous',
-            description: 'View all commands available.',
+            description: 'View all commands available.\nAdd a command name after to view information about that specific command.',
             args: [{
                 id: 'command',
                 type: 'command',
@@ -18,7 +18,7 @@ class HelpCommand extends Command {
     exec(message, args) {
         let embed = new MessageEmbed()
             .setTitle(`${this.client.user.username} help menu`)
-            .setDescription(`ℹ️ You can get additional help on a command by using \`${require('../../config.js').production ? require('../../config.js').prefix : require('../../config.js').devPrefix}help (command_name)\``)
+            .setDescription(`ℹ️ You can get additional help on a command by using \`${this.client.settings.get(message.guild.id, 'prefix', require('../../config.js').production ? require('../../config.js').prefix : require('../../config.js').devPrefix)}help (command_name)\``)
             .setColor(this.client.color)
             .setFooter(`Requested by ${message.author.username}`)
             .setTimestamp();

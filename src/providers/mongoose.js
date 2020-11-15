@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/rada', {useNewUrlParser: true, useUnifiedTopology: true});
+const config = require('../config');
+mongoose.connect(config.mongooseUrl, {useNewUrlParser: true, useUnifiedTopology: true});
 const Schema = mongoose.Schema;
 
 const guildSchema = new Schema({

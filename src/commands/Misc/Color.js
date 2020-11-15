@@ -7,7 +7,7 @@ class ColorCommand extends Command {
         super('color', {
            aliases: ['color'],
            category: 'Miscellaneous',
-           description: 'Information about a color.',
+           description: 'Information about a color if you provide a hex value.\nRunning the command without a hex value will generate a random hex and get information for it.',
            args: [{
               id: 'hex',
               type: /^#?([A-F0-9]{6}|[A-F0-9]{3})$/i,
