@@ -16,8 +16,10 @@ class FetchUserCommand extends Command {
 
     async exec(message, args) {
         try {
-            await this.client.users.fetch(args.id);
-            let user = this.client.users.cache.get(args.id);
+            let fetched = await this.client.users.fetch(args.id);
+            // console.log(fetched)
+            let user = this.client.users.cache.get(fetched.id);
+            console.log(user)
             let mutualCount = this.client.guilds.cache.filter(g => g.members.cache.has(user.id)).map(g => g.name).length;
             let embed = new MessageEmbed()
                 .setColor(this.client.color)
@@ -28,7 +30,7 @@ class FetchUserCommand extends Command {
                 .setTimestamp()
                 .addField('ID', args.id)
                 .addField('Joined Discord', `${this.client.timeFormat('dddd d MMMM YYYY', user.createdAt)}`)
-                .addField(`Mutual servers with ${this.client.user.username}`, mutualCount == 0 ? 'No mutual servers' : `Found ${mutualCount} mutual server${mutualCount > 1 ? 's' : ''}${user.settings.get('donator') ? ' **[Donator]**' : ''}`)
+                .addField(`Mutual servers with ${this.client.user.username}`, mutualCount == 0 ? 'No mutual servers' : `Found ${mutualCount} mutual server${mutualCount > 1 ? 's' : ''}`)
             return message.channel.send(embed);
         } catch (e) {
             return message.channel.send(`**Unable to fetch a user with the id \`${args.id}\`** \`(${e.message})\``)
