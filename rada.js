@@ -1,5 +1,6 @@
 const { AkairoClient, CommandHandler, InhibitorHandler, ListenerHandler, MongooseProvider } = require('discord-akairo');
 const model = require('./src/providers/mongoose');
+const { Timestamp } = require('@skyra/timestamp');
 const CustomLog = require('./lib/log');
 const config = require('./src/config');
 const terminal = new CustomLog;
@@ -13,13 +14,13 @@ class RadaClient extends AkairoClient {
         	disableMentions: 'everyone',
         	fetchAllMembers: true,
         	partials: ['MESSAGE', 'CHANNEL', 'REACTION', 'GUILD_MEMBER', 'USER'],
-        	  ws: {
-			    intents: [
-			      "GUILDS",
-			      "GUILD_MESSAGES",
-			      "GUILD_MEMBERS"
-			    ]
-			  }
+			ws: {
+				intents: [
+				  "GUILDS",
+				  "GUILD_MESSAGES",
+				  "GUILD_MEMBERS"
+				]
+			}
         });
         this.commandHandler = new CommandHandler(this, {
         	directory: './src/commands/',
@@ -64,6 +65,21 @@ class RadaClient extends AkairoClient {
         };
         let millisecondsPerDay = 24 * 60 * 60 * 1000;
         return (treatAsUTC(endDate) - treatAsUTC(startDate)) / millisecondsPerDay;
+    }
+    chunkify(input, chunkSize) {
+        const output = [];
+        for (let i = 0; i < input.length; i += chunkSize){
+            output.push(input.slice(i, i + chunkSize));
+        }
+        return output;
+    }
+    timeFormat(ts, date, encased = false) {
+        const timestamp = new Timestamp(ts);
+        const days = this.daysBetween(date).toFixed(0);
+        if (encased) {
+            return `${timestamp.display(date)} [${days} day${days !== 1 ? 's' : ''} ago]`;
+        }
+        return `${timestamp.display(date)}\n${days} day${days !== 1 ? 's' : ''} ago`;
     }
 }
 const client = new RadaClient();

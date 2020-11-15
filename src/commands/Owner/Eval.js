@@ -13,6 +13,7 @@ class EvalCommand extends Command {
 
     async exec(message) {
         let argresult = message.util.parsed.content;
+        argresult = argresult.replace(/[“”]/g, '"').replace(/[‘’]/g, "'");
         if (!argresult) {
             return message.channel.send('give code u spec')
         }
