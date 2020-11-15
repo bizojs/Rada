@@ -1,6 +1,6 @@
 # Multi purpose discord bot made by br4d#0040
 
-This bot is the first proper bot that I have open sourced. I prefer to keep bots closed source due to the fact that I'm not a huge fam of people self hosting their own version of my bot that I spent alot of time and effort on. That changes today with Rada! If you're interested in self hosting Rada, there's information below on how to do so!
+This bot is the first proper bot that I have open sourced. I prefer to keep bots closed source due to the fact that I'm not a huge fan of people self hosting their own version of my bot that I spent alot of time and effort on. That changes today with Rada! If you're interested in self hosting Rada, there's information below on how to do so!
 
 **Dependencies**
 - __NodeJS__: You will need NodeJS v12 or above. You can get that [here](https://nodejs.org/en/download/)
