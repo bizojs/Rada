@@ -19,6 +19,7 @@ class AvatarCommand extends Command {
     async exec(message, args) {
       const embed = new MessageEmbed()
         .setColor(this.client.color)
+        .setThumbnail(this.client.avatar)
         .setTitle(args.member.id === message.author.id ? 'Your avatar:' : `${args.member.user.tag}'s avatar:`)
         .setImage(args.member.user.avatarURL() ? args.member.user.avatarURL({ size: 512, dynamic: true }).replace(/webm/g, 'gif').replace(/webp/g, 'png') : this.placeholder)
         .setFooter(`Requested by ${message.author.username}`)

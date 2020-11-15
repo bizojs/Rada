@@ -46,6 +46,7 @@ class BoostInfoCommand extends Command {
         const embed = new MessageEmbed()
             .setTimestamp()
             .setColor(this.client.color)
+            .setThumbnail(this.client.avatar)
             .setTitle(`${message.guild.name} Nitro Boost stats`)
             .setThumbnail(this.icon[message.guild.premiumTier])
             .addField(`Boosts`, message.guild.premiumSubscriptionCount, true)

@@ -17,7 +17,7 @@ class StatsCommand extends Command {
         .setColor(this.client.color)
         .setFooter(message.author.username)
         .setTimestamp()
-        .setThumbnail(this.client.user.avatarURL({format:'png'}))
+        .setThumbnail(this.client.avatar)
         .setDescription(`Detailed information about ${this.client.user.username}'s hardware and other statistics`)
         .addField('Operating system', `${process.platform === 'linux' ? 'Ubuntu 18.04' : 'Windows 10'} ${process.arch}`)
         .addField('CPU', os.cpus()[0].model)

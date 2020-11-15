@@ -14,6 +14,7 @@ class PingCommand extends Command {
         const sent = await message.util.send('Pinging...');
         const timeDiff = (sent.editedAt || sent.createdAt) - (message.editedAt || message.createdAt);
     	const embed = new MessageEmbed()
+        .setThumbnail(this.client.avatar)
     		.setTitle(`${this.client.user.username} ping`)
 	    	.setDescription([
 	            `🔂 **RTT**: ${timeDiff} ms`,

@@ -30,6 +30,7 @@ class SettingsCommand extends Command {
     async exec(message, args) {
       let embed = new MessageEmbed()
         .setColor(this.client.color)
+        .setThumbnail(this.client.avatar)
         .setFooter(`Requested by ${message.author.tag}`)
         .setTimestamp()
       if (!args.option) {

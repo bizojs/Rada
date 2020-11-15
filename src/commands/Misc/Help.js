@@ -18,6 +18,7 @@ class HelpCommand extends Command {
     exec(message, args) {
         let embed = new MessageEmbed()
             .setTitle(`${this.client.user.username} help menu`)
+            .setThumbnail(this.client.avatar)
             .setDescription(`ℹ️ You can get additional help on a command by using \`${this.client.settings.get(message.guild.id, 'prefix', require('../../config.js').production ? require('../../config.js').prefix : require('../../config.js').devPrefix)}help (command_name)\``)
             .setColor(this.client.color)
             .setFooter(`Requested by ${message.author.username}`)
