@@ -1,7 +1,7 @@
 const { Command } = require('discord-akairo');
 const { MessageEmbed } = require('discord.js');
 const req = require('@aero/centra');
-const config = require('../../config);
+const config = require('../../config');
 
 class ServerInfoCommand extends Command {
     constructor() {
