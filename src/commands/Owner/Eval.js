@@ -38,7 +38,7 @@ class EvalCommand extends Command {
                     return message.channel.send('Message exceeded 2000 characters and I was unable to upload it. Logged to the console.');
                 }
             }
-            return message.channel.send(`\`\`\`js\n${this.clean(evaled)}\`\`\``)
+            return message.channel.send(`**Output**:\n\`\`\`js\n${this.clean(evaled)}\`\`\`\n**Type**:\n\`\`\`ts\n${typeof this.clean(evaled)}\`\`\``)
         } catch (err) {
             return message.channel.send(`\`\`\`js\n${this.clean(err)}\`\`\``);
         }

@@ -14,13 +14,18 @@ class StealEmoteCommand extends Command {
               type: 'string'
            }],
            userPermissions: ['MANAGE_EMOJIS'],
-           clientPermissions: ['MANAGE_EMOJIS'],
         });
+    }
+    clientPermissions(message) {
+        if (!message.guild.me.permissions.has('MANAGE_EMOJIS')) {
+            return message.responder.error('**Please give me permission to manage emojis**');
+        }
+        return null;
     }
 
     async exec(message, args) {
         if(!args.emote) {
-            return message.responder.error('**Please provide an emote or emote id');
+            return message.responder.error('**Please provide an emote or emote id**');
         }
         let emote = args.emote;
         let response = message.content.split(" ")[0].replace(this.client.settings.get(message.guild.id, 'prefix', config.production ? config.prefix : config.devPrefix), "").includes("borrow") ? "borrowed" : "stolen";
