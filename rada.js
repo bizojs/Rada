@@ -64,7 +64,7 @@ class RadaClient extends AkairoClient {
 		this.avatar = 'https://i.br4d.vip/Lm9zTuY5.png'
         this.Responder = Responder;
         this.Reacter = Reacter;
-        this.setMaxListeners(30);
+        // this.setMaxListeners(30);
         this.log = new Logger;
 		this.settings = new MongooseProvider(model);
     }
