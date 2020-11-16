@@ -37,7 +37,7 @@ class EmotesCommand extends Command {
             embed.setFooter(`Page ${i+1} of ${pages.length} | Requested by ${message.author.username}`)
             embeds.push(embed)
         }
-        pagination.paginationE(message, pages, 12000)
+        pagination.paginationEmbed(message, pages, 12000)
 
     }
 }
