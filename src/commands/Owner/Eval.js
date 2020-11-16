@@ -40,7 +40,7 @@ class EvalCommand extends Command {
             }
             return message.channel.send(`**Output**:\n\`\`\`js\n${this.clean(evaled)}\`\`\`\n**Type**:\n\`\`\`ts\n${typeof this.clean(evaled)}\`\`\``)
         } catch (err) {
-            return message.channel.send(`\`\`\`js\n${this.clean(err)}\`\`\``);
+            return message.channel.send(`**Output**:\n\`\`\`js\n${this.clean(err.message)}\`\`\`\n**Type**:\n\`\`\`ts\n${err.toString().split(':')[0]}\`\`\``);
         }
     }
     clean(text) {
