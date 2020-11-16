@@ -1,5 +1,6 @@
 const { Command } = require('discord-akairo');
 const { MessageEmbed } = require('discord.js');
+const req = require('@aero/centra');
 
 class EvalCommand extends Command {
     constructor() {
@@ -7,7 +8,7 @@ class EvalCommand extends Command {
             aliases: ['eval', 'ev'],
             ownerOnly: true,
             category: 'Owner',
-            description: 'Evaluate javascript code.'
+            description: 'Evaluate javascript code.\nAutomatic async support if the code includes \`await\`'
         });
     }
 
@@ -18,6 +19,7 @@ class EvalCommand extends Command {
             return message.channel.send('Try again with some code to evaluate.')
         }
         try {
+            if (argresult.includes('await')) argresult = `(async () => {\n${argresult}})();`
             var evaled = eval(argresult);
             if (typeof evaled !== "string")
                 evaled = require("util").inspect(evaled);
@@ -28,8 +30,13 @@ class EvalCommand extends Command {
               return;
             }
             if(this.clean(evaled).length > 1999) {
-                console.log(this.clean(evaled));
-                return message.channel.send("Message exceeded 1999 characters, I've logged it instead. ")
+                try {
+                    const res = await req("https://haste.br4d.vip/documents", 'POST').body(this.clean(evaled)).json();        
+                    return message.responder.info(`**Message exceeded 2000 characters, uploaded to hastebin**: https://haste.br4d.vip/${res.key}`);
+                } catch (e) {
+                    console.log(this.clean(evaled));
+                    return message.channel.send('Message exceeded 2000 characters and I was unable to upload it. Logged to the console.');
+                }
             }
             return message.channel.send(`\`\`\`js\n${this.clean(evaled)}\`\`\``)
         } catch (err) {

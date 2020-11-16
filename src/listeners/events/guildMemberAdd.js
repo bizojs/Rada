@@ -9,7 +9,6 @@ class GuildMemberAddListener extends Listener {
     }
 
     async exec(member) {
-        console.log(member)
         let channel = this.client.settings.get(member.guild.id, 'wc', false);
         let message = this.client.settings.get(member.guild.id, 'jm', false);
         if (!channel) return;

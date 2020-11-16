@@ -1,10 +1,22 @@
-const { AkairoClient, CommandHandler, InhibitorHandler, ListenerHandler, MongooseProvider } = require('discord-akairo');
-const model = require('./src/providers/mongoose');
+// NPM Packages
 const { Timestamp } = require('@skyra/timestamp');
-const CustomLog = require('./lib/log');
+const { 
+	AkairoClient,
+	CommandHandler,
+	InhibitorHandler,
+	ListenerHandler,
+	MongooseProvider
+} = require('discord-akairo');
+// Custom classes
+const { Responder } = require('./lib/structures/Responder.js');
+const { Reacter } = require('./lib/structures/Reacter.js');
+const model = require('./src/providers/mongoose');
+const Logger = require('./lib/log');
+// Configuration
 const config = require('./src/config');
-const terminal = new CustomLog;
 require('dotenv').config();
+// Instantiating extensions
+require('./lib/extensions');
 
 class RadaClient extends AkairoClient {
     constructor() {
@@ -50,12 +62,30 @@ class RadaClient extends AkairoClient {
 		this.commandHandler.loadAll();
 		this.color = '#f05151';
 		this.avatar = 'https://i.br4d.vip/Lm9zTuY5.png'
+        this.Responder = Responder;
+        this.Reacter = Reacter;
+        this.setMaxListeners(30);
+        this.log = new Logger;
 		this.settings = new MongooseProvider(model);
     }
     async login(token) {
     	await this.settings.init();
-    	terminal.success('Connected to Dabatase');
+    	this.log.success('Connected to Dabatase');
     	return super.login(token);
+    }
+    createInvite(permissions) {
+    	if (typeof permissions !== 'object') {
+    		return new ReferenceError(`Expecting an array, recieved a ${typeof permissions}`);
+    	}
+    	if (permissions.length < 1) permissions = ['READ_MESSAGES', 'SEND_MESSAGES'];
+    	try {
+	    	let invite = this.generateInvite({
+			  permissions: permissions
+			});
+			return invite.link;
+    	} catch (e) {
+    		return e.message;
+    	}
     }
     daysBetween(startDate, endDate) {
         if (!endDate) endDate = Date.now();

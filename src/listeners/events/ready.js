@@ -1,6 +1,5 @@
 const { Listener } = require('discord-akairo');
-const CustomLog = require('../../../lib/log');
-const terminal = new CustomLog;
+const { readdirSync } = require('fs');
 
 class ReadyListener extends Listener {
     constructor() {
@@ -11,9 +10,10 @@ class ReadyListener extends Listener {
     }
 
     exec() {
-        terminal.success(`Loaded ${this.client.listenerHandler.modules.size} listeners`);
-        terminal.success(`Loaded ${this.client.inhibitorHandler.modules.size} inhibitors`);
-        terminal.success(`Loaded ${this.client.commandHandler.modules.size} commands`);
+        this.client.log.success(`Loaded ${this.client.listenerHandler.modules.size} listeners`);
+        this.client.log.success(`Loaded ${this.client.inhibitorHandler.modules.size} inhibitors`);
+        this.client.log.success(`Loaded ${this.client.commandHandler.modules.size} commands`);
+        this.client.log.success(`Loaded ${readdirSync(process.cwd() + '/lib/extensions').length - 1} extensions`);
     	this.client.presence.set({
             status: 'online',
             activity: {
@@ -21,7 +21,7 @@ class ReadyListener extends Listener {
                 type: 'WATCHING'
             }
         });
-        terminal.success(`Logged into discord and connected as ${this.client.user.tag}`);
+        this.client.log.success(`Logged into discord and connected as ${this.client.user.tag}`);
     }
 }
 
