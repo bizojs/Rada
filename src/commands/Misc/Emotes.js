@@ -1,6 +1,6 @@
 const { Command } = require('discord-akairo');
 const { MessageEmbed, MessageAttachment } = require('discord.js');
-
+const pagination = require('../../../lib/extensions/pagination')
 class EmotesCommand extends Command {
     constructor() {
         super('emotes', {
@@ -24,7 +24,7 @@ class EmotesCommand extends Command {
         // } else {
         //     return message.channel.send(full)
         // }
-        let emojiList = message.guild.emojis.cache.map(e => `${e} - **${e.name}**, created ${this.client.daysBetween(e.createdTimestamp).toFixed(0) > 0 ? `**${this.client.daysBetween(e.createdTimestamp).toFixed(0)} days ago**` : '**today**'}`);
+      let emojiList = ['⏪', '⏩']
         let pages = this.client.chunkify(emojiList, 5);
         let embeds = []
         for (var i = 0; i < pages.length; i++) {
@@ -36,7 +36,7 @@ class EmotesCommand extends Command {
             embed.setFooter(`Page ${i+1} of ${pages.length} | Requested by ${message.author.username}`)
             embeds.push(embed)
         }
-        message.paginate(embeds, 60000)
+        pagination.paginationE(message, pages, 12000)
 
     }
 }
