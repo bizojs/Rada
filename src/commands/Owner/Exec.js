@@ -18,7 +18,7 @@ class ExecCommand extends Command {
         }
         try {
             let executed = await execSync(`${message.util.parsed.content}`).toString();
-            if (executed == '') return message.reacter.success();
+            if (executed == '') return message.react('✅')
 
             if (executed.length > 2000) {
                 return message.channel.send(`\`\`\`prolog\n$ ${message.util.parsed.content}\n\n${trimString(executed, 1970 - message.util.parsed.content.length)}\`\`\``);
