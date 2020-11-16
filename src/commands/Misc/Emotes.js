@@ -25,7 +25,8 @@ class EmotesCommand extends Command {
         //     return message.channel.send(full)
         // }
       let emojiList = ['⏪', '⏩']
-        let pages = this.client.chunkify(emojiList, 5);
+      let guildEmojiList = message.guild.emojis.cache.map(e => `${e} - **${e.name}**, created ${this.client.daysBetween(e.createdTimestamp).toFixed(0) > 0 ? `**${this.client.daysBetween(e.createdTimestamp).toFixed(0)} days ago**` : '**today**'}`);
+        let pages = this.client.chunkify(guildEmojiList, 5);
         let embeds = []
         for (var i = 0; i < pages.length; i++) {
             const embed = new MessageEmbed()
