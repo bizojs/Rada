@@ -24,7 +24,7 @@ class HelpCommand extends Command {
             .setFooter(`Requested by ${message.author.username}`)
             .setTimestamp();
         if (args.command) {
-            if (args.command.ownerOnly && this.client.ownerID.some(id => message.author.id !== id)) {
+            if (args.command.ownerOnly && !this.client.ownerID.includes(message.author.id)) {
                 return message.channel.send(this.generateHelp(embed));
             }
             embed.setDescription(`Help for command **${args.command.id}**${args.command.ownerOnly ? ' (Owner only)' : ''}`)

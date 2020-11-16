@@ -2,9 +2,9 @@
 const { Timestamp } = require('@skyra/timestamp');
 const { 
 	AkairoClient,
-	CommandHandler,
-	InhibitorHandler,
+    CommandHandler,
 	ListenerHandler,
+	InhibitorHandler,
 	MongooseProvider
 } = require('discord-akairo');
 // Custom classes

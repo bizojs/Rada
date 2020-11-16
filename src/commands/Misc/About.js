@@ -19,6 +19,7 @@ class AboutCommand extends Command {
         .addField('Language', '[NodeJS](https://nodejs.org/en/) ([discord.js](https://discord.js.org/#/))')
         .addField('Framework', '[discord-akairo](https://discord-akairo.github.io/#/)')
         .addField('What does \'Rada\' mean', 'Rada originates in Slavic languages and means "filled with care". As a feminine given name it is used in Slavic languages, mainly Russian, in the United States it is very rare.')
+        .addField('Color', this.client.color)
         .setFooter(`Requested by ${message.author.username}`)
         .setTimestamp()
       return message.channel.send(embed);
