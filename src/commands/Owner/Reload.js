@@ -4,7 +4,10 @@ class ReloadCommand extends Command {
     constructor() {
         super('reload', {
             aliases: ['reload'],
-            description: 'Reloads a singular command or all commands.',
+            description: {
+                content: 'Reloads a singular command or all commands.',
+                permissions: []
+            },
             args: [{
                 id: 'commandID'
             }],

@@ -7,12 +7,21 @@ class JumboCommand extends Command {
         super('jumbo', {
            aliases: ['jumbo', 'emote', 'e'],
            category: 'Miscellaneous',
-           description: 'Enlarge an emote by providing the emote or the emote ID',
+           description: {
+            content: 'Enlarge an emote by providing the emote or the emote ID',
+            permissions: ['ATTACH_FILES']
+           },
            args: [{
               id: 'emote',
               type: 'string'
            }]
         });
+    }
+    clientPermissions(message) {
+        if (!message.guild.me.permissions.has('ATTACH_FILES')) {
+            return message.responder.error('**I require the attach files permission to use this command**');
+        }
+        return null;
     }
 
     async exec(message, args) {

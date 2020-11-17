@@ -7,7 +7,10 @@ class StatsCommand extends Command {
         super('stats', {
            aliases: ['stats'],
            category: 'Miscellaneous',
-           description: 'Statistics of the bot.'
+           description: {
+             content: 'Statistics of the bot.',
+             permissions: ['EMBED_LINKS']
+           }
         });
     }
 

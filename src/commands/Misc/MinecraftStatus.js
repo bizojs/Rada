@@ -8,7 +8,10 @@ class MCStatusCommand extends Command {
         super('mcstatus', {
             aliases: ['mcstatus', 'minecraftstatus', 'mcs'],
             category: 'Miscellaneous',
-            description: 'Fetch the status of a minecraft server',
+            description: {
+                content: 'Fetch the status of a minecraft server',
+                permissions: ['EMBED_LINKS']
+            },
             args: [{
               id: 'ip',
               type: 'string'

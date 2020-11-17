@@ -6,7 +6,10 @@ class HelpCommand extends Command {
         super('help', {
             aliases: ['help', 'h'],
             category: 'Miscellaneous',
-            description: 'View all commands available.\nAdd a command name after to view information about that specific command.',
+            description: {
+                content: 'View all commands available.\nAdd a command name after to view information about that specific command.',
+                permissions: ['EMBED_LINKS']
+            },
             args: [{
                 id: 'command',
                 type: 'command',
@@ -28,9 +31,14 @@ class HelpCommand extends Command {
                 return message.channel.send(this.generateHelp(embed));
             }
             embed.setDescription(`Help for command **${args.command.id}**${args.command.ownerOnly ? ' (Owner only)' : ''}`)
+            embed.addField('Description', args.command.description.content)
             embed.addField('Category', args.command.categoryID)
-            embed.addField('Description', args.command.description)
-            embed.addField('Aliases', args.command.aliases.length > 1 ? args.command.aliases.map(a => a).join('\n') : args.command.aliases)
+            if (args.command.description.permissions.length > 0) {
+                embed.addField(`Permission${args.command.description.permissions.length > 1 ? 's' : ''}`, `\`${args.command.description.permissions.join('\n')}\``)
+            }
+            if (args.command.aliases.length > 1) {
+                embed.addField('Aliases', args.command.aliases.map(a => a).join(', '))
+            }
             return message.channel.send(embed);
         } else {
             return message.channel.send(this.generateHelp(embed));

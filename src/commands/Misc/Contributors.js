@@ -6,7 +6,10 @@ class ContributorsCommand extends Command {
         super('contributors', {
            aliases: ['contributors', 'contrib'],
            category: 'Miscellaneous',
-           description: 'Shows users who have contributed to rada.'
+           description: {
+               content: 'Shows users who have contributed to rada.',
+               permissions: ['EMBED_LINKS']
+           }
         });
     }
 

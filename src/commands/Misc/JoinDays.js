@@ -7,7 +7,10 @@ class JoinDaysComamnd extends Command {
         super('joindays', {
            aliases: ['joindays', 'jd', 'joininfo'],
            category: 'Miscellaneous',
-           description: 'Information about when a user joined the current server and when they created their account.',
+           description: {
+             content: 'Information about when a user joined the current server and when they created their account.',
+             permissions: ['EMBED_LINKS']
+           },
            args: [{
               id: 'member',
               type: 'member',

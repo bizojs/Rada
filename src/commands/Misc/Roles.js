@@ -6,7 +6,10 @@ class RolesCommand extends Command {
         super('roles', {
             aliases: ['roles'],
             category: 'Miscellaneous',
-            description: 'Displays all roles within the server.'
+            description: {
+                content: 'Displays all roles within the server.',
+                permissions: ['EMBED_LINKS', 'ATTACH_FILES']
+            }
         });
     }
 

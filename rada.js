@@ -10,7 +10,7 @@ const {
 // Custom classes
 const { Responder } = require('./lib/structures/Responder.js');
 const { Reacter } = require('./lib/structures/Reacter.js');
-const model = require('./src/providers/mongoose');
+const model = require('./src/models/clientSchema');
 const Logger = require('./lib/log');
 // Configuration
 const config = require('./src/config');

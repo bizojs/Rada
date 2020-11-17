@@ -6,35 +6,38 @@ const config = require('../../config');
 class ServerInfoCommand extends Command {
     constructor() {
         super('serverinfo', {
-           aliases: ['serverinfo', 'si'],
-           category: 'Miscellaneous',
-           description: 'Get information about the server',
-        });
-        this.regions = {
-          'eu-central': 'Central Europe',
-          india: 'India',
-          london: 'London',
-          japan: 'Japan',
-          amsterdam: 'Amsterdam',
-          brazil: 'Brazil',
-          'us-west': 'US West',
-          hongkong: 'Hong Kong',
-          southafrica: 'South Africa',
-          sydney: 'Sydney',
-          europe: 'Europe',
-          singapore: 'Singapore',
-          'us-central': 'US Central',
-          'eu-west': 'Western Europe',
-          dubai: 'Dubai',
-          'us-south': 'US South',
-          'us-east': 'US East',
-          frankfurt: 'Frankfurt',
-          russia: 'Russia'
-        };
-        this.mfaLevel = {
-            0: 'None',
-            1: 'Elevated'
-        };
+        aliases: ['serverinfo', 'si'],
+        category: 'Miscellaneous',
+        description: {
+          content: 'Get information about the server',
+          permissions: ['EMBED_LINKS']
+        },
+      });
+      this.regions = {
+        'eu-central': 'Central Europe',
+        india: 'India',
+        london: 'London',
+        japan: 'Japan',
+        amsterdam: 'Amsterdam',
+        brazil: 'Brazil',
+        'us-west': 'US West',
+        hongkong: 'Hong Kong',
+        southafrica: 'South Africa',
+        sydney: 'Sydney',
+        europe: 'Europe',
+        singapore: 'Singapore',
+        'us-central': 'US Central',
+        'eu-west': 'Western Europe',
+        dubai: 'Dubai',
+        'us-south': 'US South',
+        'us-east': 'US East',
+        frankfurt: 'Frankfurt',
+        russia: 'Russia'
+      };
+      this.mfaLevel = {
+          0: 'None',
+          1: 'Elevated'
+      };
     }
 
     async exec(message) {

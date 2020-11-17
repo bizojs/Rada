@@ -8,7 +8,10 @@ class ExecCommand extends Command {
             aliases: ['sh', 'exec'],
             ownerOnly: true,
             category: 'Owner',
-            description: 'Execute shell commands.'
+            description: {
+                content: 'Execute shell commands.',
+                permissions: []
+            }
         });
     }
 

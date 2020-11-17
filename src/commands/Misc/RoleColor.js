@@ -7,7 +7,10 @@ class RoleColorCommand extends Command {
         super('rolecolor', {
            aliases: ['rolecolor', 'rc'],
            category: 'Miscellaneous',
-           description: 'Get information about a role\'s color',
+           description: {
+             content: 'Get information about a role\'s color',
+             permissions: ['EMBED_LINKS']  
+           },
            args: [{
               id: 'role',
               type: 'role',

@@ -6,7 +6,10 @@ class UptimeCommand extends Command {
         super('uptime', {
            aliases: ['uptime'],
            category: 'Miscellaneous',
-           description: 'See how long the bot has been online for.'
+           description: {
+               content: 'See how long the bot has been online for.',
+               permissions: ['EMBED_LINKS']
+           }
         });
     }
 

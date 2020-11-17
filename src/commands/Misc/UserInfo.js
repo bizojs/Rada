@@ -8,7 +8,10 @@ class UserInfoCommand extends Command {
         super('userinfo', {
             aliases: ['userinfo', 'ui'],
             category: 'Miscellaneous',
-            description: 'Get information about a user',
+            description: {
+              content: 'Get information about a user',
+              permissions: ['EMBED_LINKS']  
+            },
             args: [{
                 id: 'member',
                 type: 'member',

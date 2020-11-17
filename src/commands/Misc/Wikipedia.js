@@ -8,15 +8,23 @@ class Wikipedia extends Command {
         super('wikipedia', {
            aliases: ['wikipedia', 'wiki'],
            category: 'Miscellaneous',
-           description: 'Fetch information about a wiki page'
+           description: {
+               content: 'Fetch information about a wiki page',
+               permissions: ['EMBED_LINKS']
+           },
+           args: [{
+               id: 'query',
+               type: 'string',
+               match: 'rest'
+           }]
         })
     }
 
-    async exec(message) {
-        if (!message.util.parsed.content) {
+    async exec(message, args) {
+        if (!args.query) {
             return message.responder.error('You must input something to search on Wikipedia.')
         }
-        let term = message.util.parsed.content.split(" ").join("+");
+        let term = args.query.split(" ").join("+");
         let search = 'https://en.wikipedia.org/w/api.php?action=opensearch&format=json&search=' + term;
 
         const data = await req(search, 'GET').json();
@@ -25,7 +33,7 @@ class Wikipedia extends Command {
         let description = data[2][0];
         let url = data[3][0];
         if ([name, description, url].some(it => it === undefined)) {
-            return message.responder.error(`Your Wikipedia search for \`${message.util.parsed.content}\` was not found`);
+            return message.responder.error(`Your Wikipedia search for \`${args.query}\` was not found`);
         }
         let embed = new MessageEmbed()
             .setColor(this.client.color)

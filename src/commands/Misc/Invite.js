@@ -5,7 +5,10 @@ class InviteCommand extends Command {
         super('invite', {
            aliases: ['invite', 'inv'],
            category: 'Miscellaneous',
-           description: 'Get the invite link for the bot.'
+           description: {
+             content: 'Get the invite link for the bot.',
+             permissions: []
+           }
         });
     }
 

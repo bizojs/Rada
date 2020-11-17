@@ -9,8 +9,8 @@ class GuildMemberRemoveListener extends Listener {
     }
 
     async exec(member) {
-        let channel = this.client.settings.get(member.guild.id, 'wc', false);
-        let message = this.client.settings.get(member.guild.id, 'lm', false);
+        let channel = member.guild.settings.get(member.guild.id, 'wc', false);
+        let message = member.guild.settings.get(member.guild.id, 'lm', false);
         if (!channel) return;
         if (!message) return;
         message = message.replace(/{tag}/gi, member.user.tag);

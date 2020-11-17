@@ -14,6 +14,7 @@ class ReadyListener extends Listener {
         this.client.log.success(`Loaded ${this.client.inhibitorHandler.modules.size} inhibitors`);
         this.client.log.success(`Loaded ${this.client.commandHandler.modules.size} commands`);
         this.client.log.success(`Loaded ${readdirSync(process.cwd() + '/lib/extensions').length - 1} extensions`);
+        this.client.log.success(`Loaded ${readdirSync(process.cwd() + '/src/models').length - 1} models`);
     	this.client.presence.set({
             status: 'online',
             activity: {

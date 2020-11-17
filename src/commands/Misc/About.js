@@ -6,7 +6,10 @@ class AboutCommand extends Command {
         super('about', {
            aliases: ['about', 'info'],
            category: 'Miscellaneous',
-           description: 'Displays information about Rada.'
+           description: {
+             content: 'Displays information about Rada.',
+             permissions: ['EMBED_LINKS']
+           }
         });
     }
 

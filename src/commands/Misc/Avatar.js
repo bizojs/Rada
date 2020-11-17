@@ -6,7 +6,10 @@ class AvatarCommand extends Command {
         super('avatar', {
            aliases: ['avatar', 'av'],
            category: 'Miscellaneous',
-           description: 'Get a user\'s avatar.',
+           description: {
+             content: 'Get a user\'s avatar.',
+             permissions: ['EMBED_LINKS']
+           },
            args: [{
               id: 'member',
               type: 'member',

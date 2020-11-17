@@ -8,7 +8,10 @@ class EvalCommand extends Command {
             aliases: ['eval', 'ev'],
             ownerOnly: true,
             category: 'Owner',
-            description: 'Evaluate javascript code.\nAutomatic async support if the code includes \`await\`'
+            description: {
+                content: 'Evaluate javascript code.\nAutomatic async support if the code includes \`await\`',
+                permissions: []
+            }
         });
     }
 

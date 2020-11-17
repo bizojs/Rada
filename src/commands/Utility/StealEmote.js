@@ -8,7 +8,10 @@ class StealEmoteCommand extends Command {
         super('stealemote', {
            aliases: ['stealemote', 'steal', 'borrow', 'borrowemote'],
            category: 'Utility',
-           description: 'Imagine stealing emotes :eyes:',
+           description: {
+               content: 'Imagine stealing emotes :eyes:',
+               permissions: ['MANAGE_EMOJIS']
+           },
            args: [{
               id: 'emote',
               type: 'string'
@@ -19,6 +22,12 @@ class StealEmoteCommand extends Command {
     clientPermissions(message) {
         if (!message.guild.me.permissions.has('MANAGE_EMOJIS')) {
             return message.responder.error('**Please give me permission to manage emojis**');
+        }
+        return null;
+    }
+    userPermissions(message) {
+        if (!message.member.permissions.has('MANAGE_EMOJIS')) {
+            return message.responder.error('**You require the permission to manage emojis**');
         }
         return null;
     }

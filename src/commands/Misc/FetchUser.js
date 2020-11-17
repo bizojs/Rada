@@ -1,12 +1,15 @@
 const { Command } = require('discord-akairo');
-const { MessageEmbed, MessageAttachment } = require('discord.js');
+const { MessageEmbed } = require('discord.js');
 
 class FetchUserCommand extends Command {
     constructor() {
         super('fetchuser', {
             aliases: ['fetchuser', 'fu'],
             category: 'Miscellaneous',
-            description: 'Fetch any user and show information about them.',
+            description: {
+              content: 'Fetch any user and show information about them.',
+              permissions: ['EMBED_LINKS']  
+            },
             args: [{
                 id: 'id',
                 type: 'string'

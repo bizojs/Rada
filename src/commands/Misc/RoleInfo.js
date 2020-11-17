@@ -7,7 +7,10 @@ class RoleInfoCommand extends Command {
         super('roleinfo', {
            aliases: ['roleinfo', 'ri'],
            category: 'Miscellaneous',
-           description: 'Get information about a role',
+           description: {
+             content: 'Get information about a role',
+             permissions: ['EMBED_LINKS']
+           },
            args: [{
               id: 'role',
               type: 'role',

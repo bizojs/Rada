@@ -7,7 +7,10 @@ class TriviaCommand extends Command {
     super('trivia', {
       aliases: ['trivia', 'quiz'],
       category: 'Miscellaneous',
-      description: 'Get asked a random trivia question.',
+      description: {
+        content: 'Get asked a random trivia question.',
+        permissions: ['EMBED_LINKS']
+      },
       cooldown: 30000,
       ratelimit: 1
     });

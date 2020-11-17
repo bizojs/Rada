@@ -7,7 +7,15 @@ class UrbanCommand extends Command {
         super('urban', {
            aliases: ['urban', 'urbandictionary'],
            category: 'Miscellaneous',
-           description: 'Search urban dictionary for a word or phrase and get the first result'
+           description: {
+             content: 'Search urban dictionary for a word or phrase and get the first result',
+             permissions: ['EMBED_LINKS']  
+           },
+           args: [{
+               id: 'query',
+               type: 'string',
+               match: 'rest'
+           }]
         });
     }
 
@@ -18,8 +26,8 @@ class UrbanCommand extends Command {
         return null;
     }
 
-    async exec(message) {
-        let search = message.util.parsed.content.replace('--bypass', '').split(" ").join("+");
+    async exec(message, args) {
+        let search = args.query.split(" ").join("+");
         const data = await req(`http://api.urbandictionary.com/v0/define?term=${search}`).json();
         let embed = new MessageEmbed()
             .setColor(this.client.color)
@@ -36,7 +44,7 @@ class UrbanCommand extends Command {
             return message.channel.send(embed)
         } else {
             embed.setTitle('Urban dictionary search')
-            .setDescription(`No results on urban dictionary have been found for \`${message.util.parsed.content}\``)
+            .setDescription(`No results on urban dictionary have been found for \`${args.query}\``)
             return message.channel.send(embed);
         }
     }

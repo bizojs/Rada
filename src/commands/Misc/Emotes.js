@@ -6,7 +6,10 @@ class EmotesCommand extends Command {
         super('emotes', {
             aliases: ['emotes'],
             category: 'Miscellaneous',
-            description: 'Displays all emotes within the server.'
+            description: {
+                content: 'Displays all emotes within the server.',
+                permissions: ['EMBED_LINKS', 'ATTACH_FILES']
+            }
         });
     }
 

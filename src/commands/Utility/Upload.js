@@ -8,7 +8,10 @@ class UploadCommand extends Command {
         super('upload', {
            aliases: ['upload'],
            category: 'Utility',
-           description: 'Upload an image to Imgur.',
+           description: {
+             content: 'Upload an image to Imgur.',
+             permissions: []
+           },
            cooldown: 60000,
            ratelimit: 1
         });

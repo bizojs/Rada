@@ -6,7 +6,10 @@ class BoostInfoCommand extends Command {
         super('boostinfo', {
            aliases: ['boostinfo'],
            category: 'Miscellaneous',
-           description: 'Get information about the server boosts.',
+           description: {
+               content: 'Get information about the server boosts.',
+               permissions: ['EMBED_LINKS']
+           }
         });
     }
 

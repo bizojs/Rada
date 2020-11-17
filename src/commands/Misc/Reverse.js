@@ -6,12 +6,23 @@ class ReverseCommand extends Command {
         super('reverse', {
            aliases: ['reverse', 'rev'],
            category: 'Miscellaneous',
-           description: 'Reverse a string'
+           description: {
+             content: 'Reverse a string',
+             permissions: []
+           },
+           args: [{
+             id: 'text',
+             type: 'string',
+             match: 'rest'
+           }]
         });
     }
 
     async exec(message, args) {
-      return message.channel.send(this.client.reverse(message.util.parsed.content));
+      if (!args.text) {
+        return message.responder.error('**Please provide some text to reverse**');
+      }
+      return message.channel.send(this.client.reverse(args.text));
     }
 }
 

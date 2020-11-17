@@ -6,7 +6,10 @@ class PingCommand extends Command {
         super('ping', {
            aliases: ['ping'],
            category: 'Miscellaneous',
-           description: 'The bots connection to discord.'
+           description: {
+               content: 'The bots connection to discord.',
+               permissions: ['EMBED_LINKS']
+           }
         });
     }
 

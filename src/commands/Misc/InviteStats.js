@@ -6,7 +6,10 @@ class InviteStatsCommand extends Command {
         super('invitestats', {
            aliases: ['invitestats', 'is'],
            category: 'Miscellaneous',
-           description: 'Shows the amount of uses from each invite created in your server.'
+           description: {
+             content: 'Shows the amount of uses from each invite created in your server.',
+             permissions: ['EMBED_LINKS']
+           }
         });
     }
 

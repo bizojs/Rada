@@ -8,9 +8,10 @@ class MathCommand extends Command {
         super('math', {
            aliases: ['math', 'calculate'],
            category: 'Miscellaneous',
-           description: 'Who needs a calculator when you can just use Rada ',
-           userPermissions: ['MANAGE_EMOJIS'],
-           clientPermissions: ['MANAGE_EMOJIS'],
+           description: {
+             content: 'Who needs a calculator when you can just use Rada ',
+             permissions: []
+           }
         });
     }
 

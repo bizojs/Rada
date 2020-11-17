@@ -8,7 +8,10 @@ class NpmCommand extends Command {
         super('npm', {
            aliases: ['npm', 'npmjs'],
            category: 'Miscellaneous',
-           description: 'Fetch information about an npm package',
+           description: {
+             content: 'Fetch information about an npm package',
+             permissions: ['EMBED_LINKS']  
+           },
            args: [{
               id: 'package',
               type: 'string'

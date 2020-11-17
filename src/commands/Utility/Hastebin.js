@@ -7,18 +7,26 @@ class HasteCommand extends Command {
         super('hastebin', {
           aliases: ['hastebin', 'haste'],
           category: 'Utility',
-          description: 'Uploads text/code to a shareable hastebin link',
+          description: {
+            content: 'Uploads text/code to a shareable hastebin link',
+            permissions: []
+          },
+          args: [{
+            id: 'text',
+            type: 'string',
+            match: 'rest'
+          }],
           cooldown: 60000,
           ratelimit: 1
         });
     }
 
-    async exec(message) {
-      if (!message.util.parsed.content) {
-        return message.channel.send('giv content')
+    async exec(message, args) {
+      if (!args.text) {
+        return message.responder.error('**Please provide some text to upload to hastebin**');
       }
       try {
-        const res = await req("https://haste.br4d.vip/documents", 'POST').body(message.util.parsed.content + `\n\n\n\n- Uploaded with ${this.client.user.username}™️`).json();        
+        const res = await req("https://haste.br4d.vip/documents", 'POST').body(args.text + `\n\n\n\n- Uploaded with ${this.client.user.username}™️`).json();        
         return message.channel.send(`Here is the uploaded document: https://haste.br4d.vip/${res.key}`);
       } catch (e) {
         return message.channel.send(`**Failed to upload**: \`${e.message}\``);
