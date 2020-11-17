@@ -33,7 +33,7 @@ class WelcomeSettingsCommand extends Command {
     }
 
     async exec(message, args) {
-        let prefix = this.client.settings.get(message.guild.id, 'prefix', production ? prefix : devPrefix);
+        let currentPrefix = this.client.settings.get(message.guild.id, 'prefix', production ? prefix : devPrefix);
         let embed = new MessageEmbed()
             .setColor(this.client.color)
             .setThumbnail(this.client.avatar)
@@ -41,7 +41,7 @@ class WelcomeSettingsCommand extends Command {
             .setTimestamp()
         if (!args.option) {
             embed.setTitle(`${this.client.user.username} welcome settings`)
-                .setDescription(`__Info__\nYou will find any available welcome settings below\n\n__Update__\nYou can update one of the settings with \`${prefix}ws (option) (value)\`\n\n__Examples__\n\`${prefix}ws channel #welcome-leave\`\n\`${prefix}ws join Hello {user}!\`\n\n__Preview__\nIf you have any of the messages set, you can get a live preview of them with the command \`${prefix}ws visualise\``)
+                .setDescription(`__Info__\nYou will find any available welcome settings below\n\n__Update__\nYou can update one of the settings with \`${currentPrefix}ws (option) (value)\`\n\n__Examples__\n\`${currentPrefix}ws channel #welcome-leave\`\n\`${currentPrefix}ws join Hello {user}!\`\n\n__Preview__\nIf you have any of the messages set, you can get a live preview of them with the command \`${currentPrefix}ws visualise\``)
                 .addField('Channel', `${message.guild.settings.get(message.guild.id, 'wc', 'None') !== 'None' ? `${message.guild.channels.cache.get(message.guild.settings.get(message.guild.id, 'wc'))} \`(${message.guild.settings.get(message.guild.id, 'wc')})\`` : '\`None\`'}`)
                 .addField('Message (join)', `${message.guild.settings.get(message.guild.id, 'jm', 'None') !== 'None' ? `> ${message.guild.settings.get(message.guild.id, 'jm')}` : '\`None\`'}`)
                 .addField('Message (leave)', `${message.guild.settings.get(message.guild.id, 'lm', 'None') !== 'None' ? `> ${message.guild.settings.get(message.guild.id, 'lm')}` : '\`None\`'}`)
@@ -50,7 +50,7 @@ class WelcomeSettingsCommand extends Command {
         if (args.option === 'channel') {
             if (!args.channel) {
             embed.setTitle(`Welcome Channel`)
-                .setDescription(`Update the welcome channel with \`${prefix}settings wc #channel\``)
+                .setDescription(`Update the welcome channel with \`${currentPrefix}settings wc #channel\``)
                 .addField('Current channel', `${message.guild.settings.get(message.guild.id, 'wc', 'None') !== 'None' ? `${message.guild.channels.cache.get(message.guild.settings.get(message.guild.id, 'wc'))} \`(${message.guild.settings.get(message.guild.id, 'wc')})\`` : '\`None\`'}`);
             return message.channel.send(embed);
             }
@@ -80,7 +80,7 @@ class WelcomeSettingsCommand extends Command {
             ]
         if (msg.length < 1) {
             embed.setTitle(`Join Message`)
-                .setDescription(`Update the join message with \`${prefix}settings join <message>\``)
+                .setDescription(`Update the join message with \`${currentPrefix}settings join <message>\``)
                 .addField('Current message', `${message.guild.settings.get(message.guild.id, 'jm', 'None') !== 'None' ? `> ${message.guild.settings.get(message.guild.id, 'jm')}` : '\`None\`'}`)
                 .addField('Placeholders', placeholders);
             return message.channel.send(embed);
@@ -101,7 +101,7 @@ class WelcomeSettingsCommand extends Command {
             ]
             if (msg.length < 1) {
                 embed.setTitle(`Leave Message`)
-                    .setDescription(`Update the leave message with \`${prefix}settings leave <message>\``)
+                    .setDescription(`Update the leave message with \`${currentPrefix}settings leave <message>\``)
                     .addField('Current message', `${message.guild.settings.get(message.guild.id, 'lm', 'None') !== 'None' ? `> ${message.guild.settings.get(message.guild.id, 'lm')}` : '\`None\`'}`)
                     .addField('Placeholders', placeholders);
                 return message.channel.send(embed);
