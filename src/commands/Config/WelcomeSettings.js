@@ -64,8 +64,8 @@ class WelcomeSettingsCommand extends Command {
                 return message.responder.error('**You have no join/leave messages to visualise**');
             }
             let visualised = [
-                `**Join message**:\n${message.guild.settings.get(message.guild.id, 'jm', 'None') !== 'None' ? `${message.guild.settings.get(message.guild.id, 'jm').replace('{user}', message.author).replace('{tag}', message.author.tag).replace('{username}', message.author.username).replace('{servername}', message.guild.name).replace('{membercount}', message.guild.memberCount)}` : 'No join message set'}`,
-                `**Leave message**:\n${message.guild.settings.get(message.guild.id, 'lm', 'None') !== 'None' ? `${message.guild.settings.get(message.guild.id, 'lm').replace('{user}', message.author).replace('{tag}', message.author.tag).replace('{username}', message.author.username).replace('{servername}', message.guild.name).replace('{membercount}', message.guild.memberCount)}` : 'No leave message set'}`,
+                `**Join message**:\n${message.guild.settings.get(message.guild.id, 'jm', 'None') !== 'None' ? `${message.guild.settings.get(message.guild.id, 'jm').replace(/{user}/gi, message.author).replace(/{tag}/gi, message.author.tag).replace(/{username}/gi, message.author.username).replace(/{servername}/gi, message.guild.name).replace(/{membercount}/gi, message.guild.memberCount)}` : 'No join message set'}`,
+                `**Leave message**:\n${message.guild.settings.get(message.guild.id, 'lm', 'None') !== 'None' ? `${message.guild.settings.get(message.guild.id, 'lm').replace(/{user}/gi, message.author).replace(/{tag}/gi, message.author.tag).replace(/{username}/gi, message.author.username).replace(/{servername}/gi, message.guild.name).replace(/{membercount}/gi, message.guild.memberCount)}` : 'No leave message set'}`,
             ]
             return message.channel.send(visualised.join('\n'))
         }
