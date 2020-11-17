@@ -37,7 +37,7 @@ class SettingsCommand extends Command {
     }
 
     async exec(message, args) {
-      let prefix = this.client.settings.get(message.guild.id, 'prefix', production ? prefix : devPrefix);
+      let currentPrefix = this.client.settings.get(message.guild.id, 'prefix', production ? prefix : devPrefix);
       let embed = new MessageEmbed()
         .setColor(this.client.color)
         .setThumbnail(this.client.avatar)
@@ -45,8 +45,8 @@ class SettingsCommand extends Command {
         .setTimestamp()
       if (!args.option) {
         embed.setTitle(`${this.client.user.username} settings`)
-             .setDescription(`You will find any available settings below\nYou can update one of the settings with \`${prefix}settings (option) (value)\``)
-             .addField('Prefix', `\`${prefix}\``, true)
+             .setDescription(`You will find any available settings below\nYou can update one of the settings with \`${currentPrefix}settings (option) (value)\``)
+             .addField('Prefix', `\`${currentPrefix}\``, true)
              .addField('Logs', `${message.guild.settings.get(message.guild.id, 'logs', 'None') !== 'None' ? `${message.guild.channels.cache.get(message.guild.settings.get(message.guild.id, 'logs'))}` : '\`None\`'}`, true)
              .addField('Antilink', `\`${message.guild.settings.get(message.guild.id, 'antilink', 'None') !== 'None' ? 'Enabled' : 'Disabled'}\``, true)
         return message.channel.send(embed);
@@ -55,20 +55,20 @@ class SettingsCommand extends Command {
         let newPrefix = message.util.parsed.content.replace('prefix ', '');
         if (newPrefix.length < 1) {
           embed.setTitle(`Prefix`)
-               .setDescription(`Update the prefix with \`${prefix}settings prefix new_prefix\``)
-               .addField('Current prefix', `\`${prefix}\``);
+               .setDescription(`Update the prefix with \`${currentPrefix}settings prefix new_prefix\``)
+               .addField('Current prefix', `\`${currentPrefix}\``);
           return message.channel.send(embed);
         }
         if (newPrefix > 6) return message.channel.send(`❌ **Your prefix can\'t be longer than 6 characters**`);
         await this.client.settings.set(message.guild.id, 'prefix', newPrefix);
         embed.setTitle(`Prefix updated`)
-             .setDescription(`✅ **Your prefix has been updated to** \`${newPrefix}\`\n\nYou can change it back with \`${newPrefix}settings prefix ${prefix}\``)
+             .setDescription(`✅ **Your prefix has been updated to** \`${currentPrefix}\`\n\nYou can change it back with \`${newPrefix}settings prefix ${currentPrefix}\``)
         return message.channel.send(embed);
       }
       if (args.option === 'logs') {
         if (!args.channel) {
           embed.setTitle(`Logs`)
-               .setDescription(`Update the logs channel with \`${prefix}settings logs #channel\``)
+               .setDescription(`Update the logs channel with \`${currentPrefix}settings logs #channel\``)
                .addField('Current channel', `${message.guild.settings.get(message.guild.id, 'logs', 'None') !== 'None' ? `${message.guild.channels.cache.get(message.guild.settings.get(message.guild.id, 'logs'))} \`(${message.guild.settings.get(message.guild.id, 'logs')})\`` : '\`None\`'}`);
           return message.channel.send(embed);
         }
@@ -81,7 +81,7 @@ class SettingsCommand extends Command {
         let newValue = message.util.parsed.content.replace('antilink ', '');
         if (newValue.length < 1) {
           embed.setTitle('Antilink')
-               .setDescription(`Update the antilink with \`${prefix}settings antilink on/off\``)
+               .setDescription(`Update the antilink with \`${currentPrefix}settings antilink on/off\``)
                .addField('Current setting', `\`${message.guild.settings.get(message.guild.id, 'antilink', 'None') !== 'None' ? `Enabled` : 'Disabled'}\``);
           return message.channel.send(embed);
         }
