@@ -48,6 +48,7 @@ class SettingsCommand extends Command {
              .setDescription(`You will find any available settings below\nYou can update one of the settings with \`${prefix}settings (option) (value)\``)
              .addField('Prefix', `\`${prefix}\``, true)
              .addField('Logs', `${message.guild.settings.get(message.guild.id, 'logs', 'None') !== 'None' ? `${message.guild.channels.cache.get(message.guild.settings.get(message.guild.id, 'logs'))}` : '\`None\`'}`, true)
+             .addField('Antilink', `\`${message.guild.settings.get(message.guild.id, 'antilink', 'None') !== 'None' ? 'Enabled' : 'Disabled'}\``, true)
         return message.channel.send(embed);
       }
       if (args.option === 'prefix') {
@@ -75,6 +76,33 @@ class SettingsCommand extends Command {
         embed.setTitle(`Logs channel updated`)
             .setDescription(`✅ **The logs channel has been set to** ${args.channel} \`(${args.channel.id})\``)
         return message.channel.send(embed);
+      }
+      if (args.option === 'antilink') {
+        let newValue = message.util.parsed.content.replace('antilink ', '');
+        if (newValue.length < 1) {
+          embed.setTitle('Antilink')
+               .setDescription(`Update the antilink with \`${prefix}settings antilink on/off\``)
+               .addField('Current setting', `\`${message.guild.settings.get(message.guild.id, 'antilink', 'None') !== 'None' ? `Enabled` : 'Disabled'}\``);
+          return message.channel.send(embed);
+        }
+        if (!['on', 'off', 'enable', 'disable'].includes(newValue.toLowerCase())) {
+          return message.responder.error('**Please specify if you are turning the antilink on or off**');
+        }
+        if (!message.guild.me.permissions.has('MANAGE_MESSAGES')) {
+          return message.responder.error('**I require the manage messages permission for the antilink to work**');
+        }
+        if (['on', 'enable'].includes(newValue.toLowerCase())) {
+          await message.guild.settings.set(message.guild.id, 'antilink', true);
+          embed.setTitle(`Antilink updated`)
+               .setDescription('✅ **The antilink has been turned** \`on\`')
+          return message.channel.send(embed);
+        }
+        if (['off', 'disable'].includes(newValue.toLowerCase())) {
+          await message.guild.settings.set(message.guild.id, 'antilink', 'None');
+          embed.setTitle(`Antilink updated`)
+               .setDescription('✅ **The antilink has been turned** \`off\`')
+          return message.channel.send(embed);
+        }
       }
     }
 }
