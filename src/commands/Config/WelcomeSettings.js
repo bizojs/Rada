@@ -54,6 +54,9 @@ class WelcomeSettingsCommand extends Command {
                 .addField('Current channel', `${message.guild.settings.get(message.guild.id, 'wc', 'None') !== 'None' ? `${message.guild.channels.cache.get(message.guild.settings.get(message.guild.id, 'wc'))} \`(${message.guild.settings.get(message.guild.id, 'wc')})\`` : '\`None\`'}`);
             return message.channel.send(embed);
             }
+            if (!args.channel.permissionsFor(message.guild.me).has('SEND_MESSAGES')) {
+                return message.responder.error(`**For me to use \`#${args.channel.name}\` as the join/leave channel, I must have permission to send messages there.**`);
+            }
             await message.guild.settings.set(message.guild.id, 'wc', args.channel.id);
             embed.setTitle(`Welcome channel updated`)
                 .setDescription(`✅ **The welcome channel has been set to** ${args.channel} \`(${args.channel.id})\``)

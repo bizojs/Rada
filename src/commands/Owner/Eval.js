@@ -1,5 +1,6 @@
 const { Command } = require('discord-akairo');
 const { MessageEmbed } = require('discord.js');
+const { inspect } = require('util');
 const req = require('@aero/centra');
 
 class EvalCommand extends Command {
@@ -11,18 +12,35 @@ class EvalCommand extends Command {
             description: {
                 content: 'Evaluate javascript code.\nAutomatic async support if the code includes \`await\`',
                 permissions: []
-            }
+            },
+            args: [{
+                id: 'argresult',
+                type: 'string',
+                match: 'rest'
+            },
+            {
+                id: 'async',
+                match: 'flag',
+                flag: '--async',
+                unordered: true
+            },
+            {
+                id: 'showHidden',
+                match: 'flag',
+                flag: '--showHidden',
+                unordered: true
+            }]
         });
     }
 
-    async exec(message) {
-        let argresult = message.util.parsed.content;
+    async exec(message, { argresult, async, showHidden}) {
+        let msg = message;
         argresult = argresult.replace(/[“”]/g, '"').replace(/[‘’]/g, "'");
         if (!argresult) {
             return message.channel.send('Try again with some code to evaluate.')
         }
         try {
-            if (argresult.includes('await')) argresult = `(async () => {\n${argresult}})();`
+            if (async) argresult = `(async () => {\n${argresult}})();`
             var evaled = eval(argresult);
             if (typeof evaled !== "string")
                 evaled = require("util").inspect(evaled);
@@ -31,6 +49,11 @@ class EvalCommand extends Command {
             }
             if(this.clean(evaled) === "Promise { <pending> }") {
               return;
+            }
+            if (typeof evaled !== 'string') {
+                evaled = inspect(evaled, {
+                    showHidden: Boolean(showHidden)
+                });
             }
             if(this.clean(evaled).length > 1999) {
                 try {
@@ -41,9 +64,9 @@ class EvalCommand extends Command {
                     return message.channel.send('Message exceeded 2000 characters and I was unable to upload it. Logged to the console.');
                 }
             }
-            return message.channel.send(`**Output**:\n\`\`\`js\n${this.clean(evaled)}\`\`\`\n**Type**:\n\`\`\`ts\n${typeof this.clean(evaled)}\`\`\``)
+            return message.channel.send(`**Output**:\n\`\`\`js\n${this.clean(evaled)}\`\`\``)
         } catch (err) {
-            return message.channel.send(`**Output**:\n\`\`\`js\n${this.clean(err.message)}\`\`\`\n**Type**:\n\`\`\`ts\n${err.toString().split(':')[0]}\`\`\``);
+            return message.channel.send(`**Output**:\n\`\`\`js\n${this.clean(err.message)}\`\`\``);
         }
     }
     clean(text) {

@@ -72,6 +72,9 @@ class SettingsCommand extends Command {
                .addField('Current channel', `${message.guild.settings.get(message.guild.id, 'logs', 'None') !== 'None' ? `${message.guild.channels.cache.get(message.guild.settings.get(message.guild.id, 'logs'))} \`(${message.guild.settings.get(message.guild.id, 'logs')})\`` : '\`None\`'}`);
           return message.channel.send(embed);
         }
+        if (!args.channel.permissionsFor(message.guild.me).has('SEND_MESSAGES')) {
+          return message.responder.error(`**For me to use \`#${args.channel.name}\` as the log channel, I must have permission to send messages there.**`);
+        }
         await message.guild.settings.set(message.guild.id, 'logs', args.channel.id);
         embed.setTitle(`Logs channel updated`)
             .setDescription(`✅ **The logs channel has been set to** ${args.channel} \`(${args.channel.id})\``)

@@ -22,7 +22,7 @@ class GuildMemberAddListener extends Listener {
         try {
             member.guild.channels.cache.get(channel).send(message);
         } catch (e) {
-            if (e.includes('Missing Permissions')) this.client.users.cache.get(member.guild.owner.id)
+            if (e.message === 'Missing Permissions') this.client.users.cache.get(member.guild.owner.id)
                 .send(`I tried to send a message in ${member.guild.channels.cache.get(channel)} for a user joining, however i was missing permissions to do so.\nPlease check the permissions for my role/channel to make sure i have the required permissions.`)
                 .then(() => { })
                 .catch((err) => { return; })

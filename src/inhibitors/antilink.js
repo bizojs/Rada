@@ -13,6 +13,7 @@ class Antilink extends Inhibitor {
         let regex = /(https?:\/\/)?(www\.)?(discord\.(gg|io|me|li|com)|discordapp\.com\/invite)\/.+[a-z]{0,8}/
         const key = `${message.author.id}.antilink-cooldown`;
         if (antilink) {
+            if (message.author.bot) return;
             if (message.content.match(regex)) {
                 if (this.cache.has(key)) {
                     await message.delete();

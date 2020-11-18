@@ -25,6 +25,33 @@ class PunishmentsCommand extends Command {
 
     async exec(message, args) {
         if (!args.clear) {
+            // Preparing for d.js messageReactionAdd fix for pagination
+            /**
+                let infractionsArray = [
+                    args.member.settings.get(args.member.id, 'punishments.kick', 'No infractions'),
+                    args.member.settings.get(args.member.id, 'punishments.ban', 'No infractions'),
+                    args.member.settings.get(args.member.id, 'punishments.mute', 'No infractions'),
+                    args.member.settings.get(args.member.id, 'punishments.warn', 'No infractions')
+                ];
+                let infractionsTitle = [
+                    `Kicks (${args.member.settings.get(args.member.id, 'punishments.kick', []).length})`,
+                    `Bans (${args.member.settings.get(args.member.id, 'punishments.ban', []).length})`,
+                    `Mutes (${args.member.settings.get(args.member.id, 'punishments.mute', []).length})`,
+                    `Warns (${args.member.settings.get(args.member.id, 'punishments.warn', []).length})`
+                ];
+                let embed = [];
+                for (let i = 0; i < infractionsArray.length; i ++) {
+                    let embed = new MessageEmbed()
+                        .setTitle(`Infractions for ${args.member.user.username}`)
+                        .setColor(this.client.color)
+                        .setThumbnail(this.client.avatar)
+                        .addField(infractionsTitle[i], infractionsArray[i])
+                        .setFooter(`Page ${i+1} of ${pages.length} | Requested by ${message.author.username}`)
+                        .setTimestamp()
+                    embeds.push(embed)
+                }
+                message.paginate(embeds, 12000);
+            */
             let embed = new MessageEmbed()
                 .setTitle(`Infractions for ${args.member.user.username}`)
                 .setColor(this.client.color)
