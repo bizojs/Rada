@@ -1,5 +1,5 @@
 const { Command } = require('discord-akairo');
-const { MessageEmbed } = require('discord.js');
+const { MessageEmbed, Permissions: { FLAGS } } = require('discord.js');
 const { inspect } = require('util');
 const req = require('@aero/centra');
 
