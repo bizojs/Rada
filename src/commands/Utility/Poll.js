@@ -8,7 +8,7 @@ class PollCommand extends Command {
             category: 'Utility',
             description: {
                 content: 'Create a poll in your server with some options for people to vote on.\nYou can use the flag \`--delete\` anywhere in the message to automatically delete the invocation message as long as Rada has permission to manage messages.',
-                permissions: ['EMBED_LINKS', 'MANAGE_MESSAGES (ℹ)']
+                permissions: ['EMBED_LINKS', 'ADD_REACTIONS', 'MANAGE_MESSAGES (ℹ)']
             },
             args: [{
                 id: 'options',
@@ -23,6 +23,13 @@ class PollCommand extends Command {
                 unordered: true
             }]
         });
+    }
+
+    clientPermissions(message) {
+        if (!message.guild.me.permissions.has('ADD_REACTIONS')) {
+            return message.responder.error('**I require the permission to add reactions for this command to work**');
+        }
+        return null;
     }
 
     async exec(message, { options, silent }) {
