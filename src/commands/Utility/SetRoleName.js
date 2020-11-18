@@ -5,6 +5,7 @@ class SetRoleNameCommand extends Command {
     constructor() {
         super('setrolename', {
             aliases: ['setrolename', 'srn'],
+            category: 'Utility',
             description: {
                 content: 'Change the name of a role.',
                 permissions: ['MANAGE_ROLES']

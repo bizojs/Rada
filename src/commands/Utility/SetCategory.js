@@ -5,6 +5,7 @@ class SetCategoryCommand extends Command {
     constructor() {
         super('setcategory', {
             aliases: ['setcategory', 'sc', 'setparent', 'move'],
+            category: 'Utility',
             description: {
                 content: 'Move a channel into a different category',
                 permissions: ['MANAGE_CHANNELS']

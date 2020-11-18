@@ -4,6 +4,7 @@ class AddEmojiCommand extends Command {
     constructor() {
         super('addmoji', {
             aliases: ['addemoji', 'createemoji'],
+            category: 'Utility',
             description: {
                 content: 'Add an emoji to the guild',
                 permissions: ['MANAGE_EMOJIS']

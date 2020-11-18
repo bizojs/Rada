@@ -5,6 +5,7 @@ class CreateChannelCommand extends Command {
     constructor() {
         super('createchannel', {
             aliases: ['createchannel', 'cc'],
+            category: 'Utility',
             description: {
                 content: 'Create a channel in the server. The first argument should be the type of channel you want to create, if no input is provided it will default to a text channel. The second argument is not required but can be a category you want the channel to be put in. The third argument will be the channel name.',
                 permissions: ['MANAGE_CHANNELS']

@@ -4,6 +4,7 @@ class DeleteChannelCommand extends Command {
     constructor() {
         super('deletechannel', {
             aliases: ['deletechannel', 'dc'],
+            category: 'Utility',
             description: {
                 content: 'Deletes a channel from the server.',
                 permissions: ['MANAGE_CHANNELS']

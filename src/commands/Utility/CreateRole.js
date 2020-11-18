@@ -4,6 +4,7 @@ class CreateRoleCommand extends Command {
     constructor() {
         super('createrole', {
             aliases: ['createrole', 'cr', 'addrole'],
+            category: 'Utility',
             description: {
                 content: 'Create a role in the server.',
                 permissions: ['MANAGE_ROLES']

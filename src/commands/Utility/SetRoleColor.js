@@ -5,6 +5,7 @@ class SetRoleColorCommand extends Command {
     constructor() {
         super('setrolecolor', {
             aliases: ['setrolecolor', 'setrolecolour', 'src'],
+            category: 'Utility',
             description: {
                 content: 'Change the color of a role.',
                 permissions: ['MANAGE_ROLES']

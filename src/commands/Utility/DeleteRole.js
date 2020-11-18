@@ -4,6 +4,7 @@ class DeleteRoleCommand extends Command {
     constructor() {
         super('deleterole', {
             aliases: ['deleterole', 'dr', 'removerole'],
+            category: 'Utility',
             description: {
                 content: 'Deletes a role from the server.',
                 permissions: ['MANAGE_ROLES']
