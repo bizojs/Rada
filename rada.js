@@ -31,7 +31,10 @@ class RadaClient extends AkairoClient {
 				  "GUILDS",
 				  "GUILD_MESSAGES",
 				  "GUILD_MEMBERS"
-				]
+				],
+                                properties: {
+                                    $browser: "Discord iOS"
+                                }
 			}
         });
         this.commandHandler = new CommandHandler(this, {
