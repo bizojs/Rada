@@ -50,7 +50,6 @@ class HelpCommand extends Command {
             if(!this.client.ownerID.includes(message.author.id)) {
                 this.client.commandHandler.categories
                     .filter(c => c.id !== "Owner")
-                    .get(c.id)
                     .forEach(m => commandMap.push(m.id));
                 embed.addField(c.id, commandMap.length > 1 ? commandMap.join(', ') : commandMap)
             } else {
