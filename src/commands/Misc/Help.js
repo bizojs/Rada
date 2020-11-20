@@ -53,8 +53,8 @@ class HelpCommand extends Command {
                 this.client.commandHandler.categories
                 .get(c.id)
                 .forEach(m => commandMap.push(m.id));
+                embed.addField(c.id, commandMap.length > 1 ? commandMap.join(', ') : commandMap)
             })
-            embed.addField(c.id, commandMap.length > 1 ? commandMap.join(', ') : commandMap)
         } else {
             let commandMap = [];
             this.client.commandHandler.categories
@@ -62,8 +62,8 @@ class HelpCommand extends Command {
                 this.client.commandHandler.categories
                 .get(c.id)
                 .forEach(m => commandMap.push(m.id));
+                embed.addField(c.id, commandMap.length > 1 ? commandMap.join(', ') : commandMap)
             })
-            embed.addField(c.id, commandMap.length > 1 ? commandMap.join(', ') : commandMap)
         }
         return embed;
     }
