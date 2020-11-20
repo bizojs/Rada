@@ -45,20 +45,23 @@ class HelpCommand extends Command {
         }
     }
     generateHelp(embed, message) {
-        this.client.commandHandler.categories.forEach(c => {
+        if (!this.client.ownerID.includes(message.author.id)) {
             let commandMap = [];
-            if(!this.client.ownerID.includes(message.author.id)) {
+            this.client.commandHandler.categories
+            .filter(c => c.id !== "Owner")
+            .forEach(c => {
                 this.client.commandHandler.categories
-                    .filter(c => c.id !== "Owner")
-                    .forEach(m => commandMap.push(m.id));
-                embed.addField(c.id, commandMap.length > 1 ? commandMap.join(', ') : commandMap)
-            } else {
-                this.client.commandHandler.categories
-                    .get(c.id)
-                    .forEach(m => commandMap.push(m.id));
-                embed.addField(c.id, commandMap.length > 1 ? commandMap.join(', ') : commandMap)
-            }
-        })
+                .get(c.id)
+                .forEach(m => commandMap.push(m.id));
+            })
+            embed.addField(c.id, commandMap.length > 1 ? commandMap.join(', ') : commandMap)
+        } else {
+            let commandMap = [];
+            this.client.commandHandler.categories
+                .get(c.id)
+                .forEach(m => commandMap.push(m.id));
+            embed.addField(c.id, commandMap.length > 1 ? commandMap.join(', ') : commandMap)
+        }
         return embed;
     }
 }
