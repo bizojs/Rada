@@ -41,16 +41,24 @@ class HelpCommand extends Command {
             }
             return message.channel.send(embed);
         } else {
-            return message.channel.send(this.generateHelp(embed));
+            return message.channel.send(this.generateHelp(embed, message));
         }
     }
-    generateHelp(embed) {
+    generateHelp(embed, message) {
         this.client.commandHandler.categories.forEach(c => {
             let commandMap = [];
-            this.client.commandHandler.categories
-                .get(c.id)
-                .forEach(m => commandMap.push(m.id));
-            embed.addField(c.id, commandMap.length > 1 ? commandMap.join(', ') : commandMap)
+            if(!this.client.ownerID.includes(message.author.id) {
+                this.client.commandHandler.categories
+                    .filter(c => c.id !== "Owner")
+                    .get(c.id)
+                    .forEach(m => commandMap.push(m.id));
+                embed.addField(c.id, commandMap.length > 1 ? commandMap.join(', ') : commandMap)
+            } else {
+                this.client.commandHandler.categories
+                    .get(c.id)
+                    .forEach(m => commandMap.push(m.id));
+                embed.addField(c.id, commandMap.length > 1 ? commandMap.join(', ') : commandMap)
+            }
         })
         return embed;
     }
