@@ -47,7 +47,7 @@ class HelpCommand extends Command {
     generateHelp(embed, message) {
         this.client.commandHandler.categories.forEach(c => {
             let commandMap = [];
-            if(!this.client.ownerID.includes(message.author.id) {
+            if(!this.client.ownerID.includes(message.author.id)) {
                 this.client.commandHandler.categories
                     .filter(c => c.id !== "Owner")
                     .get(c.id)
