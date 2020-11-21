@@ -10,6 +10,7 @@ const {
 // Custom classes
 const { Responder } = require('./lib/structures/Responder.js');
 const { Reacter } = require('./lib/structures/Reacter.js');
+const { clientColor, logo } = require('./lib/constants');
 const model = require('./src/models/clientSchema');
 const Logger = require('./lib/log');
 // Configuration
@@ -32,9 +33,9 @@ class RadaClient extends AkairoClient {
 				  "GUILD_MESSAGES",
 				  "GUILD_MEMBERS"
 				],
-                                properties: {
-                                    $browser: "Discord iOS"
-                                }
+                properties: {
+                    $browser: "Discord iOS"
+                }
 			}
         });
         this.commandHandler = new CommandHandler(this, {
@@ -63,11 +64,11 @@ class RadaClient extends AkairoClient {
 		this.listenerHandler.loadAll();
 		this.inhibitorHandler.loadAll();
 		this.commandHandler.loadAll();
-		this.color = '#f05151';
-		this.avatar = 'https://i.br4d.vip/Lm9zTuY5.png'
+		this.color = clientColor;
+		this.avatar = logo;
         this.Responder = Responder;
         this.Reacter = Reacter;
-        // this.setMaxListeners(30);
+        this.setMaxListeners(30);
         this.log = new Logger;
 		this.settings = new MongooseProvider(model);
     }
@@ -76,19 +77,11 @@ class RadaClient extends AkairoClient {
     	this.log.success('Connected to Dabatase');
     	return super.login(token);
     }
-    createInvite(permissions) {
-    	if (typeof permissions !== 'object') {
-    		return new ReferenceError(`Expecting an array, recieved a ${typeof permissions}`);
-    	}
-    	if (permissions.length < 1) permissions = ['READ_MESSAGES', 'SEND_MESSAGES'];
-    	try {
-	    	let invite = this.generateInvite({
-			  permissions: permissions
-			});
-			return invite.link;
-    	} catch (e) {
-    		return e.message;
-    	}
+    invite(permissions) {
+    	if (!permissions || permissions.length < 1) permissions = ['READ_MESSAGES', 'SEND_MESSAGES'];
+        this.generateInvite({
+			permissions: permissions
+        }).then((invite) => { return invite })
     }
     daysBetween(startDate, endDate) {
         if (!endDate) endDate = Date.now();

@@ -1,5 +1,4 @@
 const { Command } = require('discord-akairo');
-const { MessageEmbed } = require('discord.js');
 
 class EmotesCommand extends Command {
     constructor() {
@@ -27,20 +26,10 @@ class EmotesCommand extends Command {
         } else {
             return message.channel.send(full)
         }
-        // let emojiList = message.guild.emojis.cache.map(e => `${e} - **${e.name}**, created ${this.client.daysBetween(e.createdTimestamp).toFixed(0) > 0 ? `**${this.client.daysBetween(e.createdTimestamp).toFixed(0)} days ago**` : '**today**'}`);
-        // let pages = this.client.chunkify(emojiList, 5);
-        // let embeds = []
-        // for (var i = 0; i < pages.length; i++) {
-        //     const embed = new MessageEmbed()
-        //     embed.setColor(this.client.color)
-        //     embed.setTitle(`${message.guild.name} emotes`)
-        //     embed.setThumbnail(this.client.avatar)
-        //     embed.setDescription(pages[i])
-        //     embed.setFooter(`Page ${i+1} of ${pages.length} | Requested by ${message.author.username}`)
-        //     embeds.push(embed)
-        // }
-        // message.paginate(embeds, 12000)
 
+        // let emojiList = message.guild.emojis.cache.map(e => `${e} - **${e.name}**, created ${this.client.daysBetween(e.createdTimestamp).toFixed(0) > 0 ? `**${this.client.daysBetween(e.createdTimestamp).toFixed(0)} days ago**` : '**today**'}`);
+        // const pages = this.client.chunkify(emojiList, 2);
+        // message.paginate(pages, `**${message.guild.name}** emotes`);
     }
 }
 

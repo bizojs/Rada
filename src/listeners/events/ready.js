@@ -18,8 +18,8 @@ class ReadyListener extends Listener {
     	this.client.presence.set({
             status: 'online',
             activity: {
-                name: `${this.client.user.username} v1 in progress`,
-                type: 'WATCHING'
+                name: `${this.client.user.username} v1`,
+                type: 5
             }
         });
         this.client.log.success(`Logged into discord and connected as ${this.client.user.tag}`);
