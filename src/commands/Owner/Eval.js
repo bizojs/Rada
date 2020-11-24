@@ -13,7 +13,7 @@ class EvalCommand extends Command {
             ownerOnly: true,
             category: 'Owner',
             description: {
-                content: 'Evaluate javascript code.\nAutomatic async support if the code includes \`await\`',
+                content: 'Evaluate javascript code.\nAsync support if the flag \`--async\` is detected.',
                 permissions: []
             },
             args: [{
