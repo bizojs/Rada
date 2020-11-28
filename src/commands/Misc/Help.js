@@ -1,5 +1,4 @@
 const { Command } = require('discord-akairo');
-// const { MessageEmbed } = require('discord.js');
 const { production, prefix, devPrefix } = require('../../config.js');
 
 class HelpCommand extends Command {

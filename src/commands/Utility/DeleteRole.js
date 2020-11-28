@@ -3,7 +3,7 @@ const { Command } = require('discord-akairo');
 class DeleteRoleCommand extends Command {
     constructor() {
         super('deleterole', {
-            aliases: ['deleterole', 'dr', 'removerole'],
+            aliases: ['deleterole', 'dr'],
             category: 'Utility',
             description: {
                 content: 'Deletes a role from the server.',

@@ -44,7 +44,6 @@ class RadaClient extends AkairoClient {
                 if (message.guild) {
                     return this.settings.get(message.guild.id, 'prefix', config.production ? config.prefix : config.devPrefix);
                 }
-
                 return config.production ? config.prefix : config.devPrefix;
             },
         	blockBots: true,
@@ -70,18 +69,12 @@ class RadaClient extends AkairoClient {
         this.Reacter = Reacter;
         this.setMaxListeners(30);
         this.log = new Logger;
-		this.settings = new MongooseProvider(model);
+        this.settings = new MongooseProvider(model);
     }
     async login(token) {
     	await this.settings.init();
     	this.log.success('Connected to Dabatase');
     	return super.login(token);
-    }
-    invite(permissions) {
-    	if (!permissions || permissions.length < 1) permissions = ['READ_MESSAGES', 'SEND_MESSAGES'];
-        this.generateInvite({
-			permissions: permissions
-        }).then((invite) => { return invite })
     }
     daysBetween(startDate, endDate) {
         if (!endDate) endDate = Date.now();
