@@ -22,10 +22,10 @@ class ColorCommand extends Command {
     async exec(message, args) {
         let hex = !args.hex ? this.generateHex() : args.hex["match"][0]
         let color = hex.replace(/#/g, '');
-        const data = await req(`https://api.alexflipnote.dev/color/${color}`).json()
-        return message.channel.send({ embed: new MessageEmbed()
-            .setColor(data.hex)
-            .setTitle(`Color Information for ${data.hex}`)
+        const data = await this.client.flipnote.others.color(color);
+        return message.channel.send({ embed: this.client.util.embed()
+            .setColor(hex)
+            .setTitle(args.hex ? `Color Information for ${data.hex}` : `No hex matches, generating random: #${hex}`)
             .setDescription(`Color Name: \`${data.name}\`\nBrightness: \`${data.brightness}\`\nInt: \`${data.int}\`\nRGB: \`${data.rgb}\``)
             .addField('Shade', data.shade.join(', '))
             .addField('Tint', data.tint.join(', '))

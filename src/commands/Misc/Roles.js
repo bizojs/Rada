@@ -8,29 +8,27 @@ class RolesCommand extends Command {
             category: 'Miscellaneous',
             description: {
                 content: 'Displays all roles within the server.',
-                permissions: ['EMBED_LINKS', 'ATTACH_FILES']
+                permissions: ['EMBED_LINKS']
             }
         });
     }
 
     async exec(message) {
-        let embed = new MessageEmbed()
-            .setTitle(`${message.guild.name} roles`)
-            .setThumbnail(this.client.avatar)
-            .setColor(this.client.color)
-            .setFooter(`Requested by ${message.author.username}`)
-            .setTimestamp()
-        let roleList = message.guild.roles.cache.map(r => `${r} - \`${r.name}\`, created ${this.client.daysBetween(r.createdTimestamp).toFixed(0) > 0 ? `**${this.client.daysBetween(r.createdTimestamp).toFixed(0)} day${this.client.daysBetween(r.createdTimestamp).toFixed(0) > 1 ? 's' : ''} ago**` : '**today**'}`);
+        let roleList = message.guild.roles.cache.map(r => `${r} - \`${r.name}\`, created ${this.client.daysBetween(r.createdTimestamp).toFixed(0) > 0 ? `${this.client.daysBetween(r.createdTimestamp).toFixed(0)} day${this.client.daysBetween(r.createdTimestamp).toFixed(0) > 1 ? 's' : ''} ago` : 'today'}`);
         if (roleList.length < 1) {
             return message.channel.send('This server has no roles to display.');
         }
-        let full = roleList.join('\n');
-        if (full.length > 2048) {
-            return message.channel.send('Too many roles, sending as file instead', new MessageAttachment(Buffer.from(full), 'roles.txt'))
-        } else {
-            embed.setDescription(full)
-            return message.channel.send(embed)
+        const pages = this.client.chunkify(roleList, 10);
+        if (pages.length < 2) {
+            return message.channel.send({embed: this.client.util.embed()
+                .setColor(this.client.color)
+                .setThumbnail(this.client.avatar)
+                .setDescription(roleList)
+                .setTitle(`**${message.guild.name}** roles`)
+                .setTimestamp()
+            })
         }
+        message.paginate(pages, `**${message.guild.name}** roles`);
     }
 }
 

@@ -90,7 +90,7 @@ class EvalCommand extends Command {
                 showHidden: false
             });
         }
-        return { success, type, time: this.formatTime(syncTime, asyncTime), result: Util.clean(result) };
+        return { success, type, time: this.formatTime(syncTime, asyncTime), result: Util.clean(result, this.client.token) };
     }
 
     formatTime(syncTime, asyncTime) {
