@@ -23,7 +23,9 @@ class ReadyListener extends Listener {
             }
         });
         this.client.log.success(`Logged into discord and connected as ${this.client.user.tag}`);
-        this.client.Cli.start();
+        if (process.platform !== 'linux') {
+            this.client.Cli.start();
+        }
     }
 }
 
