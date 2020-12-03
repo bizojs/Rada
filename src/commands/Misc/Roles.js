@@ -28,7 +28,7 @@ class RolesCommand extends Command {
                 .setTimestamp()
             })
         }
-        message.paginate(pages, `**${message.guild.name}** roles`);
+        message.paginate(pages, `**${message.guild.name}** roles`, 'description');
     }
 }
 

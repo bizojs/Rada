@@ -27,7 +27,7 @@ class EmotesCommand extends Command {
                 .setTimestamp()
             })
         }
-        message.paginate(pages, `**${message.guild.name}** emotes`);
+        message.paginate(pages, `**${message.guild.name}** emotes`, 'description');
     }
 }
 

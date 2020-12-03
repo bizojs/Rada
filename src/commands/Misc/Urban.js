@@ -1,5 +1,6 @@
 const { Command } = require('discord-akairo');
 const { MessageEmbed } = require('discord.js');
+const RichDisplay = require('../../../lib/structures/RichDisplay');
 const req = require('@aero/centra');
 
 class UrbanCommand extends Command {
@@ -29,19 +30,35 @@ class UrbanCommand extends Command {
     async exec(message, args) {
         let search = args.query.split(" ").join("+");
         const data = await req(`http://api.urbandictionary.com/v0/define?term=${search}`).json();
+        let result = data.list;
         let embed = new MessageEmbed()
             .setColor(this.client.color)
             .setThumbnail(this.client.avatar)
             .setFooter(`Requested by ${message.author.username}`)
             .setTimestamp()
-        if (data.list[0]) {
+        const pages = this.client.chunkify(result, 1);
+        if (result[0]) {
+            if (result.length < 2) {
                 embed.setTitle(`**${data.list[0].word}** by ${data.list[0].author}`)
-                .setDescription(`${this.trim(data.list[0].definition, 1950, data.list[0].permalink) || 'No definition'}`)
-                .addField('Example', `${this.trim(data.list[0].example, 950, data.list[0].permalink) || 'No example'}`)
-                .addField('Votes', `:thumbsup: ${data.list[0].thumbs_up} upvotes\n:thumbsdown: ${data.list[0].thumbs_down} downvotes`)
-                .addField('Link', `**${data.list[0].permalink}**`, true)
-                .addField('Mug', `**[Buy a __${data.list[0].word}__ mug here](https://urbandictionary.store/products/mug?defid=${data.list[0].defid})**`, true)
-            return message.channel.send(embed)
+                    .setDescription(`${this.trim(data.list[0].definition, 1950, data.list[0].permalink) || 'No definition'}`)
+                    .addField('Example', `${this.trim(data.list[0].example, 950, data.list[0].permalink) || 'No example'}`)
+                    .addField('Votes', `:thumbsup: ${data.list[0].thumbs_up} upvotes\n:thumbsdown: ${data.list[0].thumbs_down} downvotes`)
+                    .addField('Link', `**${data.list[0].permalink}**`, true)
+                    .addField('Mug', `**[Buy a __${data.list[0].word}__ mug here](https://urbandictionary.store/products/mug?defid=${data.list[0].defid})**`, true)
+                return message.channel.send(embed)
+            }
+            const display = new RichDisplay(embed);
+            for (let i = 0; i < pages.length; i++) {
+                display
+                .addPage(template => template
+                .setTitle(`**${pages[i][0].word}** by ${pages[i][0].author}`)
+                .setDescription(`${this.trim(pages[i][0].definition, 1950, pages[i][0].permalink) || 'No definition'}`)
+                .addField('Example', `${this.trim(pages[i][0].example, 950, pages[i][0].permalink) || 'No example'}`)
+                .addField('Votes', `:thumbsup: ${pages[i][0].thumbs_up.toLocaleString()} upvotes\n:thumbsdown: ${pages[i][0].thumbs_down.toLocaleString()} downvotes`)
+                .addField('Link', `**${pages[i][0].permalink}**`, true)
+                .addField('Mug', `**[Buy a __${pages[i][0].word}__ mug here](https://urbandictionary.store/products/mug?defid=${pages[i][0].defid})**`, true));
+            }
+            return display.run(await message.channel.send('Generating...'), { filter: (reaction, user) => user === message.author });
         } else {
             embed.setTitle('Urban dictionary search')
             .setDescription(`No results on urban dictionary have been found for \`${args.query}\``)
