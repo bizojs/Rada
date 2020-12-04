@@ -1,6 +1,5 @@
 const { Command } = require('discord-akairo');
 const { MessageEmbed } = require('discord.js');
-const RichDisplay = require('../../../lib/structures/RichDisplay');
 const req = require('@aero/centra');
 
 class UrbanCommand extends Command {
@@ -47,18 +46,22 @@ class UrbanCommand extends Command {
                     .addField('Mug', `**[Buy a __${data.list[0].word}__ mug here](https://urbandictionary.store/products/mug?defid=${data.list[0].defid})**`, true)
                 return message.channel.send(embed)
             }
-            const display = new RichDisplay(embed);
+            let embeds = [];
             for (let i = 0; i < pages.length; i++) {
-                display
-                .addPage(template => template
-                .setTitle(`**${pages[i][0].word}** by ${pages[i][0].author}`)
-                .setDescription(`${this.trim(pages[i][0].definition, 1950, pages[i][0].permalink) || 'No definition'}`)
-                .addField('Example', `${this.trim(pages[i][0].example, 950, pages[i][0].permalink) || 'No example'}`)
-                .addField('Votes', `:thumbsup: ${pages[i][0].thumbs_up.toLocaleString()} upvotes\n:thumbsdown: ${pages[i][0].thumbs_down.toLocaleString()} downvotes`)
-                .addField('Link', `**${pages[i][0].permalink}**`, true)
-                .addField('Mug', `**[Buy a __${pages[i][0].word}__ mug here](https://urbandictionary.store/products/mug?defid=${pages[i][0].defid})**`, true));
+                let embed = this.client.util.embed()
+                    .setTitle(`**${pages[i][0].word}** by ${pages[i][0].author}`)
+                    .setColor(this.client.color)
+                    .setThumbnail(this.client.avatar)
+                    .setDescription(`${this.trim(pages[i][0].definition, 1950, pages[i][0].permalink) || 'No definition'}`)
+                    .addField('Example', `${this.trim(pages[i][0].example, 950, pages[i][0].permalink) || 'No example'}`)
+                    .addField('Votes', `:thumbsup: ${pages[i][0].thumbs_up.toLocaleString()} upvotes\n:thumbsdown: ${pages[i][0].thumbs_down.toLocaleString()} downvotes`)
+                    .addField('Link', `**${pages[i][0].permalink}**`, true)
+                    .addField('Mug', `**[Buy a __${pages[i][0].word}__ mug here](https://urbandictionary.store/products/mug?defid=${pages[i][0].defid})**`, true)
+                    .setFooter(`Page ${i+1} of ${pages.length} | Requested by ${message.author.username}`)
+                    .setTimestamp()
+                embeds.push(embed);
             }
-            return display.run(await message.channel.send('Generating...'), { filter: (reaction, user) => user === message.author });
+            message.paginate(embeds);
         } else {
             embed.setTitle('Urban dictionary search')
             .setDescription(`No results on urban dictionary have been found for \`${args.query}\``)

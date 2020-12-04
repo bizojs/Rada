@@ -1,5 +1,6 @@
 const { Command } = require('discord-akairo');
 const { production, prefix, devPrefix } = require('../../config.js');
+const Util = require('../../../lib/structures/Util');
 
 class HelpCommand extends Command {
     constructor() {
@@ -28,7 +29,7 @@ class HelpCommand extends Command {
             .setTimestamp();
         if (args.command) {
             if (args.command.ownerOnly && !this.client.ownerID.includes(message.author.id)) {
-                return message.channel.send(this.generateHelp(embed, message));
+                return message.channel.send(this.generateHelp(message));
             }
             embed.setDescription(`Help for command **${args.command.id}**${args.command.ownerOnly ? ' (Owner only)' : ''}`)
             embed.addField('Description', args.command.description.content)
@@ -41,31 +42,64 @@ class HelpCommand extends Command {
             }
             return message.channel.send(embed);
         } else {
-            return message.channel.send(this.generateHelp(embed, message));
+            return message.paginate(this.generateHelp(message));
         }
     }
-    generateHelp(embed, message) {
+
+    generateHelp(message) {
+        let embeds = [];
+        let helpEmbed = this.client.util.embed()
+            .setTitle(`${this.client.user.username} help menu`)
+            .setThumbnail(this.client.avatar)
+            .setDescription(`Welcome to the help menu. You can use the reactions below to cycle through the various categories that are available. You can find out what each reaction does in the \`Reaction help\` section of this embed.\n\nYou can get additional help on a command by using \`${this.client.settings.get(message.guild.id, 'prefix', production ? prefix : devPrefix)}help (command_name)\``)
+            .addField('Reaction help', [
+                '⏪ - Skip back to page 1',
+                '<:leave:742375771913453628> - Skip back a page',
+                '🗑️ - Remove all reactions',
+                '<:join:742375779656269914> - Skip forward a page',
+                '⏩ - Skip to the last page'
+            ].join('\n'))
+            .addField('Pages', this.client.ownerID.includes(message.author.id) ? ['\`1:\` This page', '\`2:\` Config', '\`3:\` Misc', '\`4:\` Moderation', '\`5:\` Text ', '\`6:\` Utility'].join('\n') : ['\`1:\` This page', '\`2:\` Config', '\`3:\` Misc', '\`4:\` Moderation', '\`5:\` Owner ', '\`6:\` Text', '\`7:\` Utility'].join('\n'))
+            .setColor(this.client.color)
+            .setFooter(`Requested by ${message.author.username}`)
+            .setTimestamp()
+        embeds.push(helpEmbed)
         if (!this.client.ownerID.includes(message.author.id)) {
-            this.client.commandHandler.categories
-            .filter(c => c.id !== 'Owner')
-            .forEach(c => {
+            this.client.commandHandler.categories.filter(c => c.id !== 'Owner').forEach(category => {
                 let commandMap = [];
-                this.client.commandHandler.categories
-                    .get(c.id)
-                    .forEach(m => commandMap.push(m.id));
-                embed.addField(c.id, commandMap.length > 1 ? commandMap.join(', ') : commandMap)
-             })
+                this.client.commandHandler.categories.get(category.id).forEach(command => {
+                    commandMap.push(`\`${Util.toTitleCase(command.id)}\` - ${command.description.content}`)
+                })
+                let embed = this.client.util.embed()
+                    .setTitle(`${this.client.user.username} help menu - ${category.id}`)
+                    .setThumbnail(this.client.avatar)
+                    .setColor(this.client.color)
+                    .setTimestamp()
+                    .setDescription(commandMap.length > 1 ? commandMap.join('\n') : commandMap)
+                embeds.push(embed)
+            })
         } else {
-            this.client.commandHandler.categories.forEach(c => {
+            this.client.commandHandler.categories.forEach(category => {
                 let commandMap = [];
-                this.client.commandHandler.categories
-                    .get(c.id)
-                    .forEach(m => commandMap.push(m.id));
-                embed.addField(c.id, commandMap.length > 1 ? commandMap.join(', ') : commandMap)    
+                this.client.commandHandler.categories.get(category.id).forEach(command => {
+                    commandMap.push(`\`${Util.toTitleCase(command.id)}\` - ${command.description.content}`)
+                })
+                let embed = this.client.util.embed()
+                    .setTitle(`${this.client.user.username} help menu - ${category.id}`)
+                    .setThumbnail(this.client.avatar)
+                    .setColor(this.client.color)
+                    .setTimestamp()
+                    .setDescription(commandMap.length > 1 ? commandMap.join('\n') : commandMap)
+                embeds.push(embed)
             })
         }
-         return embed;
+        return embeds;
     }
+
+    trim = (str, max = 30) => {
+        if (str.length > max) return `${str.substr(0, max)}...`;
+        return str;
+    };
 }
 
 module.exports = HelpCommand;

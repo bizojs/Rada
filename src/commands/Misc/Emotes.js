@@ -17,17 +17,29 @@ class EmotesCommand extends Command {
         if (emojiList.length < 1) {
             return message.channel.send('This server has no emotes to display.');
         }
-        const pages = this.client.chunkify(emojiList, 20);
+        const pages = this.client.chunkify(emojiList, 10);
+        let embeds = [];
         if (pages.length < 2) {
             return message.channel.send({embed: this.client.util.embed()
+                .setTitle(`**${message.guild.name}** emotes`)
                 .setColor(this.client.color)
                 .setThumbnail(this.client.avatar)
                 .setDescription(emojiList)
-                .setTitle(`**${message.guild.name}** emotes`)
+                .setFooter(`Requested by ${message.author.username}`)
                 .setTimestamp()
             })
         }
-        message.paginate(pages, `**${message.guild.name}** emotes`, 'description');
+        for (let i = 0; i < pages.length; i++) {
+            let embed = this.client.util.embed()
+                .setTitle(`**${message.guild.name}** emotes`)
+                .setColor(this.client.color)
+                .setThumbnail(this.client.avatar)
+                .setDescription(pages[i])
+                .setFooter(`Page ${i+1} of ${pages.length} | Requested by ${message.author.username}`)
+                .setTimestamp()
+            embeds.push(embed);
+        }
+        message.page(embeds);
     }
 }
 

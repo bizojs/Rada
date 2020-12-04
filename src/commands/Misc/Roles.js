@@ -1,5 +1,4 @@
 const { Command } = require('discord-akairo');
-const { MessageEmbed, MessageAttachment } = require('discord.js');
 
 class RolesCommand extends Command {
     constructor() {
@@ -19,16 +18,28 @@ class RolesCommand extends Command {
             return message.channel.send('This server has no roles to display.');
         }
         const pages = this.client.chunkify(roleList, 10);
+        let embeds = [];
         if (pages.length < 2) {
             return message.channel.send({embed: this.client.util.embed()
+                .setTitle(`**${message.guild.name}** roles`)
                 .setColor(this.client.color)
                 .setThumbnail(this.client.avatar)
                 .setDescription(roleList)
-                .setTitle(`**${message.guild.name}** roles`)
+                .setFooter(`Requested by ${message.author.username}`)
                 .setTimestamp()
             })
         }
-        message.paginate(pages, `**${message.guild.name}** roles`, 'description');
+        for (let i = 0; i < pages.length; i++) {
+            let embed = this.client.util.embed()
+                .setTitle(`**${message.guild.name}** roles`)
+                .setColor(this.client.color)
+                .setThumbnail(this.client.avatar)
+                .setDescription(pages[i])
+                .setFooter(`Page ${i+1} of ${pages.length} | Requested by ${message.author.username}`)
+                .setTimestamp()
+            embeds.push(embed);
+        }
+        message.page(embeds);
     }
 }
 
