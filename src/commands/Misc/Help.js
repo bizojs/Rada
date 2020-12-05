@@ -23,7 +23,6 @@ class HelpCommand extends Command {
         let embed = this.client.util.embed()
             .setTitle(`${this.client.user.username} help menu`)
             .setThumbnail(this.client.avatar)
-            .setDescription(`ℹ️ You can get additional help on a command by using \`${this.client.settings.get(message.guild.id, 'prefix', production ? prefix : devPrefix)}help (command_name)\``)
             .setColor(this.client.color)
             .setFooter(`Requested by ${message.author.username}`)
             .setTimestamp();
@@ -59,7 +58,7 @@ class HelpCommand extends Command {
                 '<:join:742375779656269914> - Skip forward a page',
                 '⏩ - Skip to the last page'
             ].join('\n'))
-            .addField('Pages', this.client.ownerID.includes(message.author.id) ? ['\`1:\` This page', '\`2:\` Config', '\`3:\` Misc', '\`4:\` Moderation', '\`5:\` Text ', '\`6:\` Utility'].join('\n') : ['\`1:\` This page', '\`2:\` Config', '\`3:\` Misc', '\`4:\` Moderation', '\`5:\` Owner ', '\`6:\` Text', '\`7:\` Utility'].join('\n'))
+            .addField('Pages', !this.client.ownerID.includes(message.author.id) ? ['\`1:\` This page', '\`2:\` Config', '\`3:\` Fun', '\`4:\` Misc', '\`5:\` Moderation', '\`6:\` Text ', '\`7:\` Utility'].join('\n') : ['\`1:\` This page', '\`2:\` Config', '\`3:\` Fun', '\`4:\` Misc', '\`5:\` Moderation', '\`6:\` Owner ', '\`7:\` Text', '\`8:\` Utility'].join('\n'))
             .setColor(this.client.color)
             .setFooter(`Requested by ${message.author.username}`)
             .setTimestamp()
@@ -71,7 +70,7 @@ class HelpCommand extends Command {
                     commandMap.push(`\`${Util.toTitleCase(command.id)}\` - ${command.description.content}`)
                 })
                 let embed = this.client.util.embed()
-                    .setTitle(`${this.client.user.username} help menu - ${category.id}`)
+                    .setTitle(`${this.client.user.username} help menu - ${category.id} (${category.size} commands)`)
                     .setThumbnail(this.client.avatar)
                     .setColor(this.client.color)
                     .setTimestamp()
@@ -82,10 +81,10 @@ class HelpCommand extends Command {
             this.client.commandHandler.categories.forEach(category => {
                 let commandMap = [];
                 this.client.commandHandler.categories.get(category.id).forEach(command => {
-                    commandMap.push(`\`${Util.toTitleCase(command.id)}\` - ${command.description.content}`)
+                    commandMap.push(`\`${Util.toTitleCase(command.id)}\` - ${command.description.content.split('.')[0]}`)
                 })
                 let embed = this.client.util.embed()
-                    .setTitle(`${this.client.user.username} help menu - ${category.id}`)
+                    .setTitle(`${this.client.user.username} help menu - ${category.id} (${category.size} commands)`)
                     .setThumbnail(this.client.avatar)
                     .setColor(this.client.color)
                     .setTimestamp()

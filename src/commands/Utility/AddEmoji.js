@@ -2,7 +2,7 @@ const { Command } = require('discord-akairo');
 
 class AddEmojiCommand extends Command {
     constructor() {
-        super('addmoji', {
+        super('addemoji', {
             aliases: ['addemoji', 'createemoji'],
             category: 'Utility',
             description: {

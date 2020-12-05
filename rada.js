@@ -70,7 +70,7 @@ class RadaClient extends AkairoClient {
         this.log = new Logger;
         this.Cli = new Cli(this);
         this.settings = new MongooseProvider(model);
-        this.flipnote = new Flipnote(process.env.FLIPNOTE)
+        this.flipnote = new Flipnote(process.env.FLIPNOTE);
     }
     async login(token) {
     	await this.settings.init();
