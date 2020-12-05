@@ -47,13 +47,13 @@ class EvalCommand extends Command {
 
         if (output.length > 2000) {
             if (message.guild && message.guild.me.permissions.has('ATTACH_FILES')) {
-                return message.channel.send(`Output was too long... sent the result as a file.\n**Type**:${footer}\n${time}`,
+                return message.util.send(`Output was too long... sent the result as a file.\n**Type**:${footer}\n${time}`,
                     new MessageAttachment(Buffer.from(result), 'output.txt'));
             }
             console.log(result);
-            return message.channel.send(`Output was too long... sent the result to console.\n**Type**:${footer}\n${time}`);
+            return message.util.send(`Output was too long... sent the result to console.\n**Type**:${footer}\n${time}`);
         }
-        return message.channel.send(output);
+        return message.util.send(output);
     }
 
     async eval(message, code, async) {
