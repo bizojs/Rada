@@ -21,7 +21,7 @@ class UptimeCommand extends Command {
             .setDescription(`I have been online for\n${this.client.convertMs(this.client.uptime)}`)
             .setFooter(`Requested by ${message.author.username}`)
             .setTimestamp()
-        return message.channel.send(embed);
+        return message.util.send(embed);
     }
 }
 

@@ -23,7 +23,7 @@ class PermissionsCommand extends Command {
         .setDescription(`${emotes.info} You can view the permissions that a command requires by running \`${this.client.settings.get(this.client.user.id, 'prefix', production ? prefix : devPrefix)}help <command>\`. If there is no Permissions field, that means it doesn\'t require any extra permissions`)
         .setFooter(`Requested by ${message.author.username}`)
         .setTimestamp()
-      return message.channel.send(embed);
+      return message.util.send(embed);
     }
 }
 

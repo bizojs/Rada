@@ -28,7 +28,7 @@ class StatsCommand extends Command {
         .addField('CPU usage', `${(process.cpuUsage().system / 1024 / 1024).toFixed(2)}%`, true)
         .addField('Users', `\`${this.client.guilds.cache.reduce((a, c) => a + c.memberCount, 0).toLocaleString()}\``)
         .addField('Guilds', `\`${(this.client.guilds.cache.size).toLocaleString()}\` guild${this.client.guilds.cache.size === 1 ? '' : 's'} (**${(this.client.channels.cache.size).toLocaleString()}** total channels)`)
-      return message.channel.send(embed);
+      return message.util.send(embed);
     }
 }
 

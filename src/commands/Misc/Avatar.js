@@ -27,7 +27,7 @@ class AvatarCommand extends Command {
         .setImage(args.member.user.avatarURL() ? args.member.user.avatarURL({ size: 512, dynamic: true }).replace(/webm/g, 'gif').replace(/webp/g, 'png') : this.placeholder)
         .setFooter(`Requested by ${message.author.username}`)
         .setTimestamp()
-      return message.channel.send(embed);
+      return message.util.send(embed);
     }
 }
 

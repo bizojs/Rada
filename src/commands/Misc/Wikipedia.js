@@ -42,7 +42,7 @@ class Wikipedia extends Command {
             .addField(`Url`, url)
             .setFooter(`Requested by ${message.author.username}`)
             .setTimestamp()
-        return message.channel.send(embed);
+        return message.util.send(embed);
     }
 }
 

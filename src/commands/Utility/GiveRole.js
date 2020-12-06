@@ -57,7 +57,7 @@ module.exports = class GiveRoleCommand extends Command {
             return message.responder.error('**Unable to give integrated bot roles**');
         }
         member.roles.add(role.id).then(() => {
-            return message.channel.send({
+            return message.util.send({
                 embed: this.client.util.embed()
                     .setTitle(`${emotes.success} Role given`)
                     .setThumbnail(this.client.avatar)

@@ -23,10 +23,10 @@ class NpmCommand extends Command {
     async exec(message, args) {
         let pkg = args.package;
         if (!pkg) {
-            return message.channel.send('Please enter the name of an npm package');
+            return message.util.send('Please enter the name of an npm package');
         }
         let query = pkg;
-        let searching = message.channel.send(`Searching NPMjs for \`${pkg}\`...`);
+        let searching = message.util.send(`Searching NPMjs for \`${pkg}\`...`);
         try {
             const body = await req(`https://registry.npmjs.com/${query.toLowerCase()}`, 'GET').json()
             const version = body.versions[body['dist-tags'].latest];

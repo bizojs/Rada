@@ -36,7 +36,7 @@ class TriviaCommand extends Command {
       .addField('Time', '**30 seconds**', true)
       .addField('Question', `${trivia.type === 'boolean' ? '**True / False** - ' : ''} ${question}`)
       .setTimestamp()
-    await message.channel.send(embed);
+    await message.util.send(embed);
 
     try {
       const collected = await message.channel.awaitMessages(a => answer.toLowerCase() === a.content.toLowerCase(), this.options);
@@ -49,7 +49,7 @@ class TriviaCommand extends Command {
         .addField('Answer', answer, true)
         .addField('Question', question)
         .setTimestamp()
-      return message.channel.send(winEmbed);
+      return message.util.send(winEmbed);
 
     } catch (_) {
         let endEmbed = new MessageEmbed()
@@ -60,7 +60,7 @@ class TriviaCommand extends Command {
           .addField('Question', question)
           .addField('Answer', answer)
           .setTimestamp()
-        return message.channel.send(endEmbed);
+        return message.util.send(endEmbed);
     }
   }
 }

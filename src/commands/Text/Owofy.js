@@ -24,7 +24,7 @@ module.exports = class extends Command {
             if (owofied.length > 1999) {
                 return message.responder.error('**Please provide less text**');
             }
-            return message.channel.send(owofied);
+            return message.util.send(owofied);
         } catch (e) {
             return message.responder.error(e.message);
         }

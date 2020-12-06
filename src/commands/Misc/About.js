@@ -25,7 +25,7 @@ class AboutCommand extends Command {
         .addField('Color', this.client.color)
         .setFooter(`Requested by ${message.author.username}`)
         .setTimestamp()
-      return message.channel.send(embed);
+      return message.util.send(embed);
     }
 }
 

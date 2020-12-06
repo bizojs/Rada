@@ -24,7 +24,7 @@ module.exports = class extends Command {
             if (vaporwaved.length > 1999) {
                 return message.responder.error('**Please provide less text**');
             }
-            return message.channel.send(vaporwaved);
+            return message.util.send(vaporwaved);
         } catch (e) {
             return message.responder.error(e.message);
         }

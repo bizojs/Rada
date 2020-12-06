@@ -26,7 +26,7 @@ class ContributorsCommand extends Command {
             .addField('How to contribute', `To contribute to ${this.client.user.username}, submit a PR to our Github repo [here](https://github.com/Iskawo/Rada)`)
             .setFooter(`Requested by ${message.author.username}`)
             .setTimestamp()
-        return message.channel.send(embed);
+        return message.util.send(embed);
     }
 }
 

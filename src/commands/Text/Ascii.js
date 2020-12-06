@@ -34,7 +34,7 @@ module.exports = class extends Command {
         if (validFont.length < 1) return message.responder.error('**The font you provided wasn\'t found**');
         if (text.length > 32) return message.responder.error('**Provide less then 32 characters**');
         if (!isNaN(text)) return message.responder.error('**You cannot asciify numbers**');
-        return message.channel.send(
+        return message.util.send(
             figlet.textSync(text, { font: validFont }), {
             code: 'asciidoc'
         });

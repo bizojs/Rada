@@ -63,7 +63,7 @@ class BoostInfoCommand extends Command {
             embed.addField(`Boosters`, numberedBoosters)
                  .setFooter(`The longest boost is ${longestBoost} days!`)
         }
-        return message.channel.send(embed);
+        return message.util.send(embed);
     }
 }
 

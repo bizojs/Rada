@@ -64,7 +64,7 @@ class PollCommand extends Command {
             await message.delete();
         }
         embed.setDescription(`Title: **${title}**\n` + pollMap);
-        return message.channel.send(embed).then(async message => {
+        return message.util.send(embed).then(async message => {
 			for (let i = 0; i < opt.length; i++) {
 				await message.react(poll[i + 1]);
 			}

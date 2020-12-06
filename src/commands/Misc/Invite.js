@@ -13,7 +13,7 @@ class InviteCommand extends Command {
     }
 
     async exec(message) {
-      return message.channel.send('Coming soon!');
+      return message.util.send('Coming soon!');
     }
 }
 

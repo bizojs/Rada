@@ -27,9 +27,9 @@ class HasteCommand extends Command {
       }
       try {
         const res = await req("https://haste.br4d.vip/documents", 'POST').body(args.text + `\n\n\n\n- Uploaded with ${this.client.user.username}™️`).json();        
-        return message.channel.send(`Here is the uploaded document: https://haste.br4d.vip/${res.key}`);
+        return message.util.send(`Here is the uploaded document: https://haste.br4d.vip/${res.key}`);
       } catch (e) {
-        return message.channel.send(`**Failed to upload**: \`${e.message}\``);
+        return message.util.send(`**Failed to upload**: \`${e.message}\``);
       }
     }
 }

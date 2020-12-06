@@ -57,7 +57,7 @@ module.exports = class GiveRoleCommand extends Command {
             return message.responder.error('**Unable to remove integrated bot roles**');
         }
         member.roles.remove(role.id).then(() => {
-            return message.channel.send({
+            return message.util.send({
                 embed: this.client.util.embed()
                     .setTitle(`${emotes.success} Role removed`)
                     .setThumbnail(this.client.avatar)

@@ -19,7 +19,7 @@ class UploadCommand extends Command {
 
     async exec(message) {
       if (message.attachments.first() === undefined) {
-        return message.channel.send('**Image attachment/file is missing**');
+        return message.util.send('**Image attachment/file is missing**');
       }
       try {
         const res = await centra('https://api.imgur.com/3', 'POST')
@@ -37,9 +37,9 @@ class UploadCommand extends Command {
               .setImage(res.data.link)
             })
           });
-        return message.channel.send('Here is the uploaded image link: ' + res.data.link);
+        return message.util.send('Here is the uploaded image link: ' + res.data.link);
       } catch {
-        return message.channel.send('**Image attachment/file is missing**');
+        return message.util.send('**Image attachment/file is missing**');
       }
     }
 }

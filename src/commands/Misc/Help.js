@@ -28,7 +28,7 @@ class HelpCommand extends Command {
             .setTimestamp();
         if (args.command) {
             if (args.command.ownerOnly && !this.client.ownerID.includes(message.author.id)) {
-                return message.channel.send(this.generateHelp(message));
+                return message.util.send(this.generateHelp(message));
             }
             embed.setDescription(`Help for command **${args.command.id}**${args.command.ownerOnly ? ' (Owner only)' : ''}`)
             embed.addField('Description', args.command.description.content)
@@ -39,7 +39,7 @@ class HelpCommand extends Command {
             if (args.command.aliases.length > 1) {
                 embed.addField('Aliases', args.command.aliases.map(a => a).join(', '))
             }
-            return message.channel.send(embed);
+            return message.util.send(embed);
         } else {
             return message.paginate(this.generateHelp(message));
         }

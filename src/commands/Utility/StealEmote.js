@@ -43,7 +43,7 @@ class StealEmoteCommand extends Command {
             await message.guild.emojis.create(emoji.url, emoji.name, {
                 reason: `Emote ${response.toUpperCase()} by ${message.author.tag}`
             }).then(e => {
-                return message.channel.send(`The emote ${e} has been ${response} :D`);
+                return message.util.send(`The emote ${e} has been ${response} :D`);
             })
         } catch (e) {
             let whatTheFuck = emote.replace(/<a+/g, '').replace(/<+/g, '').replace(/:+/g, '').replace(/>+/g, '').replace(/[0-9]/g, '')
@@ -56,7 +56,7 @@ class StealEmoteCommand extends Command {
             await message.guild.emojis.create(`https://cdn.discordapp.com/emojis/${id}${extention}?v=1`, whatTheFuck ? whatTheFuck : 'not_provided', {
                 reason: `Emote ${response.toUpperCase()} by ${message.author.tag}`
             }).then(e => {
-                return message.channel.send(`The emote ${e} has been ${response} :D`);
+                return message.util.send(`The emote ${e} has been ${response} :D`);
             })
         }
     }

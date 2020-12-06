@@ -18,16 +18,16 @@ class MathCommand extends Command {
     async exec(message, args) {
       let sum = message.util.parsed.content.replace(/x/g, '*').replace(/÷/g, '/').replace(/×/g, '*');
       if (!sum) {
-        return message.channel.send('Please enter a math sum')
+        return message.responder.error('**Please enter a math sum**')
       }
       let resp;
       try {
           resp = math.evaluate(sum);
       } catch (error) {
-          // message.channel.send(error.message)
-          return message.channel.send('The math sum you entered is not valid.');
+          // message.util.send(error.message)
+          return message.util.send('The math sum you entered is not valid.');
       }
-      return message.channel.send(`\`\`\`${sum} = ${resp}\`\`\``);
+      return message.util.send(`\`\`\`${sum} = ${resp}\`\`\``);
     }
 }
 

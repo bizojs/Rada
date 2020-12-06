@@ -29,7 +29,7 @@ class JoinDaysComamnd extends Command {
         .addField(`:calendar: Joined Discord`, this.client.timeFormat('dddd d MMMM YYYY', member.user.createdAt), true)
         .setFooter(`Requested by ${message.author.username}`)
         .setTimestamp()
-      return message.channel.send(embed);
+      return message.util.send(embed);
     }
 }
 

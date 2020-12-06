@@ -39,7 +39,7 @@ class UserInfoCommand extends Command {
         if (member.user.avatarURL() !== null) {
             embed.setThumbnail(member.user.avatarURL({size:512}).replace(/webp/g, 'png').replace(/web?m/g, 'gif'))
         }
-        return message.channel.send(embed);        
+        return message.util.send(embed);        
     }
 }
 

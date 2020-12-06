@@ -23,7 +23,7 @@ class RoleInfoCommand extends Command {
       let role = args.role;
       let hex = role.hexColor.replace(/#/g, "");
       const data = await req(`https://api.alexflipnote.dev/color/${hex}`).json()
-      return message.channel.send({ embed: new MessageEmbed()
+      return message.util.send({ embed: new MessageEmbed()
             .setThumbnail(this.client.avatar)
             .setColor(`${role.hexColor !== '#000000' ? role.hexColor : this.client.color}`)
             .setTitle(`**${role.name}** role info`)

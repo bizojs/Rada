@@ -24,7 +24,7 @@ module.exports = class extends Command {
             if (leet.length > 1999) {
                 return message.responder.error('**Please provide less text**');
             }
-            return message.channel.send(leet);
+            return message.util.send(leet);
         } catch (e) {
             return message.responder.error(e.message);
         }

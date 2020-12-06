@@ -10,8 +10,6 @@ const {
 	MongooseProvider
 } = require('discord-akairo');
 // Custom classes
-const { Responder } = require('./lib/structures/Responder.js');
-const { Reacter } = require('./lib/structures/Reacter.js');
 const { clientColor, logo, christmasLogo } = require('./lib/constants');
 const model = require('./src/models/clientSchema');
 const Cli = require('./lib/classes/Cli');
@@ -64,8 +62,6 @@ class RadaClient extends AkairoClient {
 		this.commandHandler.loadAll();
 		this.color = clientColor;
 		this.avatar = new Date().getMonth() === 11 ? christmasLogo : logo;
-        this.Responder = Responder;
-        this.Reacter = Reacter;
         this.setMaxListeners(30);
         this.log = new Logger;
         this.Cli = new Cli(this);

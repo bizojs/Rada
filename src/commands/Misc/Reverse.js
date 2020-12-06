@@ -22,7 +22,7 @@ class ReverseCommand extends Command {
       if (!args.text) {
         return message.responder.error('**Please provide some text to reverse**');
       }
-      return message.channel.send(this.client.reverse(args.text));
+      return message.util.send(this.client.reverse(args.text));
     }
 }
 

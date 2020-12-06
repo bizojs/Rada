@@ -28,7 +28,7 @@ class MCStatusCommand extends Command {
 
     async exec(message, args) {
         let ip = args.ip;
-        let a = message.channel.send('**Loading status...** This may take a little while.');
+        let a = message.util.send('**Loading status...** This may take a little while.');
         try {
             const more_data = await req(`https://mcapi.us/server/query?ip=${ip}`, 'GET').json();
             const data = await req('https://api.mcsrvstat.us/2', 'GET')

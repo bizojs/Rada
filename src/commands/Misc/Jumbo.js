@@ -28,7 +28,7 @@ class JumboCommand extends Command {
       let emote = args.emote;     
       try {
           let emoji = this.client.emojis.cache.get(emote.split(':').pop().replace(/>/g, ''));
-          return message.channel.send('', {
+          return message.util.send('', {
               files: [emoji.url]
           });
       } catch (e) {
@@ -38,7 +38,7 @@ class JumboCommand extends Command {
           if (res.statusCode === 404) {
               return message.responder.error('**That is not a valid emote**');
           }
-          return message.channel.send('', {
+          return message.util.send('', {
             files: [`https://cdn.discordapp.com/emojis/${id}${extension}?v=1`]
           });
       }

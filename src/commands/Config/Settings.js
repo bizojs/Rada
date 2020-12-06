@@ -49,7 +49,7 @@ class SettingsCommand extends Command {
              .addField('Prefix', `\`${currentPrefix}\``, true)
              .addField('Logs', `${message.guild.settings.get(message.guild.id, 'logs', 'None') !== 'None' ? `${message.guild.channels.cache.get(message.guild.settings.get(message.guild.id, 'logs'))}` : '\`None\`'}`, true)
              .addField('Antilink', `\`${message.guild.settings.get(message.guild.id, 'antilink', 'None') !== 'None' ? 'Enabled' : 'Disabled'}\``, true)
-        return message.channel.send(embed);
+        return message.util.send(embed);
       }
       if (args.option === 'prefix') {
         let newPrefix = message.util.parsed.content.replace('prefix ', '');
@@ -57,20 +57,20 @@ class SettingsCommand extends Command {
           embed.setTitle(`Prefix`)
                .setDescription(`Update the prefix with \`${currentPrefix}settings prefix new_prefix\``)
                .addField('Current prefix', `\`${currentPrefix}\``);
-          return message.channel.send(embed);
+          return message.util.send(embed);
         }
-        if (newPrefix > 6) return message.channel.send(`❌ **Your prefix can\'t be longer than 6 characters**`);
+        if (newPrefix > 6) return message.util.send(`❌ **Your prefix can\'t be longer than 6 characters**`);
         await this.client.settings.set(message.guild.id, 'prefix', newPrefix);
         embed.setTitle(`Prefix updated`)
              .setDescription(`✅ **Your prefix has been updated to** \`${currentPrefix}\`\n\nYou can change it back with \`${newPrefix}settings prefix ${currentPrefix}\``)
-        return message.channel.send(embed);
+        return message.util.send(embed);
       }
       if (args.option === 'logs') {
         if (!args.channel) {
           embed.setTitle(`Logs`)
                .setDescription(`Update the logs channel with \`${currentPrefix}settings logs #channel\``)
                .addField('Current channel', `${message.guild.settings.get(message.guild.id, 'logs', 'None') !== 'None' ? `${message.guild.channels.cache.get(message.guild.settings.get(message.guild.id, 'logs'))} \`(${message.guild.settings.get(message.guild.id, 'logs')})\`` : '\`None\`'}`);
-          return message.channel.send(embed);
+          return message.util.send(embed);
         }
         if (!args.channel.permissionsFor(message.guild.me).has('SEND_MESSAGES')) {
           return message.responder.error(`**For me to use \`#${args.channel.name}\` as the log channel, I must have permission to send messages there.**`);
@@ -78,7 +78,7 @@ class SettingsCommand extends Command {
         await message.guild.settings.set(message.guild.id, 'logs', args.channel.id);
         embed.setTitle(`Logs channel updated`)
             .setDescription(`✅ **The logs channel has been set to** ${args.channel} \`(${args.channel.id})\``)
-        return message.channel.send(embed);
+        return message.util.send(embed);
       }
       if (args.option === 'antilink') {
         let newValue = message.util.parsed.content.replace('antilink ', '');
@@ -86,7 +86,7 @@ class SettingsCommand extends Command {
           embed.setTitle('Antilink')
                .setDescription(`Update the antilink with \`${currentPrefix}settings antilink on/off\``)
                .addField('Current setting', `\`${message.guild.settings.get(message.guild.id, 'antilink', 'None') !== 'None' ? `Enabled` : 'Disabled'}\``);
-          return message.channel.send(embed);
+          return message.util.send(embed);
         }
         if (!['on', 'off', 'enable', 'disable'].includes(newValue.toLowerCase())) {
           return message.responder.error('**Please specify if you are turning the antilink on or off**');
@@ -98,13 +98,13 @@ class SettingsCommand extends Command {
           await message.guild.settings.set(message.guild.id, 'antilink', true);
           embed.setTitle(`Antilink updated`)
                .setDescription('✅ **The antilink has been turned** \`on\`')
-          return message.channel.send(embed);
+          return message.util.send(embed);
         }
         if (['off', 'disable'].includes(newValue.toLowerCase())) {
           await message.guild.settings.set(message.guild.id, 'antilink', 'None');
           embed.setTitle(`Antilink updated`)
                .setDescription('✅ **The antilink has been turned** \`off\`')
-          return message.channel.send(embed);
+          return message.util.send(embed);
         }
       }
     }

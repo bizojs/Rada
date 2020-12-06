@@ -34,9 +34,9 @@ class FetchUserCommand extends Command {
                 .addField('ID', args.id)
                 .addField('Joined Discord', `${this.client.timeFormat('dddd d MMMM YYYY', user.createdAt)}`)
                 .addField(`Mutual servers with ${this.client.user.username}`, mutualCount == 0 ? 'No mutual servers' : `Found ${mutualCount} mutual server${mutualCount > 1 ? 's' : ''}`)
-            return message.channel.send(embed);
+            return message.util.send(embed);
         } catch (e) {
-            return message.channel.send(`**Unable to fetch a user with the id \`${args.id}\`** \`(${e.message})\``)
+            return message.util.send(`**Unable to fetch a user with the id \`${args.id}\`** \`(${e.message})\``)
         }
     }
 }

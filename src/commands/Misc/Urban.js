@@ -21,7 +21,7 @@ class UrbanCommand extends Command {
 
     userPermissions(message) {
         if (!message.channel.nsfw) {
-            return message.channel.send('🔞 **This command must be used in an NSFW marked channel**');
+            return message.util.send('🔞 **This command must be used in an NSFW marked channel**');
         }
         return null;
     }
@@ -44,7 +44,7 @@ class UrbanCommand extends Command {
                     .addField('Votes', `:thumbsup: ${data.list[0].thumbs_up} upvotes\n:thumbsdown: ${data.list[0].thumbs_down} downvotes`)
                     .addField('Link', `**${data.list[0].permalink}**`, true)
                     .addField('Mug', `**[Buy a __${data.list[0].word}__ mug here](https://urbandictionary.store/products/mug?defid=${data.list[0].defid})**`, true)
-                return message.channel.send(embed)
+                return message.util.send(embed)
             }
             let embeds = [];
             for (let i = 0; i < pages.length; i++) {
@@ -65,7 +65,7 @@ class UrbanCommand extends Command {
         } else {
             embed.setTitle('Urban dictionary search')
             .setDescription(`No results on urban dictionary have been found for \`${args.query}\``)
-            return message.channel.send(embed);
+            return message.util.send(embed);
         }
     }
     trim = (str, max = 30, link) => {

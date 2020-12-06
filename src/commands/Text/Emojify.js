@@ -23,7 +23,7 @@ module.exports = class extends Command {
             if (emojified.length > 1999) {
                 return message.responder.error('**Please provide less text**');
             }
-            return message.channel.send(emojified);
+            return message.util.send(emojified);
         } catch (e) {
             return message.responder.error(e.message);
         }

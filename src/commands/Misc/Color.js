@@ -23,7 +23,7 @@ class ColorCommand extends Command {
         let hex = !args.hex ? this.generateHex() : args.hex["match"][0]
         let color = hex.replace(/#/g, '');
         const data = await this.client.flipnote.others.color(color);
-        return message.channel.send({ embed: this.client.util.embed()
+        return message.util.send({ embed: this.client.util.embed()
             .setColor(hex)
             .setTitle(args.hex ? `Color Information for ${data.hex}` : `No hex matches, generating random: #${hex}`)
             .setDescription(`Color Name: \`${data.name}\`\nBrightness: \`${data.brightness}\`\nInt: \`${data.int}\`\nRGB: \`${data.rgb}\``)

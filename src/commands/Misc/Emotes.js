@@ -15,12 +15,12 @@ class EmotesCommand extends Command {
     async exec(message) {
         let emojiList = message.guild.emojis.cache.map(e => `${e} - **${e.name}**, created ${this.client.daysBetween(e.createdTimestamp).toFixed(0) > 0 ? `**${this.client.daysBetween(e.createdTimestamp).toFixed(0)} days ago**` : '**today**'}`);
         if (emojiList.length < 1) {
-            return message.channel.send('This server has no emotes to display.');
+            return message.util.send('This server has no emotes to display.');
         }
         const pages = this.client.chunkify(emojiList, 10);
         let embeds = [];
         if (pages.length < 2) {
-            return message.channel.send({embed: this.client.util.embed()
+            return message.util.send({embed: this.client.util.embed()
                 .setTitle(`**${message.guild.name}** emotes`)
                 .setColor(this.client.color)
                 .setThumbnail(this.client.avatar)

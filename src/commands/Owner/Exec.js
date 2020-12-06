@@ -17,18 +17,18 @@ class ExecCommand extends Command {
 
     async exec(message) {
         if (!message.util.parsed.content) {
-            return message.channel.send('Provide a shell command to run');
+            return message.util.send('Provide a shell command to run');
         }
         try {
             let executed = await execSync(`${message.util.parsed.content}`).toString();
             if (executed == '') return message.react('✅')
 
             if (executed.length > 2000) {
-                return message.channel.send(`\`\`\`prolog\n$ ${message.util.parsed.content}\n\n${trimString(executed, 1970 - message.util.parsed.content.length)}\`\`\``);
+                return message.util.send(`\`\`\`prolog\n$ ${message.util.parsed.content}\n\n${trimString(executed, 1970 - message.util.parsed.content.length)}\`\`\``);
             }
-            return message.channel.send(`\`\`\`prolog\n$ ${message.util.parsed.content}\n\n${executed}\`\`\``);
+            return message.util.send(`\`\`\`prolog\n$ ${message.util.parsed.content}\n\n${executed}\`\`\``);
         } catch (e) {
-            return message.channel.send(`\`\`\`prolog\n$ ${message.util.parsed.content}\n\n${e.message}\`\`\``);
+            return message.util.send(`\`\`\`prolog\n$ ${message.util.parsed.content}\n\n${e.message}\`\`\``);
         }
     }
 }
