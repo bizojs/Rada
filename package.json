@@ -13,15 +13,15 @@
   "dependencies": {
     "@aero/centra": "^1.0.6",
     "@skyra/timestamp": "^1.0.0",
-    "alexflipnote.js": "^2.2.1",
+    "alexflipnote.js": "^2.3.1",
     "colors": "^1.4.0",
     "discord-akairo": "^8.1.0",
     "discord.js": "github:monbrey/discord.js#inline-replies",
     "dotenv": "^8.2.0",
     "figlet": "^1.5.0",
     "inquirer": "^7.3.3",
-    "mathjs": "^8.0.1",
-    "mongoose": "^5.11.1",
+    "mathjs": "^8.1.0",
+    "mongoose": "^5.11.4",
     "os": "^0.1.1"
   }
 }
