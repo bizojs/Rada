@@ -39,7 +39,7 @@ class EmotesCommand extends Command {
                 .setTimestamp()
             embeds.push(embed);
         }
-        message.page(embeds);
+        message.paginate(embeds);
     }
 }
 

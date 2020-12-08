@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "node .",
     "lint": "eslint . --fix",
-    "start": "node ."
+    "start": "node --expose-gc ."
   },
   "author": "br4d",
   "license": "MIT",
