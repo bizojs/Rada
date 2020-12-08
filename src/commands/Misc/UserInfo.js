@@ -1,7 +1,7 @@
 const { Command } = require('discord-akairo');
-const { MessageEmbed } = require('discord.js');
 const config = require('../../config');
 const { trimString } = require('../../../lib/util');
+const Util = require('../../../lib/structures/Util');
 
 class UserInfoCommand extends Command {
     constructor() {
@@ -28,7 +28,11 @@ class UserInfoCommand extends Command {
         if ([undefined, null].includes(member.lastMessage)) {
             userLastMessage = "Last message not found";
         } else { userLastMessage = trimString(member.lastMessage, 30); }
-        let embed = new MessageEmbed()
+        let flags = [];
+        for (const flag of message.author.flags.toArray()) {
+            flags.push(Util.toTitleCase(flag.replace(/_/g, ' ')))
+        }
+        let embed = this.client.util.embed()
             .setColor(this.client.color)
             .setTitle(`${member.user.tag} User Information`)
             .addField(`• Stats`, `Account created on ${userCreatedAt}\nJoined ${message.guild.name} on ${userJoinedAt}`)
@@ -38,6 +42,9 @@ class UserInfoCommand extends Command {
             .setTimestamp()
         if (member.user.avatarURL() !== null) {
             embed.setThumbnail(member.user.avatarURL({size:512}).replace(/webp/g, 'png').replace(/web?m/g, 'gif'))
+        }
+        if (flags.length > 1) {
+            embed.addField('Badges', flags.join(', '))
         }
         return message.util.send(embed);        
     }
