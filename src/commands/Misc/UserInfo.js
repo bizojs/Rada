@@ -29,7 +29,7 @@ class UserInfoCommand extends Command {
             userLastMessage = "Last message not found";
         } else { userLastMessage = trimString(member.lastMessage, 30); }
         let flags = [];
-        for (const flag of message.author.flags.toArray()) {
+        for (const flag of member.user.flags.toArray()) {
             flags.push(Util.toTitleCase(flag.replace(/_/g, ' ')))
         }
         let embed = this.client.util.embed()
