@@ -42,7 +42,7 @@ module.exports = class WarnCommand extends Command {
             return message.responder.error(`**You are unable to warn ${args.member.user.tag}**: \`Higher role\``);
         }
         let warnings = args.member.settings.get(args.member.id, 'warnings', []);
-        args.member.addWarn(message.author, warnings.length > 0 && warnings.has(args.reason) ? args.reason + ' #2' : args.reason);
+        args.member.addWarn(message.author, warnings.length > 0 && warnings.includes(args.reason) ? args.reason + ' #2' : args.reason);
         return message.responder.success(`**Warned \`${args.member.user.tag} (${args.member.id})\`**`);
 
         // if (logs) {
