@@ -27,12 +27,6 @@ module.exports = class WarnCommand extends Command {
         }
         return null;
     }
-    clientPermissions(message) {
-        if (!message.guild.me.permissions.has('KICK_MEMBERS')) {
-            return message.responder.error('**I require the kick members permission to use this command**');
-        }
-        return null;
-    }
 
     async exec(message, args) {
         if (!args.member) {
