@@ -47,7 +47,7 @@ module.exports = class KickCommand extends Command {
         if (message.member.roles.highest.comparePositionTo(args.member.roles.highest) <= 0) {
             return message.responder.error(`**You are unable to warn ${args.member.user.tag}**: \`Higher role\``);
         }
-        args.member.settings.updateInfraction('punishments.warn', message.author, args.reason);
+        args.member.addWarn(message.author, args.reason);
         return message.responder.success(`**Warned \`${args.member.user.tag} (${args.member.id})\`**`);
 
         // if (logs) {

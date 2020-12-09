@@ -1,5 +1,4 @@
 const { Command } = require('discord-akairo');
-const { MessageEmbed } = require('discord.js');
 const req = require('@aero/centra');
 
 class JumboCommand extends Command {

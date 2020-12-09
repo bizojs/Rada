@@ -1,5 +1,4 @@
 const { Command } = require('discord-akairo');
-const { MessageEmbed } = require('discord.js');
 const os = require('os');
 
 class StatsCommand extends Command {
@@ -15,7 +14,7 @@ class StatsCommand extends Command {
     }
 
     async exec(message) {
-      const embed = new MessageEmbed()
+      const embed = this.client.util.embed()
         .setTitle('Statistics and information')
         .setColor(this.client.color)
         .setFooter(message.author.username)

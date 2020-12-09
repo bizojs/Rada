@@ -1,6 +1,5 @@
 const { Command } = require('discord-akairo');
 const { poll } = require('../../../lib/constants');
-const { production, prefix, devPrefix } = require('../../config');
 
 class PollCommand extends Command {
     constructor() {
@@ -47,7 +46,7 @@ class PollCommand extends Command {
             .setColor(this.client.color)
             .setTimestamp();
         if (!options) {
-            return message.responder.error(`**You must enter a minimum of 2 poll options**\nFormat: \`<title>, <comma separated options>\`\nExample: \`${this.client.settings.get(message.guild.id, 'prefix', production ? prefix : devPrefix)}poll Which game is better?, Minecraft, Roblox\``);
+            return message.responder.error(`**You must enter a minimum of 2 poll options**\nFormat: \`<title>, <comma separated options>\`\nExample: \`${message.guild.prefix}poll Which game is better?, Minecraft, Roblox\``);
         }
         const opt = options.split(/,\s*/);
         if (opt.length > 10) {

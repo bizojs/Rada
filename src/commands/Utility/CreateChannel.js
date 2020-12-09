@@ -1,5 +1,4 @@
 const { Command } = require('discord-akairo');
-const { production, prefix, devPrefix } = require('../../config');
 
 class CreateChannelCommand extends Command {
     constructor() {
@@ -38,7 +37,7 @@ class CreateChannelCommand extends Command {
     }
     async exec(message, { type, channel }) {
         if (!channel) {
-            return message.responder.error(`**Please provide a name for the new channel**\nFormat: \`<type|default:text> <name|default:none>\`\nExample: \`${this.client.settings.get(message.guild.id, 'prefix', production ? prefix : devPrefix)}cc voice Karaoke 🎤\``);
+            return message.responder.error(`**Please provide a name for the new channel**\nFormat: \`<type|default:text> <name|default:none>\`\nExample: \`${message.guild.prefix}cc voice Karaoke 🎤\``);
         }
         if (!type) {
             return message.responder.error(`**Please provide a valid channel type** \`<text|voice|category>\``);

@@ -1,5 +1,4 @@
 const { Command } = require('discord-akairo');
-const config = require('../../config');
 const { trimString } = require('../../../lib/util');
 const Util = require('../../../lib/structures/Util');
 

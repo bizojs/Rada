@@ -1,5 +1,4 @@
 const { Command } = require('discord-akairo');
-const { MessageEmbed } = require('discord.js');
 const req = require('@aero/centra');
 
 class UrbanCommand extends Command {
@@ -30,7 +29,7 @@ class UrbanCommand extends Command {
         let search = args.query.split(" ").join("+");
         const data = await req(`http://api.urbandictionary.com/v0/define?term=${search}`).json();
         let result = data.list;
-        let embed = new MessageEmbed()
+        let embed = this.client.util.embed()
             .setColor(this.client.color)
             .setThumbnail(this.client.avatar)
             .setFooter(`Requested by ${message.author.username}`)

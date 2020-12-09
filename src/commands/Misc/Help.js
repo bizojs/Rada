@@ -1,5 +1,4 @@
 const { Command } = require('discord-akairo');
-const { production, prefix, devPrefix } = require('../../config.js');
 const Util = require('../../../lib/structures/Util');
 
 class HelpCommand extends Command {
@@ -50,7 +49,7 @@ class HelpCommand extends Command {
         let helpEmbed = this.client.util.embed()
             .setTitle(`${this.client.user.username} help menu`)
             .setThumbnail(this.client.avatar)
-            .setDescription(`Welcome to the help menu. You can use the reactions below to cycle through the various categories that are available. You can find out what each reaction does in the \`Reaction help\` section of this embed.\n\nYou can get additional help on a command by using \`${this.client.settings.get(message.guild.id, 'prefix', production ? prefix : devPrefix)}help (command_name)\``)
+            .setDescription(`Welcome to the help menu. You can use the reactions below to cycle through the various categories that are available. You can find out what each reaction does in the \`Reaction help\` section of this embed.\n\nYou can get additional help on a command by using \`${message.guild.prefix}help (command_name)\``)
             .addField('Reaction help', [
                 '⏪ - Skip back to page 1',
                 '<:leave:742375771913453628> - Skip back a page',

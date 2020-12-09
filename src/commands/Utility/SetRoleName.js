@@ -1,5 +1,4 @@
 const { Command } = require('discord-akairo');
-const { production, prefix, devPrefix } = require('../../config');
 
 class SetRoleNameCommand extends Command {
     constructor() {
@@ -40,7 +39,7 @@ class SetRoleNameCommand extends Command {
             return message.responder.error(`**Please provide a role to change the name for**`);
         }
         if (!name) {
-            return message.responder.error(`**Please provide a new name for the role**\nFormat: \`<role>, <name>\`\nExample: \`${this.client.settings.get(message.guild.id, 'prefix', production ? prefix : devPrefix)}setrolename Admin, Administrator\``);
+            return message.responder.error(`**Please provide a new name for the role**\nFormat: \`<role>, <name>\`\nExample: \`${message.guild.prefix}setrolename Admin, Administrator\``);
         }
         let oldName = role.name;
         try {

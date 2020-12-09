@@ -1,5 +1,4 @@
 const { Command } = require('discord-akairo');
-const { production, prefix, devPrefix } = require('../../config');
 
 class SetRoleColorCommand extends Command {
     constructor() {
@@ -40,7 +39,7 @@ class SetRoleColorCommand extends Command {
             return message.responder.error(`**Please provide a role to change the color for**`);
         }
         if (!color) {
-            return message.responder.error(`**Please provide a new color for the role**\nFormat: \`<role>, <color>\`\nExample: \`${this.client.settings.get(message.guild.id, 'prefix', production ? prefix : devPrefix)}setrolecolor Admin, #ffaabb\``);
+            return message.responder.error(`**Please provide a new color for the role**\nFormat: \`<role>, <color>\`\nExample: \`${message.guild.prefix}setrolecolor Admin, #ffaabb\``);
         }
         let oldColor = role.hexColor;
         if (oldColor === color) {

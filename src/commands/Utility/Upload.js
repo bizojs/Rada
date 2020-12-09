@@ -1,5 +1,4 @@
 const { Command } = require('discord-akairo');
-const { MessageEmbed } = require('discord.js');
 const centra = require('@aero/centra');
 
 
@@ -31,7 +30,7 @@ class UploadCommand extends Command {
         await message.author.send(`Here is the link to delete the image if needed: <https://imgur.com/delete/${res.data.deletehash}>`)
           .then(() => {})
           .catch(err => {
-            this.client.users.cache.get(this.client.ownerID[0]).send({ embed: new MessageEmbed()
+            this.client.users.cache.get(this.client.ownerID[0]).send({ embed: this.client.util.embed()
               .setColor(this.client.color)
               .addField('Upload command', `**${message.author.tag}** has just uploaded an image, but i was unable to dm them.\nTheir delete URL is: ${imgur_delete + res.data.deletehash}\nThe image they uploaded:`)
               .setImage(res.data.link)

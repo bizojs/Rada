@@ -57,7 +57,6 @@ class KickCommand extends Command {
                     args.member.kick(`Kicked by: ${message.member.user.tag} - Reason: ${args.reason}.`)
                         .then(() => {
                             collector.stop('success');
-                            args.member.settings.updateInfraction('punishments.kick', message.author, args.reason);
                             return message.responder.success(`**Kicked \`${args.member.user.tag} (${args.member.id})\`**`)
                         }).catch(err => {
                             collector.stop('success');

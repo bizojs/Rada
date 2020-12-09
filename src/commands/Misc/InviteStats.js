@@ -1,5 +1,4 @@
 const { Command } = require('discord-akairo');
-const { MessageEmbed } = require('discord.js');
 
 class InviteStatsCommand extends Command {
     constructor() {
@@ -14,7 +13,7 @@ class InviteStatsCommand extends Command {
     }
 
     async exec(message) {
-      let embed = new MessageEmbed()
+      let embed = this.client.util.embed()
         .setTitle(`${message.guild.name} invite stats`)
         .setColor(this.client.color)
         .setThumbnail(this.client.avatar)

@@ -1,6 +1,4 @@
-const { color: { POSITIVE, VERY_NEGATIVE } } = require('../../../lib/constants');
 const { Command } = require('discord-akairo');
-const { MessageEmbed } = require('discord.js');
 const req = require('@aero/centra');
 
 class Wikipedia extends Command {
@@ -35,7 +33,7 @@ class Wikipedia extends Command {
         if ([name, description, url].some(it => it === undefined)) {
             return message.responder.error(`Your Wikipedia search for \`${args.query}\` was not found`);
         }
-        let embed = new MessageEmbed()
+        let embed = this.client.util.embed()
             .setColor(this.client.color)
             .setTitle(`**${name}**`)
             .setDescription(description)

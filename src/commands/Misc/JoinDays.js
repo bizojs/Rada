@@ -1,6 +1,4 @@
 const { Command } = require('discord-akairo');
-const { MessageEmbed } = require('discord.js');
-const config = require('../../../src/config');
 
 class JoinDaysComamnd extends Command {
     constructor() {
@@ -21,10 +19,10 @@ class JoinDaysComamnd extends Command {
 
     async exec(message, args) {
       let member = args.member;     
-      const embed = new MessageEmbed()
+      const embed = this.client.util.embed()
         .setColor(this.client.color)
         .setThumbnail(this.client.avatar)
-        .addField(`Member join info: ${member.user.username}`, `For full member info, run \`${this.client.settings.get(message.guild.id, 'prefix', config.production ? config.prefix : config.devPrefix)}userinfo ${member.user.tag}\`.`)
+        .addField(`Member join info: ${member.user.username}`, `For full member info, run \`${message.guild.prefix}userinfo ${member.user.tag}\`.`)
         .addField(`:inbox_tray: Joined Server`, this.client.timeFormat('dddd d MMMM YYYY', member.joinedAt), true)
         .addField(`:calendar: Joined Discord`, this.client.timeFormat('dddd d MMMM YYYY', member.user.createdAt), true)
         .setFooter(`Requested by ${message.author.username}`)

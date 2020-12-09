@@ -1,5 +1,4 @@
 const { Command } = require('discord-akairo');
-const { MessageEmbed } = require('discord.js');
 
 class FetchUserCommand extends Command {
     constructor() {
@@ -24,7 +23,7 @@ class FetchUserCommand extends Command {
             let user = this.client.users.cache.get(fetched.id);
             console.log(user)
             let mutualCount = this.client.guilds.cache.filter(g => g.members.cache.has(user.id)).map(g => g.name).length;
-            let embed = new MessageEmbed()
+            let embed = this.client.util.embed()
                 .setColor(this.client.color)
                 .setURL(user.avatarURL() ? user.avatarURL({ size: 512, dynamic: true }).replace(/web?(m|p)/g, 'png') : this.placeholder)
                 .setAuthor(`${user.tag}`, user.bot ? 'https://cdn.discordapp.com/emojis/728596296243347486.png?v=1' : 'https://cdn.discordapp.com/emojis/556184052344946689.png?v=1')

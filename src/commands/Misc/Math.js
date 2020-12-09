@@ -1,7 +1,5 @@
 const { Command } = require('discord-akairo');
-const { MessageEmbed } = require('discord.js');
 const math = require('mathjs');
-const req = require('@aero/centra');
 
 class MathCommand extends Command {
     constructor() {
@@ -15,7 +13,7 @@ class MathCommand extends Command {
         });
     }
 
-    async exec(message, args) {
+    async exec(message) {
       let sum = message.util.parsed.content.replace(/x/g, '*').replace(/÷/g, '/').replace(/×/g, '*');
       if (!sum) {
         return message.responder.error('**Please enter a math sum**')

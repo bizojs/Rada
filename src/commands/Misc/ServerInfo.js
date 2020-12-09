@@ -1,7 +1,4 @@
 const { Command } = require('discord-akairo');
-const { MessageEmbed } = require('discord.js');
-const req = require('@aero/centra');
-const config = require('../../config');
 
 class ServerInfoCommand extends Command {
     constructor() {
@@ -47,7 +44,7 @@ class ServerInfoCommand extends Command {
         `${message.guild.emojis.cache.size} total emotes \`[${message.guild.emojis.cache.filter(e => !e.animated).size.toLocaleString()} static, ${message.guild.emojis.cache.filter(e => e.animated).size.toLocaleString()} animated]\``,
         `${message.guild.roles.cache.size.toLocaleString()} total roles`
       ]
-      let embed = new MessageEmbed()
+      let embed = this.client.util.embed()
           .setColor(this.client.color)
           .setFooter(message.author.username)
           .setTimestamp()
@@ -55,7 +52,7 @@ class ServerInfoCommand extends Command {
           .addField(`• Owner`, `${message.guild.owner} [${message.guild.owner.id}]\nAccount created on ${this.client.timeFormat('dddd d MMMM YYYY', message.guild.owner.user.createdAt, true)}`)
           .addField(`• Information`, `Guild created on ${this.client.timeFormat('dddd d MMMM YYYY', message.guild.createdAt, true)}\n${information.join('\n')}`)
           .addField(`• Details`, `Region: **${this.regions[message.guild.region]}**\nNotifications: **${message.guild.defaultMessageNotifications.toLowerCase()}**\nVerification level: **${message.guild.verificationLevel.toLowerCase()}**\nExplicit content filter: **${message.guild.explicitContentFilter.toLowerCase()}**\nMfa level: **${this.mfaLevel[message.guild.mfaLevel]}**`)
-          .addField(`• Boost`, `This guild has ${message.guild.premiumSubscriptionCount > 1 ? `**${message.guild.premiumSubscriptionCount}** boosts. [\`${this.client.settings.get(message.guild.id, 'prefix', config.production ? config.prefix : config.devPrefix)}boostinfo\`]` : 'no boosts'}${message.guild.features.length > 0 ? `\nFeatures: **${message.guild.features.toString().replace(/_/g, ' ').split(',').join(', ').toLowerCase()}**` : ''}${message.guild.splashURL() !== null ? `\nInvite splash: **[View here](${message.guild.splashURL({ size: 1024, format: 'png' })})**` : ''}${message.guild.vanityURLCode !== null ? `Vanity url: https://discord.gg/${message.guild.vanityURLCode}` : ''}`)
+          .addField(`• Boost`, `This guild has ${message.guild.premiumSubscriptionCount > 1 ? `**${message.guild.premiumSubscriptionCount}** boosts. [\`${message.guild.prefix}boostinfo\`]` : 'no boosts'}${message.guild.features.length > 0 ? `\nFeatures: **${message.guild.features.toString().replace(/_/g, ' ').split(',').join(', ').toLowerCase()}**` : ''}${message.guild.splashURL() !== null ? `\nInvite splash: **[View here](${message.guild.splashURL({ size: 1024, format: 'png' })})**` : ''}${message.guild.vanityURLCode !== null ? `Vanity url: https://discord.gg/${message.guild.vanityURLCode}` : ''}`)
       if (message.guild.iconURL() !== null) {
           embed.setThumbnail(message.guild.iconURL({size:512}).replace(/webm/g, 'gif').replace(/webp/g, 'png'))
       }

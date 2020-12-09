@@ -1,6 +1,4 @@
-const { color: { POSITIVE, VERY_NEGATIVE } } = require('../../../lib/constants');
 const { Command } = require('discord-akairo');
-const { MessageEmbed } = require('discord.js');
 const req = require('@aero/centra');
 
 class NpmCommand extends Command {
@@ -43,7 +41,7 @@ class NpmCommand extends Command {
                 deps = deps.slice(0, 10);
                 deps.push(`... and more.`)
             }
-            let embed = new MessageEmbed()
+            let embed = this.client.util.embed()
                 .setColor(this.client.color)
                 .setTitle(`**${body.name}** Npm package information`)
                 .setThumbnail(this.npmIcon)
@@ -59,7 +57,7 @@ class NpmCommand extends Command {
                 msg.edit('', embed);
             })
         } catch (error) {
-            let embed = new MessageEmbed()
+            let embed = this.client.util.embed()
                 .setTitle('Npm package information')
                 .setColor(this.client.color)
                 .setThumbnail(this.npmIcon)

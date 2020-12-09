@@ -1,5 +1,4 @@
 const { Command } = require('discord-akairo');
-const { production, prefix, devPrefix } = require('../../config.js');
 
 class HelpCommand extends Command {
     constructor() {
@@ -22,7 +21,7 @@ class HelpCommand extends Command {
         let embed = this.client.util.embed()
             .setTitle(`${this.client.user.username} help menu`)
             .setThumbnail(this.client.avatar)
-            .setDescription(`ℹ️ You can get additional help on a command by using \`${this.client.settings.get(message.guild.id, 'prefix', production ? prefix : devPrefix)}help (command_name)\``)
+            .setDescription(`ℹ️ You can get additional help on a command by using \`${message.guild.prefix}help (command_name)\``)
             .setColor(this.client.color)
             .setFooter(`Requested by ${message.author.username}`)
             .setTimestamp();

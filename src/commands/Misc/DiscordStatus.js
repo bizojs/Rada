@@ -1,6 +1,6 @@
 const { Command } = require('discord-akairo');
 const req = require('@aero/centra');
-const { emotes, color } = require('../../../lib/constants');
+const { emotes } = require('../../../lib/constants');
 
 module.exports = class DiscordStatusCommand extends Command {
     constructor() {

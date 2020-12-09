@@ -58,7 +58,6 @@ class BanCommand extends Command {
                     args.member.ban({days: 0, reason: `Banned by: ${message.member.user.tag} - Reason: ${args.reason}.`})
                         .then(() => {
                             collector.stop('success');
-                            args.member.settings.updateInfraction('punishments.ban', message.author, args.reason);
                             return message.responder.success(`**Banned \`${args.member.user.tag} (${args.member.id})\`**`)
                         }).catch(err => {
                             collector.stop('success');

@@ -33,7 +33,7 @@ class WelcomeSettingsCommand extends Command {
     }
 
     async exec(message, args) {
-        let currentPrefix = this.client.settings.get(message.guild.id, 'prefix', production ? prefix : devPrefix);
+        let currentPrefix = message.guild.prefix;
         let embed = new MessageEmbed()
             .setColor(this.client.color)
             .setThumbnail(this.client.avatar)

@@ -1,5 +1,4 @@
 const { Command } = require('discord-akairo');
-const { MessageEmbed } = require('discord.js');
 
 class PingCommand extends Command {
     constructor() {
@@ -16,7 +15,7 @@ class PingCommand extends Command {
     async exec(message) {
         const sent = await message.util.send('Pinging...');
         const timeDiff = (sent.editedAt || sent.createdAt) - (message.editedAt || message.createdAt);
-    	const embed = new MessageEmbed()
+    	const embed = this.client.util.embed()
         .setThumbnail(this.client.avatar)
     		.setTitle(`${this.client.user.username} ping`)
 	    	.setDescription([

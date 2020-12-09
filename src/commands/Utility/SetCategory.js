@@ -1,5 +1,4 @@
 const { Command } = require('discord-akairo');
-const { production, prefix, devPrefix } = require('../../config');
 
 class SetCategoryCommand extends Command {
     constructor() {
@@ -37,7 +36,7 @@ class SetCategoryCommand extends Command {
     }
     async exec(message, { channel, category }) {
         if (!channel) {
-            return message.responder.error(`**Please provide the channel you want to change the category of**\nExample: \`${this.client.settings.get(message.guild.id, 'prefix', production ? prefix : devPrefix)}setcategory #mod-logs, staff\`\n                  \`${this.client.settings.get(message.guild.id, 'prefix', production ? prefix : devPrefix)}setcategory Karaoke 🎤, voice channels\``);
+            return message.responder.error(`**Please provide the channel you want to change the category of**\nExample: \`${message.guild.prefix}setcategory #mod-logs, staff\`\n                  \`${message.guild.prefix}setcategory Karaoke 🎤, voice channels\``);
         }
         if (!category) {
             return message.responder.error(`**Please provide the category you want to change ${channel.type === 'voice' ? `🔊 \`${channel.name}\`` : channel.type === 'text' ? c : `<:category:653934820761665547> \`${channel.name}\``} to** *(separate with a comma)*`);

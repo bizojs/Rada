@@ -1,6 +1,5 @@
 const { color: { POSITIVE, VERY_NEGATIVE } } = require('../../../lib/constants');
 const { Command } = require('discord-akairo');
-const { MessageEmbed } = require('discord.js');
 const req = require('@aero/centra');
 
 class MCStatusCommand extends Command {
@@ -37,7 +36,7 @@ class MCStatusCommand extends Command {
             const icon = await req('https://eu.mc-api.net/v3/server/favicon', 'GET')
                 .path(ip)
                 .text()
-            const embed = new MessageEmbed()
+            const embed = this.client.util.embed()
                 .setTitle(`${data.online ? data.hostname : ip} status`)
                 .setThumbnail(icon.toLowerCase() !== 'ping failed' ? `https://eu.mc-api.net/v3/server/favicon/${ip}` : this.default)
                 .setDescription(data.online ? data.motd.clean.join('\n').replace(/❑/g, '**') : '')

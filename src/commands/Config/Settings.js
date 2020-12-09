@@ -1,7 +1,4 @@
 const { Command } = require('discord-akairo');
-const { MessageEmbed } = require('discord.js');
-const { production, prefix, devPrefix } = require('../../config');
-const req = require('@aero/centra');
 
 class SettingsCommand extends Command {
     constructor() {
@@ -37,16 +34,15 @@ class SettingsCommand extends Command {
     }
 
     async exec(message, args) {
-      let currentPrefix = this.client.settings.get(message.guild.id, 'prefix', production ? prefix : devPrefix);
-      let embed = new MessageEmbed()
+      let embed = this.client.util.embed()
         .setColor(this.client.color)
         .setThumbnail(this.client.avatar)
         .setFooter(`Requested by ${message.author.username}`)
         .setTimestamp()
       if (!args.option) {
         embed.setTitle(`${this.client.user.username} settings`)
-             .setDescription(`You will find any available settings below\nYou can update one of the settings with \`${currentPrefix}settings (option) (value)\``)
-             .addField('Prefix', `\`${currentPrefix}\``, true)
+             .setDescription(`You will find any available settings below\nYou can update one of the settings with \`${message.guild.prefix}settings (option) (value)\``)
+             .addField('Prefix', `\`${message.guild.prefix}\``, true)
              .addField('Logs', `${message.guild.settings.get(message.guild.id, 'logs', 'None') !== 'None' ? `${message.guild.channels.cache.get(message.guild.settings.get(message.guild.id, 'logs'))}` : '\`None\`'}`, true)
              .addField('Antilink', `\`${message.guild.settings.get(message.guild.id, 'antilink', 'None') !== 'None' ? 'Enabled' : 'Disabled'}\``, true)
         return message.util.send(embed);
@@ -55,20 +51,20 @@ class SettingsCommand extends Command {
         let newPrefix = message.util.parsed.content.replace('prefix ', '');
         if (newPrefix.length < 1) {
           embed.setTitle(`Prefix`)
-               .setDescription(`Update the prefix with \`${currentPrefix}settings prefix new_prefix\``)
-               .addField('Current prefix', `\`${currentPrefix}\``);
+               .setDescription(`Update the prefix with \`${message.guild.prefix}settings prefix new_prefix\``)
+               .addField('Current prefix', `\`${message.guild.prefix}\``);
           return message.util.send(embed);
         }
         if (newPrefix > 6) return message.util.send(`❌ **Your prefix can\'t be longer than 6 characters**`);
         await this.client.settings.set(message.guild.id, 'prefix', newPrefix);
         embed.setTitle(`Prefix updated`)
-             .setDescription(`✅ **Your prefix has been updated to** \`${currentPrefix}\`\n\nYou can change it back with \`${newPrefix}settings prefix ${currentPrefix}\``)
+             .setDescription(`✅ **Your prefix has been updated to** \`${message.guild.prefix}\`\n\nYou can change it back with \`${newPrefix}settings prefix ${message.guild.prefix}\``)
         return message.util.send(embed);
       }
       if (args.option === 'logs') {
         if (!args.channel) {
           embed.setTitle(`Logs`)
-               .setDescription(`Update the logs channel with \`${currentPrefix}settings logs #channel\``)
+               .setDescription(`Update the logs channel with \`${message.guild.prefix}settings logs #channel\``)
                .addField('Current channel', `${message.guild.settings.get(message.guild.id, 'logs', 'None') !== 'None' ? `${message.guild.channels.cache.get(message.guild.settings.get(message.guild.id, 'logs'))} \`(${message.guild.settings.get(message.guild.id, 'logs')})\`` : '\`None\`'}`);
           return message.util.send(embed);
         }
@@ -84,7 +80,7 @@ class SettingsCommand extends Command {
         let newValue = message.util.parsed.content.replace('antilink ', '');
         if (newValue.length < 1) {
           embed.setTitle('Antilink')
-               .setDescription(`Update the antilink with \`${currentPrefix}settings antilink on/off\``)
+               .setDescription(`Update the antilink with \`${message.guild.prefix}settings antilink on/off\``)
                .addField('Current setting', `\`${message.guild.settings.get(message.guild.id, 'antilink', 'None') !== 'None' ? `Enabled` : 'Disabled'}\``);
           return message.util.send(embed);
         }

@@ -1,5 +1,4 @@
 const { Command } = require('discord-akairo');
-const { MessageEmbed } = require('discord.js');
 const req = require('@aero/centra');
 
 class RoleInfoCommand extends Command {
@@ -23,7 +22,7 @@ class RoleInfoCommand extends Command {
       let role = args.role;
       let hex = role.hexColor.replace(/#/g, "");
       const data = await req(`https://api.alexflipnote.dev/color/${hex}`).json()
-      return message.util.send({ embed: new MessageEmbed()
+      return message.util.send({ embed: this.client.util.embed()
             .setThumbnail(this.client.avatar)
             .setColor(`${role.hexColor !== '#000000' ? role.hexColor : this.client.color}`)
             .setTitle(`**${role.name}** role info`)

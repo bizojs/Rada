@@ -1,5 +1,4 @@
 const { Command } = require('discord-akairo');
-const { MessageEmbed } = require('discord.js');
 
 class UptimeCommand extends Command {
     constructor() {
@@ -14,7 +13,7 @@ class UptimeCommand extends Command {
     }
 
     async exec(message) {
-        const embed = new MessageEmbed()
+        const embed = this.client.util.embed()
             .setTitle(`${this.client.user.username} uptime`)
             .setThumbnail(this.client.avatar)
             .setColor(this.client.color)

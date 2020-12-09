@@ -1,5 +1,4 @@
 const { Command } = require('discord-akairo');
-const { MessageEmbed } = require('discord.js');
 const req = require('@aero/centra');
 
 class TriviaCommand extends Command {
@@ -27,7 +26,7 @@ class TriviaCommand extends Command {
     let question = trivia.question.replace(/&#039;/g, "'").replace(/&quot;/g, '"').replace(/&eacute;/, 'é');
     let answer = trivia.correct_answer.replace(/&#039;/g, "'").replace(/&quot;/g, '"').replace(/&eacute;/, 'é');
 
-    let embed = new MessageEmbed()
+    let embed = this.client.util.embed()
       .setColor('BLUE')
       .setTitle('Trivia')
       .setThumbnail(this.client.avatar)
@@ -41,7 +40,7 @@ class TriviaCommand extends Command {
     try {
       const collected = await message.channel.awaitMessages(a => answer.toLowerCase() === a.content.toLowerCase(), this.options);
       const winnerMessage = collected.first();
-      let winEmbed = new MessageEmbed()
+      let winEmbed = this.client.util.embed()
         .setColor('GREEN')
         .setTitle('Trivia')
         .setThumbnail(this.client.avatar)
@@ -52,7 +51,7 @@ class TriviaCommand extends Command {
       return message.util.send(winEmbed);
 
     } catch (_) {
-        let endEmbed = new MessageEmbed()
+        let endEmbed = this.client.util.embed()
           .setColor('RED')
           .setTitle('Trivia')
           .setThumbnail(this.client.avatar)

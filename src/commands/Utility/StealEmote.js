@@ -1,7 +1,5 @@
 const { Command } = require('discord-akairo');
-const { MessageEmbed } = require('discord.js');
 const req = require('@aero/centra');
-const config = require('../../../src/config');
 
 class StealEmoteCommand extends Command {
     constructor() {
@@ -37,7 +35,7 @@ class StealEmoteCommand extends Command {
             return message.responder.error('**Please provide an emote or emote id**');
         }
         let emote = args.emote;
-        let response = message.content.split(" ")[0].replace(this.client.settings.get(message.guild.id, 'prefix', config.production ? config.prefix : config.devPrefix), "").includes("borrow") ? "borrowed" : "stolen";
+        let response = message.content.split(" ")[0].replace(message.guild.prefix, "").includes("borrow") ? "borrowed" : "stolen";
         try {
             let emoji = this.client.emojis.get(emote.split(':').pop().replace(/>/g, ''));
             await message.guild.emojis.create(emoji.url, emoji.name, {

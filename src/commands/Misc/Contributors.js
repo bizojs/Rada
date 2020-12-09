@@ -1,5 +1,4 @@
 const { Command } = require('discord-akairo');
-const { MessageEmbed } = require('discord.js');
 
 class ContributorsCommand extends Command {
     constructor() {
@@ -18,7 +17,7 @@ class ContributorsCommand extends Command {
             `[${this.client.users.cache.get('443166863996878878').tag}](https://github.com/brys0) \`[${this.client.users.cache.get('443166863996878878').id}]\`` // Brys
         ]
         for (let i = 0; i < contributors.length; i++);
-        let embed = new MessageEmbed()
+        let embed = this.client.util.embed()
             .setColor(this.client.color)
             .setTitle(`Contributors`)
             .setThumbnail(this.client.avatar)
