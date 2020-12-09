@@ -41,12 +41,7 @@ module.exports = class WarnCommand extends Command {
         if (message.member.roles.highest.comparePositionTo(args.member.roles.highest) <= 0) {
             return message.responder.error(`**You are unable to warn ${args.member.user.tag}**: \`Higher role\``);
         }
-        let warnings = args.member.settings.get(args.member.id, 'warnings', []);
-        let reason = args.reason
-        if (warnings.length > 0 && warnings.filter(warning => warning === reason).length > 0) {
-            reason = `${reason} #2`;
-        }
-        args.member.addWarn(message.author, reason);
+        args.member.addWarn(message.author, args.reason);
         return message.responder.success(`**Warned \`${args.member.user.tag} (${args.member.id})\`**`);
 
         // if (logs) {
