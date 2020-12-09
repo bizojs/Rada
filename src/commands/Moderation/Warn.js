@@ -1,6 +1,6 @@
 const { Command } = require('discord-akairo');
 
-module.exports = class KickCommand extends Command {
+module.exports = class WarnCommand extends Command {
     constructor() {
       super('warn', {
         aliases: ['warn'],
@@ -47,7 +47,8 @@ module.exports = class KickCommand extends Command {
         if (message.member.roles.highest.comparePositionTo(args.member.roles.highest) <= 0) {
             return message.responder.error(`**You are unable to warn ${args.member.user.tag}**: \`Higher role\``);
         }
-        args.member.addWarn(message.author, args.reason);
+        let warnings = args.member.settings.get(args.member.id, 'warnings', []);
+        args.member.addWarn(message.author, warnings.length > 0 && warnings.has(args.reason) ? args.reason + ' #2' : args.reason);
         return message.responder.success(`**Warned \`${args.member.user.tag} (${args.member.id})\`**`);
 
         // if (logs) {
