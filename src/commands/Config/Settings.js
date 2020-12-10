@@ -77,26 +77,27 @@ class SettingsCommand extends Command {
         return message.util.send(embed);
       }
       if (args.option === 'antilink') {
-        let newValue = message.util.parsed.content.replace('antilink ', '');
+        let newValue = message.util.parsed.content.replace('antilink', '');
         if (newValue.length < 1) {
           embed.setTitle('Antilink')
-               .setDescription(`Update the antilink with \`${message.guild.prefix}settings antilink on/off\``)
+               .setDescription(`Update the antilink with \`${message.guild.prefix}settings antilink on/off\`\nAny roles in the guild that include the word \`bypass\` will be ignored by the antilink`)
                .addField('Current setting', `\`${message.guild.settings.get(message.guild.id, 'antilink', 'None') !== 'None' ? `Enabled` : 'Disabled'}\``);
           return message.util.send(embed);
         }
-        if (!['on', 'off', 'enable', 'disable'].includes(newValue.toLowerCase())) {
+        let newValue2 = newValue.split(' ')[1];
+        if (!['on', 'off', 'enable', 'disable'].includes(newValue2.toLowerCase())) {
           return message.responder.error('**Please specify if you are turning the antilink on or off**');
         }
         if (!message.guild.me.permissions.has('MANAGE_MESSAGES')) {
           return message.responder.error('**I require the manage messages permission for the antilink to work**');
         }
-        if (['on', 'enable'].includes(newValue.toLowerCase())) {
+        if (['on', 'enable'].includes(newValue2.toLowerCase())) {
           await message.guild.settings.set(message.guild.id, 'antilink', true);
           embed.setTitle(`Antilink updated`)
                .setDescription('✅ **The antilink has been turned** \`on\`')
           return message.util.send(embed);
         }
-        if (['off', 'disable'].includes(newValue.toLowerCase())) {
+        if (['off', 'disable'].includes(newValue2.toLowerCase())) {
           await message.guild.settings.set(message.guild.id, 'antilink', 'None');
           embed.setTitle(`Antilink updated`)
                .setDescription('✅ **The antilink has been turned** \`off\`')

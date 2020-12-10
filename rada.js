@@ -39,7 +39,7 @@ class RadaClient extends AkairoClient {
         	directory: './src/commands/',
         	prefix: (message) => {
                 if (message.guild) {
-                    return this.settings.get(message.guild.id, 'prefix', config.production ? config.prefix : config.devPrefix);
+                    return message.guild.prefix;
                 }
                 return config.production ? config.prefix : config.devPrefix;
             },
@@ -48,8 +48,12 @@ class RadaClient extends AkairoClient {
         	handleEdits: true,
     		commandUtil: true
     	});
-        this.inhibitorHandler = new InhibitorHandler(this, {directory: './src/inhibitors/'});
-        this.listenerHandler = new ListenerHandler(this, {directory: './src/listeners/'});
+        this.inhibitorHandler = new InhibitorHandler(this, {
+            directory: './src/inhibitors/'
+        });
+        this.listenerHandler = new ListenerHandler(this, {
+            directory: './src/listeners/'
+        });
         this.commandHandler.useInhibitorHandler(this.inhibitorHandler)
 		this.commandHandler.useListenerHandler(this.listenerHandler);
 		this.listenerHandler.setEmitters({
@@ -67,6 +71,7 @@ class RadaClient extends AkairoClient {
         this.Cli = new Cli(this);
         this.settings = new MongooseProvider(model);
         this.flipnote = new Flipnote(process.env.FLIPNOTE);
+        this.Timestamp = Timestamp;
     }
     async login(token) {
     	await this.settings.init();

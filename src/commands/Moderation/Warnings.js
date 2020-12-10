@@ -3,17 +3,17 @@ const { Command } = require('discord-akairo');
 module.exports = class WarningsCommand extends Command {
     constructor() {
         super('warnings', {
-            aliases: ['warnings', 'infractions'],
+            aliases: ['warnings', 'warns'],
             category: 'Moderation',
             description: {
                 content: 'With this command you can View **all** warnings a user has, view a specific warning, delete a specific warning or delete all warnings.\nFind the "Examples" field below',
                 examples: (message) => [
                     `\`${message.guild.prefix}warnings <User>\` - View all warnings`,
-                    `\`${message.guild.prefix}warnings <User> <ID>\` - View specific warning`,
-                    `\`${message.guild.prefix}warnings <User> clear <ID>\` - Clear a specific warning`,
+                    `\`${message.guild.prefix}warnings <User> <WarnID>\` - View specific warning`,
+                    `\`${message.guild.prefix}warnings <User> clear <WarnID>\` - Clear a specific warning`,
                     `\`${message.guild.prefix}warnings <User> clear all\` - Clear all warnings`,
                 ],
-                permissions: ['EMBED_MESSAGES']
+                permissions: ['EMBED_LINKS']
             },
             args: [
             {
@@ -65,7 +65,7 @@ module.exports = class WarningsCommand extends Command {
                     .setTitle(`Warnings for ${member.user.username} (${member.settings.get(member.id, 'warnings', []).length} total)`)
                     .setColor(this.client.color)
                     .setThumbnail(member.user.avatarURL({size: 512}).replace('webp', 'png').replace('webm', 'gif'))
-                    .setDescription(pages[i].map(page => `\`[${page.id}]\` ${page.reason}`))
+                    .setDescription(pages[i].map(page => `\`[${page.id}]\` ${page.fullReason}`))
                     .setTimestamp()
                 embeds.push(embed);
             }

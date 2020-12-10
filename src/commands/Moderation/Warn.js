@@ -46,7 +46,8 @@ module.exports = class WarnCommand extends Command {
             id: Util.generateID(),
             moderator: `${message.author.tag} \`(${message.author.id})\``,
             date: new Date(),
-            reason: `Warned by __${message.author.tag}__ for **${args.reason}**`
+            fullReason: `Warned by __${message.author.tag}__ for **${args.reason}**`,
+            reason: args.reason
         }
         args.member.addWarn(warnCase);
         return message.responder.success(`**Warned \`${args.member.user.tag} (${args.member.id})\`**. The case ID is \`${warnCase.id}\``);
