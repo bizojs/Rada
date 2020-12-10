@@ -44,7 +44,7 @@ module.exports = class WarnCommand extends Command {
         }
         const warnCase = {
             id: Util.generateID(),
-            moderator: message.author,
+            moderator: `${message.author.tag} \`(${message.author.id})\``,
             date: new Date(),
             reason: `Warned by __${message.author.tag}__ for **${args.reason}**`
         }

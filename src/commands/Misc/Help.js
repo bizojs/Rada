@@ -30,7 +30,10 @@ class HelpCommand extends Command {
                 return message.util.send(this.generateHelp(message));
             }
             embed.setDescription(`Help for command **${args.command.id}**${args.command.ownerOnly ? ' (Owner only)' : ''}`)
-            embed.addField('Description', args.command.description.content)
+            embed.addField('Description', args.command.description.extended ? `${args.command.description.content}\n${args.command.description.extended}` : args.command.description.content)
+            if (args.command.description.examples.length > 0) {
+                embed.addField('Examples', args.command.description.examples(message).map(a => a).join('\n'))
+            }
             embed.addField('Category', args.command.categoryID)
             if (args.command.description.permissions.length > 0) {
                 embed.addField(`Permission${args.command.description.permissions.length > 1 ? 's' : ''}`, `\`${args.command.description.permissions.join('\n')}\``)
