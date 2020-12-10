@@ -18,7 +18,7 @@ class Antilink extends Inhibitor {
         if (antilink) {
             let role = message.guild.roles.cache.find(r => r.name.toLowerCase().includes('bypass'));
             if (role && message.member.roles.cache.has(role.id)) return;
-            if (message.content.match(message.regex)) {
+            if (message.content.match(message.regex.invites)) {
                 await message.member.settings.set(message.member.id, 'history', message.member.settings.get(message.member.id, 'history', 0) + 1);
                 if (message.guild.me.permissions.has('MANAGE_MESSAGES')) {
                     if (this.cache.has(key)) {
