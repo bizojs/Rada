@@ -20,7 +20,7 @@ class PunishmentsCommand extends Command {
                 default: null
             },
             {
-                id: 'i',
+                id: 'id',
                 type: 'lowercase',
                 default: null
             }],
@@ -28,7 +28,7 @@ class PunishmentsCommand extends Command {
         // this.seen = new Set();
     }
 
-    async exec(message, { member, clear, i }) {
+    async exec(message, { member, clear, id }) {
         let warnings = member.settings.get(member.id, 'warnings', [])
         if (!clear) {
             if (warnings.length < 1) {
@@ -41,7 +41,7 @@ class PunishmentsCommand extends Command {
                     .setTitle(`Warnings for ${member.user.username}`)
                     .setColor(this.client.color)
                     .setThumbnail(member.user.avatarURL({size: 512}).replace('webp', 'png').replace('webm', 'gif'))
-                    .addField(`Count: ${member.settings.get(member.id, 'warnings', []).length}`, pages[i])
+                    .addField(`Count: ${member.settings.get(member.id, 'warnings', []).length}`, pages[i].map(page => `\`[${page.id}]\` ${page.reason}`))
                     .setTimestamp()
                 embeds.push(embed);
             }
@@ -53,36 +53,20 @@ class PunishmentsCommand extends Command {
             if (member.id === message.author.id) {
                 return message.responder.error('**You can\'t clear your own warnings**');
             }
-            if (!i) {
-                return message.responder.error('**Provide a number for the warning you want to remove or type \`all\` to clear all warnings**');
+            if (!id) {
+                return message.responder.error('**Provide the unique ID for the warning you want to remove or type \`all\` to clear all warnings**');
             }
             if (warnings.length < 1) {
                 return message.responder.error(`**\`${member.user.tag}\` has no warnings to clear**`);
             }
-            if (!isNaN(parseInt(i))) {
-                if (!warnings[i - 1]) {
-                    return message.responder.error(`**The case number** \`#${Number(i)}\` **was not found** (${warnings.length === 1 ? 'Only 1 warning to clear' : `Number must be between 1 and ${warnings.length}`})`);
+            if (id !== 'all') {
+                if (warnings.filter(warning => warning.id === id).length < 1) {
+                    return message.responder.error(`**The unique warning ID** \`${id}\` **was not found**`);
                 }
-                let value = warnings[i - 1];
-
-                // for (let i = 0; i < warnings.length; i++) {
-                //     if (!this.seen.has(warnings[i])) {
-                //         this.seen.add(warnings[i])
-                //     }
-                // }
-
-                /* you can filter with a filter callback that "remembers" stuff ... */
-                // warnings.filter(warning => (seen.has(warning) || (seen.add(warning), seen.has(warning))) )
-                /* so here I remove all elements of input where is_nice returns false, but only if I haven't seen that element before */
-
-                // let toFilter = warnings.filter(item => item === value);
-                // if (toFilter.length > 1) {
-                //     for (let i = 0; i < toFilter.length; i++)
-                //     toFilter = toFilter.map((warn, i) => `${i+1} ${warn}`)
-                //     warnings = warnings.map((warn, i) => `${i+1} ${warn}`)
-                // }
-                await member.settings.set(member.id, 'warnings', warnings.filter(item => item !== value));
-                return message.responder.success(`**The case number \`#${Number(i)}\` for \`${member.user.tag}\` has been cleared**`);
+                /* let valueToFilter = warnings.filter(warning => warning.id === id)[0] */
+                let filteredValue =  warnings.filter(warning => warning.id !== id)
+                await member.settings.set(member.id, 'warnings', filteredValue);
+                return message.responder.success(`**The warning with ID \`${id}\` for \`${member.user.tag}\` has been cleared**`);
             }
             if (i === 'all') {
                 member.clearWarns();

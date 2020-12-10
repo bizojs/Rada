@@ -1,5 +1,4 @@
 const { Inhibitor } = require('discord-akairo');
-const config = require('../../src/config');
 
 class Mention extends Inhibitor {
     constructor() {
@@ -11,7 +10,7 @@ class Mention extends Inhibitor {
     exec(message) {
         const pings = [`<@${this.client.user.id}>`, `<@!${this.client.user.id}>`]
         if (pings.some(p => message.content === p)) {
-            return message.util.send(`My prefix in this guild is \`${this.client.settings.get(message.guild.id, 'prefix', config.production ? config.prefix : config.devPrefix)}\``);
+            return message.reply(`My prefix in this guild is \`${message.guild.prefix}\``);
         }
     }
 }

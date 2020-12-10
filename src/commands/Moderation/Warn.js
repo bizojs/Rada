@@ -1,4 +1,5 @@
 const { Command } = require('discord-akairo');
+const Util = require('../../../lib/structures/Util');
 
 module.exports = class WarnCommand extends Command {
     constructor() {
@@ -41,8 +42,14 @@ module.exports = class WarnCommand extends Command {
         if (message.member.roles.highest.comparePositionTo(args.member.roles.highest) <= 0) {
             return message.responder.error(`**You are unable to warn ${args.member.user.tag}**: \`Higher role\``);
         }
-        args.member.addWarn(message.author, args.reason);
-        return message.responder.success(`**Warned \`${args.member.user.tag} (${args.member.id})\`**`);
+        const warnCase = {
+            id: Util.generateID(),
+            moderator: message.author,
+            date: new Date(),
+            reason: `Warned by __${message.author.tag}__ for **${args.reason}**`
+        }
+        args.member.addWarn(warnCase);
+        return message.responder.success(`**Warned \`${args.member.user.tag} (${args.member.id})\`**. The case ID is \`${warnCase.id}\``);
 
         // if (logs) {
         //     return logs.send({
