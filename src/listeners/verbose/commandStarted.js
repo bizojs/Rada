@@ -1,8 +1,8 @@
 const { Listener } = require('discord-akairo');
 
-module.exports = class CommandLogging extends Listener {
+module.exports = class CommandStarted extends Listener {
     constructor() {
-        super('commandLogging', {
+        super('commandStarted', {
             emitter: 'commandHandler',
             event: 'commandStarted'
         });
@@ -14,7 +14,7 @@ module.exports = class CommandLogging extends Listener {
             const cmd = `(${command.id}${message.util.parsed.content ? `, ${message.util.parsed.content}` : ''})`;
             const channel = `#${message.channel.name}[${message.channel.id}]`;
             const guild = `${message.guild.name}[${message.guild.id}]`;
-            this.client.log.verbose(user, cmd, channel, guild);
+            this.client.log.commandStarted(user, cmd, channel, guild);
         }
     }
 }
