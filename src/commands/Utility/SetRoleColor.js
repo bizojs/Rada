@@ -3,7 +3,7 @@ const { Command } = require('discord-akairo');
 class SetRoleColorCommand extends Command {
     constructor() {
         super('setrolecolor', {
-            aliases: ['setrolecolor', 'setrolecolour', 'src'],
+            aliases: ['setrolecolor', 'setrolecolour', 'src', 'setcolor'],
             category: 'Utility',
             description: {
                 content: 'Change the color of a role.',
