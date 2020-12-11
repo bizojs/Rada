@@ -4,12 +4,13 @@ const { MessageEmbed } = require('discord.js');
 class BoostInfoCommand extends Command {
     constructor() {
         super('boostinfo', {
-           aliases: ['boostinfo'],
-           category: 'Miscellaneous',
-           description: {
-               content: 'Get information about the server boosts.',
-               permissions: ['EMBED_LINKS']
-           }
+            aliases: ['boostinfo'],
+            category: 'Miscellaneous',
+            description: {
+                content: 'Get information about the server boosts.',
+                permissions: ['EMBED_LINKS']
+            },
+            clientPermissions: ['EMBED_LINKS']
         });
     }
 

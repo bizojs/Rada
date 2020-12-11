@@ -4,23 +4,18 @@ const req = require('@aero/centra');
 class JumboCommand extends Command {
     constructor() {
         super('jumbo', {
-           aliases: ['jumbo', 'emote', 'e'],
-           category: 'Miscellaneous',
-           description: {
-            content: 'Enlarge an emote by providing the emote or the emote ID',
-            permissions: ['ATTACH_FILES']
-           },
-           args: [{
-              id: 'emote',
-              type: 'string'
-           }]
+            aliases: ['jumbo', 'emote', 'e'],
+            category: 'Miscellaneous',
+            description: {
+                content: 'Enlarge an emote by providing the emote or the emote ID',
+                permissions: ['ATTACH_FILES']
+            },
+            args: [{
+                id: 'emote',
+                type: 'string'
+            }],
+            clientPermissions: ['ATTACH_FILES']
         });
-    }
-    clientPermissions(message) {
-        if (!message.guild.me.permissions.has('ATTACH_FILES')) {
-            return message.responder.error('**I require the attach files permission to use this command**');
-        }
-        return null;
     }
 
     async exec(message, args) {

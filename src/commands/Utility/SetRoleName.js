@@ -19,21 +19,12 @@ class SetRoleNameCommand extends Command {
                 id: 'name',
                 type: 'string',
                 default: null
-            }]
+            }],
+            userPermissions: ['MANAGE_ROLES'],
+            clientPermissions: ['MANAGE_ROLES']
         })
     }
-    clientPermissions(message) {
-        if (!message.guild.me.permissions.has('MANAGE_ROLES')) {
-            return message.responder.error('**I require the permission to manage roles**');
-        }
-        return null
-    }
-    userPermissions(message) {
-        if (!message.member.permissions.has('MANAGE_ROLES')) {
-            return message.responder.error('**You require the permission to manage roles to run this command**');
-        }
-        return null
-    }
+
     async exec(message, { role, name }) {
         if (!role) {
             return message.responder.error(`**Please provide a role to change the name for**`);

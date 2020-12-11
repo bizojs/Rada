@@ -4,17 +4,18 @@ const req = require('@aero/centra');
 class RoleInfoCommand extends Command {
     constructor() {
         super('roleinfo', {
-           aliases: ['roleinfo', 'ri'],
-           category: 'Miscellaneous',
-           description: {
-             content: 'Get information about a role',
-             permissions: ['EMBED_LINKS']
-           },
-           args: [{
-              id: 'role',
-              type: 'role',
-              default: message => message.member.roles.highest
-           }]
+            aliases: ['roleinfo', 'ri'],
+            category: 'Miscellaneous',
+            description: {
+              content: 'Get information about a role',
+              permissions: ['EMBED_LINKS']
+            },
+            args: [{
+                id: 'role',
+                type: 'role',
+                default: message => message.member.roles.highest
+            }],
+            clientPermissions: ['EMBED_LINKS']
         });
     }
 

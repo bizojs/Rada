@@ -12,14 +12,14 @@ class FetchUserCommand extends Command {
             args: [{
                 id: 'id',
                 type: 'string'
-            }]
+            }],
+            clientPermissions: ['EMBED_LINKS']
         });
     }
 
     async exec(message, args) {
         try {
             let fetched = await this.client.users.fetch(args.id);
-            // console.log(fetched)
             let user = this.client.users.cache.get(fetched.id);
             console.log(user)
             let mutualCount = this.client.guilds.cache.filter(g => g.members.cache.has(user.id)).map(g => g.name).length;

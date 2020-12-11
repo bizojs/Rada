@@ -4,12 +4,13 @@ const os = require('os');
 class StatsCommand extends Command {
     constructor() {
         super('stats', {
-           aliases: ['stats'],
-           category: 'Miscellaneous',
-           description: {
-             content: 'Statistics of the bot.',
-             permissions: ['EMBED_LINKS']
-           }
+            aliases: ['stats'],
+            category: 'Miscellaneous',
+            description: {
+              content: 'Statistics of the bot.',
+              permissions: ['EMBED_LINKS']
+            },
+            clientPermissions: ['EMBED_LINKS']
         });
     }
 

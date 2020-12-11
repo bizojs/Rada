@@ -4,17 +4,18 @@ const req = require('@aero/centra');
 class UrbanCommand extends Command {
     constructor() {
         super('urban', {
-           aliases: ['urban', 'urbandictionary'],
-           category: 'Miscellaneous',
-           description: {
-             content: 'Search urban dictionary for a word or phrase and get the first result',
-             permissions: ['EMBED_LINKS']  
-           },
-           args: [{
-               id: 'query',
-               type: 'string',
-               match: 'rest'
-           }]
+            aliases: ['urban', 'urbandictionary'],
+            category: 'Miscellaneous',
+            description: {
+                content: 'Search urban dictionary for a word or phrase and get the first result',
+                permissions: ['EMBED_LINKS', 'MANAGE_MESSAGES']  
+            },
+            args: [{
+                id: 'query',
+                type: 'string',
+                match: 'rest'
+            }],
+            clientPermissions: ['EMBED_LINKS', 'MANAGE_MESSAGES']
         });
     }
 

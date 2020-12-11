@@ -14,19 +14,9 @@ module.exports = class UnmuteCommand extends Command {
           type: 'member',
           default: null
         }],
+        userPermissions: ['MUTE_MEMBERS'],
+        clientPermissions: ['MANAGE_ROLES']
       });
-    }
-    userPermissions(message) {
-        if (!message.member.permissions.has('MUTE_MEMBERS')) {
-            return message.responder.error('**You require the mute members permission to use this command**');
-        }
-        return null;
-    }
-    clientPermissions(message) {
-        if (!message.guild.me.permissions.has('MANAGE_ROLES')) {
-            return message.responder.error('**I require the manage roles permission to use this command**');
-        }
-        return null;
     }
 
     async exec(message, { member }) {

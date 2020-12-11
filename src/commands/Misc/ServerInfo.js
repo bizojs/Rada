@@ -9,6 +9,7 @@ class ServerInfoCommand extends Command {
           content: 'Get information about the server',
           permissions: ['EMBED_LINKS']
         },
+        clientPermissions: ['EMBED_LINKS']
       });
       this.regions = {
         'eu-central': 'Central Europe',

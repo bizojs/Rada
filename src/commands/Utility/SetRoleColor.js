@@ -19,21 +19,12 @@ class SetRoleColorCommand extends Command {
                 id: 'color',
                 type: 'hex',
                 default: null
-            }]
+            }],
+            userPermissions: ['MANAGE_ROLES'],
+            clientPermissions: ['MANAGE_ROLES']
         })
     }
-    clientPermissions(message) {
-        if (!message.guild.me.permissions.has('MANAGE_ROLES')) {
-            return message.responder.error('**I require the permission to manage roles**');
-        }
-        return null
-    }
-    userPermissions(message) {
-        if (!message.member.permissions.has('MANAGE_ROLES')) {
-            return message.responder.error('**You require the permission to manage roles to run this command**');
-        }
-        return null
-    }
+
     async exec(message, { role, color }) {
         if (!role) {
             return message.responder.error(`**Please provide a role to change the color for**`);

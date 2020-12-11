@@ -31,7 +31,8 @@ module.exports = class WarningsCommand extends Command {
                 type: 'lowercase',
                 default: null
             }
-            ]
+            ],
+            clientPermissions: ['EMBED_LINKS']
         });
     }
 

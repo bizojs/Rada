@@ -3,17 +3,18 @@ const { Command } = require('discord-akairo');
 class JoinDaysComamnd extends Command {
     constructor() {
         super('joindays', {
-           aliases: ['joindays', 'jd', 'joininfo'],
-           category: 'Miscellaneous',
-           description: {
-             content: 'Information about when a user joined the current server and when they created their account.',
-             permissions: ['EMBED_LINKS']
-           },
-           args: [{
-              id: 'member',
-              type: 'member',
-              default: message => message.member
-           }]
+            aliases: ['joindays', 'jd', 'joininfo'],
+            category: 'Miscellaneous',
+            description: {
+              content: 'Information about when a user joined the current server and when they created their account.',
+              permissions: ['EMBED_LINKS']
+            },
+            args: [{
+                id: 'member',
+                type: 'member',
+                default: message => message.member
+            }],
+            clientPermissions: ['EMBED_LINKS']
         });
     }
 

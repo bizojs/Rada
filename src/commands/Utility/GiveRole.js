@@ -20,21 +20,12 @@ module.exports = class GiveRoleCommand extends Command {
                 type: 'role',
                 match: 'rest',
                 default: null
-            }]
+            }],
+            userPermissions: ['MANAGE_ROLES', 'EMBED_LINKS'],
+            clientPermissions: ['MANAGE_ROLES', 'EMBED_LINKS']
         })
     }
-    clientPermissions(message) {
-        if (!message.guild.me.permissions.has('MANAGE_ROLES')) {
-            return message.responder.error('**I require the permission to manage roles**');
-        }
-        return null
-    }
-    userPermissions(message) {
-        if (!message.member.permissions.has('MANAGE_ROLES')) {
-            return message.responder.error('**You require the permission to manage roles to run this command**');
-        }
-        return null
-    }
+
     async exec(message, { member, role }) {
         if (!member) {
             return message.responder.error(`**Please provide a user to add a role to**`);

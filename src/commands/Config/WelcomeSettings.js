@@ -23,13 +23,9 @@ class WelcomeSettingsCommand extends Command {
           default: null,
           unordered: false
         }],
+        userPermissions: ['MANAGE_GUILD'],
+        clientPermissions: ['EMBED_LINKS']
       });
-    }
-    userPermissions(message) {
-      if (!message.member.permissions.has('MANAGE_GUILD')) {
-          return message.responder.error('**You require the manage server permission to use this command**');
-      }
-      return null;
     }
 
     async exec(message, args) {

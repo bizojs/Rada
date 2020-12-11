@@ -20,7 +20,8 @@ module.exports = class HistoryCommand extends Command {
                 type: 'lowercase',
                 default: null,
                 unordered: true
-            }]
+            }],
+            clientPermissions: ['EMBED_LINKS']
         });
     }
 

@@ -4,12 +4,13 @@ const { MessageEmbed } = require('discord.js');
 class AboutCommand extends Command {
     constructor() {
         super('about', {
-           aliases: ['about', 'info'],
-           category: 'Miscellaneous',
-           description: {
-             content: 'Displays information about Rada.',
-             permissions: ['EMBED_LINKS']
-           }
+          aliases: ['about', 'info'],
+          category: 'Miscellaneous',
+          description: {
+            content: 'Displays information about Rada.',
+            permissions: ['EMBED_LINKS']
+          },
+          clientPermissions: ['EMBED_LINKS']
         });
     }
 

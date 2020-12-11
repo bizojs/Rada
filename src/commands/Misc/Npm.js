@@ -4,16 +4,17 @@ const req = require('@aero/centra');
 class NpmCommand extends Command {
     constructor() {
         super('npm', {
-           aliases: ['npm', 'npmjs'],
-           category: 'Miscellaneous',
-           description: {
-             content: 'Fetch information about an npm package',
-             permissions: ['EMBED_LINKS']  
-           },
-           args: [{
-              id: 'package',
-              type: 'string'
-           }]
+            aliases: ['npm', 'npmjs'],
+            category: 'Miscellaneous',
+            description: {
+                content: 'Fetch information about an npm package',
+                permissions: ['EMBED_LINKS']  
+            },
+            args: [{
+                id: 'package',
+                type: 'string'
+            }],
+            clientPermissions: ['EMBED_LINKS']
         });
         this.npmIcon = 'https://i.br4d.vip/Q5Ql1P45.png';
     }

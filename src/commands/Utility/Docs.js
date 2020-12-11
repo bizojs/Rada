@@ -21,7 +21,8 @@ module.exports = class DocsCommand extends Command {
                 match: 'option',
                 flag: '--src=',
                 default: 'stable'
-            }]
+            }],
+            clientPermissions: ['EMBED_LINKS']
         });
         this.sources = ['stable', 'master', 'rpc', 'commando', 'v11']
 	}

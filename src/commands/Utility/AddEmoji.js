@@ -20,21 +20,12 @@ class AddEmojiCommand extends Command {
                 type: 'string',
                 unordered: true,
                 default: null
-            }]
+            }],
+            userPermissions: ['MANAGE_EMOJIS'],
+            clientPermissions: ['MANAGE_EMOJIS']
         })
     }
-    clientPermissions(message) {
-        if (!message.guild.me.permissions.has('MANAGE_EMOJIS')) {
-            return message.responder.error('**I require the permission to manage emojis to run this command**');
-        }
-        return null;
-    }
-    userPermissions(message) {
-        if (!message.member.permissions.has('MANAGE_EMOJIS')) {
-            return message.responder.error('**I require the permission to manage emojis to run this command**');
-        }
-        return null;
-    }
+
     async exec(message, { name, emoji }) {
         if (!name) {
             return message.responder.error('**Please provide a name for the emoji you are adding**');

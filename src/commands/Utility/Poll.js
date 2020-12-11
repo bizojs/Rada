@@ -27,15 +27,9 @@ class PollCommand extends Command {
                 match: 'flag',
                 flag: '--delete',
                 unordered: true
-            }]
+            }],
+            clientPermissions: ['EMBED_LINKS', 'ADD_REACTIONS', 'MANAGE_MESSAGES']
         });
-    }
-
-    clientPermissions(message) {
-        if (!message.guild.me.permissions.has('ADD_REACTIONS')) {
-            return message.responder.error('**I require the permission to add reactions for this command to work**');
-        }
-        return null;
     }
 
     async exec(message, { title, options, silent }) {

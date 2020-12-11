@@ -7,8 +7,9 @@ class EmotesCommand extends Command {
             category: 'Miscellaneous',
             description: {
                 content: 'Displays all emotes within the server.',
-                permissions: ['EMBED_LINKS']
-            }
+                permissions: ['EMBED_LINKS', 'MANAGE_MESSAGES']
+            },
+            clientPermissions: ['EMBED_LINKS', 'MANAGE_MESSAGES']
         });
     }
 

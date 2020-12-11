@@ -11,7 +11,8 @@ class TriviaCommand extends Command {
         permissions: ['EMBED_LINKS']
       },
       cooldown: 30000,
-      ratelimit: 1
+      ratelimit: 1,
+      clientPermissions: ['EMBED_LINKS']
     });
     this.options = {
       max: 1,
@@ -48,7 +49,7 @@ class TriviaCommand extends Command {
         .addField('Answer', answer, true)
         .addField('Question', question)
         .setTimestamp()
-      return message.util.send(winEmbed);
+      return message.reply(winEmbed);
 
     } catch (_) {
         let endEmbed = this.client.util.embed()
@@ -59,7 +60,7 @@ class TriviaCommand extends Command {
           .addField('Question', question)
           .addField('Answer', answer)
           .setTimestamp()
-        return message.util.send(endEmbed);
+        return message.reply(endEmbed);
     }
   }
 }

@@ -19,19 +19,9 @@ module.exports = class HackbanCommand extends Command {
             match: 'rest',
             default: null
         }],
+        userPermissions: ['BAN_MEMBERS'],
+        clientPermissions: ['BAN_MEMBERS']
       });
-    }
-    userPermissions(message) {
-        if (!message.member.permissions.has('BAN_MEMBERS')) {
-            return message.responder.error('**You require the ban members permission to use this command**');
-        }
-        return null;
-    }
-    clientPermissions(message) {
-        if (!message.guild.me.permissions.has('BAN_MEMBERS')) {
-            return message.responder.error('**I require the ban members permission to use this command**');
-        }
-        return null;
     }
 
     async exec(message, { id, reason }) {

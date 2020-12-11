@@ -4,12 +4,13 @@ const emotes = require('../../../lib/constants').emotes
 class PermissionsCommand extends Command {
     constructor() {
         super('permissions', {
-           aliases: ['permissions', 'perms'],
-           category: 'Miscellaneous',
-           description: {
-               content: 'Information about what permissions Rada requires.',
-               permissions: ['EMBED_LINKS']
-           }
+            aliases: ['permissions', 'perms'],
+            category: 'Miscellaneous',
+            description: {
+                content: 'Information about what permissions Rada requires.',
+                permissions: ['EMBED_LINKS']
+            },
+            clientPermissions: ['EMBED_LINKS']
         });
     }
 

@@ -4,12 +4,12 @@ const math = require('mathjs');
 class MathCommand extends Command {
     constructor() {
         super('math', {
-           aliases: ['math', 'calculate'],
-           category: 'Miscellaneous',
-           description: {
-             content: 'Who needs a calculator when you can just use Rada ',
-             permissions: []
-           }
+            aliases: ['math', 'calculate'],
+            category: 'Miscellaneous',
+            description: {
+              content: 'Who needs a calculator when you can just use Rada ',
+              permissions: []
+            }
         });
     }
 
@@ -22,7 +22,6 @@ class MathCommand extends Command {
       try {
           resp = math.evaluate(sum);
       } catch (error) {
-          // message.util.send(error.message)
           return message.util.send('The math sum you entered is not valid.');
       }
       return message.util.send(`\`\`\`${sum} = ${resp}\`\`\``);

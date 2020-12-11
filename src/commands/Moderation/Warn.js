@@ -20,13 +20,8 @@ module.exports = class WarnCommand extends Command {
           match: 'rest',
           default: null
         }],
+        userPermissions: ['KICK_MEMBERS']
       });
-    }
-    userPermissions(message) {
-        if (!message.member.permissions.has('KICK_MEMBERS')) {
-            return message.responder.error('**You require the kick members permission to use this command**');
-        }
-        return null;
     }
 
     async exec(message, args) {

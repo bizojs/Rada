@@ -4,17 +4,18 @@ const req = require('@aero/centra');
 class Wikipedia extends Command {
     constructor() {
         super('wikipedia', {
-           aliases: ['wikipedia', 'wiki'],
-           category: 'Miscellaneous',
-           description: {
-               content: 'Fetch information about a wiki page',
-               permissions: ['EMBED_LINKS']
-           },
-           args: [{
-               id: 'query',
-               type: 'string',
-               match: 'rest'
-           }]
+            aliases: ['wikipedia', 'wiki'],
+            category: 'Miscellaneous',
+            description: {
+                content: 'Fetch information about a wiki page',
+                permissions: ['EMBED_LINKS']
+            },
+            args: [{
+                id: 'query',
+                type: 'string',
+                match: 'rest'
+            }],
+            clientPermissions: ['EMBED_LINKS']
         })
     }
 

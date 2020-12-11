@@ -20,19 +20,9 @@ class KickCommand extends Command {
           match: 'rest',
           default: 'No reason provided',
         }],
+        userPermissions: ['KICK_MEMBERS'],
+        clientPermissions: ['KICK_MEMBERS']
       });
-    }
-    userPermissions(message) {
-        if (!message.member.permissions.has('KICK_MEMBERS')) {
-            return message.responder.error('**You require the kick members permission to use this command**');
-        }
-        return null;
-    }
-    clientPermissions(message) {
-        if (!message.guild.me.permissions.has('KICK_MEMBERS')) {
-            return message.responder.error('**I require the kick members permission to use this command**');
-        }
-        return null;
     }
 
     async exec(message, args) {

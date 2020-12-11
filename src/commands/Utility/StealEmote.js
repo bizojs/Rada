@@ -15,20 +15,10 @@ class StealEmoteCommand extends Command {
               type: 'string'
            }],
            userPermissions: ['MANAGE_EMOJIS'],
+           clientPermissions: ['MANAGE_EMOJIS']
         });
     }
-    clientPermissions(message) {
-        if (!message.guild.me.permissions.has('MANAGE_EMOJIS')) {
-            return message.responder.error('**Please give me permission to manage emojis**');
-        }
-        return null;
-    }
-    userPermissions(message) {
-        if (!message.member.permissions.has('MANAGE_EMOJIS')) {
-            return message.responder.error('**You require the permission to manage emojis**');
-        }
-        return null;
-    }
+
 
     async exec(message, args) {
         if(!args.emote) {

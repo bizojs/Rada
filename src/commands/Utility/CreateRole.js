@@ -14,21 +14,12 @@ class CreateRoleCommand extends Command {
                 type: 'string',
                 match: 'rest',
                 default: null
-            }]
+            }],
+            userPermissions: ['MANAGE_ROLES'],
+            clientPermissions: ['MANAGE_ROLES']
         })
     }
-    clientPermissions(message) {
-        if (!message.guild.me.permissions.has('MANAGE_ROLES')) {
-            return message.responder.error('**I require the permission to manage roles**');
-        }
-        return null
-    }
-    userPermissions(message) {
-        if (!message.member.permissions.has('MANAGE_ROLES')) {
-            return message.responder.error('**You require the permission to manage roles to run this command**');
-        }
-        return null
-    }
+
     async exec(message, { role }) {
         if (!role) {
             return message.responder.error(`**Please provide a name for the new role**`);

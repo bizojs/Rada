@@ -19,21 +19,12 @@ class SetCategoryCommand extends Command {
                 id: 'category',
                 type: 'channel',
                 default: null
-            }]
+            }],
+            userPermissions: ['MANAGE_CHANNELS'],
+            clientPermissions: ['MANAGE_CHANNELS']
         })
     }
-    clientPermissions(message) {
-        if (!message.guild.me.permissions.has('MANAGE_CHANNELS')) {
-            return message.responder.error('**I require the permission to manage channels**');
-        }
-        return null
-    }
-    userPermissions(message) {
-        if (!message.member.permissions.has('MANAGE_CHANNELS')) {
-            return message.responder.error('**You require the permission to manage channels to run this command**');
-        }
-        return null
-    }
+
     async exec(message, { channel, category }) {
         if (!channel) {
             return message.responder.error(`**Please provide the channel you want to change the category of**\nExample: \`${message.guild.prefix}setcategory #mod-logs, staff\`\n                  \`${message.guild.prefix}setcategory Karaoke 🎤, voice channels\``);

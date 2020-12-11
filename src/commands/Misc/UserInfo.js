@@ -15,7 +15,8 @@ class UserInfoCommand extends Command {
                 id: 'member',
                 type: 'member',
                 default: message => message.member
-           }]
+            }],
+            clientPermissions: ['EMBED_LINKS']
         });
     }
 

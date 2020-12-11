@@ -3,17 +3,18 @@ const { Command } = require('discord-akairo');
 class ColorCommand extends Command {
     constructor() {
         super('color', {
-           aliases: ['color'],
-           category: 'Miscellaneous',
-           description: {
-            content: 'Information about a color if you provide a hex value.\nRunning the command without a hex value will generate a random hex and get information for it.',
-            permissions: ['EMBED_LINKS']
-           },
-           args: [{
-              id: 'hex',
-              type: /^#?([A-F0-9]{6}|[A-F0-9]{3})$/i,
-              default: null
-           }]
+            aliases: ['color'],
+            category: 'Miscellaneous',
+            description: {
+                content: 'Information about a color if you provide a hex value.\nRunning the command without a hex value will generate a random hex and get information for it.',
+                permissions: ['EMBED_LINKS']
+            },
+            args: [{
+                id: 'hex',
+                type: /^#?([A-F0-9]{6}|[A-F0-9]{3})$/i,
+                default: null
+            }],
+            clientPermissions: ['EMBED_LINKS']
         });
     }
 

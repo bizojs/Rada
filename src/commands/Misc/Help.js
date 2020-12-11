@@ -31,7 +31,7 @@ class HelpCommand extends Command {
             }
             embed.setDescription(`Help for command **${args.command.id}**${args.command.ownerOnly ? ' (Owner only)' : ''}`)
             embed.addField('Description', args.command.description.extended ? `${args.command.description.content}\n${args.command.description.extended}` : args.command.description.content)
-            if (args.command.description.examples.length > 0) {
+            if (args.command.description.examples && args.command.description.examples.length > 0) {
                 embed.addField('Examples', args.command.description.examples(message).map(a => a).join('\n'))
             }
             embed.addField('Category', args.command.categoryID)

@@ -3,12 +3,13 @@ const { Command } = require('discord-akairo');
 class ContributorsCommand extends Command {
     constructor() {
         super('contributors', {
-           aliases: ['contributors', 'contrib'],
-           category: 'Miscellaneous',
-           description: {
-               content: 'Shows users who have contributed to rada.',
-               permissions: ['EMBED_LINKS']
-           }
+            aliases: ['contributors', 'contrib'],
+            category: 'Miscellaneous',
+            description: {
+                content: 'Shows users who have contributed to rada.',
+                permissions: ['EMBED_LINKS']
+            },
+            clientPermissions: ['EMBED_LINKS']
         });
     }
 

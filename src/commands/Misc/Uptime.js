@@ -3,12 +3,13 @@ const { Command } = require('discord-akairo');
 class UptimeCommand extends Command {
     constructor() {
         super('uptime', {
-           aliases: ['uptime'],
-           category: 'Miscellaneous',
-           description: {
-               content: 'See how long the bot has been online for.',
-               permissions: ['EMBED_LINKS']
-           }
+            aliases: ['uptime'],
+            category: 'Miscellaneous',
+            description: {
+                content: 'See how long the bot has been online for.',
+                permissions: ['EMBED_LINKS']
+            },
+            clientPermissions: ['EMBED_LINKS']
         });
     }
 

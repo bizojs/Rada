@@ -3,13 +3,14 @@ const { Command } = require('discord-akairo');
 class InviteStatsCommand extends Command {
     constructor() {
         super('invitestats', {
-           aliases: ['invitestats', 'is'],
-           category: 'Miscellaneous',
-           description: {
-             content: 'Shows the amount of uses from each invite created in your server.',
-             permissions: ['EMBED_LINKS']
-           }
-        });
+          aliases: ['invitestats', 'is'],
+          category: 'Miscellaneous',
+          description: {
+            content: 'Shows the amount of uses from each invite created in your server.',
+            permissions: ['EMBED_LINKS']
+          },
+          clientPermissions: ['EMBED_LINKS']
+      });
     }
 
     async exec(message) {

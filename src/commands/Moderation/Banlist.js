@@ -8,20 +8,10 @@ module.exports = class BanListCommand extends Command {
         description: {
             content: 'Displays the banned members of the server.',
             permissions: ['VIEW_AUDIT_LOG', 'EMBED_LINKS']
-        }
+        },
+        userPermissions: ['VIEW_AUDIT_LOG'],
+        clientPermissions: ['VIEW_AUDIT_LOG', 'EMBED_LINKS']
       });
-    }
-    userPermissions(message) {
-        if (!message.member.permissions.has('VIEW_AUDIT_LOG')) {
-            return message.responder.error('**You require the view audit logs permission to use this command**');
-        }
-        return null;
-    }
-    clientPermissions(message) {
-        if (!message.guild.me.permissions.has('VIEW_AUDIT_LOG')) {
-            return message.responder.error('**I require the view audit logs permission to use this command**');
-        }
-        return null;
     }
 
     async exec(message) {

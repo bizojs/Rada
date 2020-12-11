@@ -43,6 +43,7 @@ class RadaClient extends AkairoClient {
                 }
                 return config.production ? config.prefix : config.devPrefix;
             },
+            ignoreCooldown: [],
         	blockBots: true,
         	allowMention: true,
         	handleEdits: true,
@@ -54,13 +55,13 @@ class RadaClient extends AkairoClient {
         this.listenerHandler = new ListenerHandler(this, {
             directory: './src/listeners/'
         });
-        this.commandHandler.useInhibitorHandler(this.inhibitorHandler)
-		this.commandHandler.useListenerHandler(this.listenerHandler);
 		this.listenerHandler.setEmitters({
 		    commandHandler: this.commandHandler,
 		    inhibitorHandler: this.inhibitorHandler,
 		    listenerHandler: this.listenerHandler
-		});
+        });
+        this.commandHandler.useInhibitorHandler(this.inhibitorHandler);
+		this.commandHandler.useListenerHandler(this.listenerHandler);
 		this.listenerHandler.loadAll();
 		this.inhibitorHandler.loadAll();
 		this.commandHandler.loadAll();
@@ -72,6 +73,7 @@ class RadaClient extends AkairoClient {
         this.settings = new MongooseProvider(model);
         this.flipnote = new Flipnote(process.env.FLIPNOTE);
         this.Timestamp = Timestamp;
+        this.verbose = true // will console log whne commands are ran
     }
     async login(token) {
     	await this.settings.init();

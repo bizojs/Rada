@@ -16,7 +16,8 @@ class MCStatusCommand extends Command {
               type: 'string'
             }],
             cooldown: 60000,
-            ratelimit: 1
+            ratelimit: 1,
+            clientPermissions: ['EMBED_LINKS']
         });
         this.default = 'https://i.br4d.vip/CyDFzDrI.png';
         this.error_responses = [

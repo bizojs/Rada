@@ -14,21 +14,12 @@ class DeleteChannelCommand extends Command {
                 type: 'channel',
                 match: 'rest',
                 default: null
-            }]
+            }],
+            userPermissions: ['MANAGE_CHANNELS'],
+            clientPermissions: ['MANAGE_CHANNELS']
         })
     }
-    clientPermissions(message) {
-        if (!message.guild.me.permissions.has('MANAGE_CHANNELS')) {
-            return message.responder.error('**I require the permission to manage channels**');
-        }
-        return null
-    }
-    userPermissions(message) {
-        if (!message.member.permissions.has('MANAGE_CHANNELS')) {
-            return message.responder.error('**You require the permission to manage channels to run this command**');
-        }
-        return null
-    }
+
     async exec(message, { channel }) {
         if (!channel) {
             return message.responder.error(`**Please provide a channel to delete**`);

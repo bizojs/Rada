@@ -4,17 +4,18 @@ const { MessageEmbed } = require('discord.js');
 class AvatarCommand extends Command {
     constructor() {
         super('avatar', {
-           aliases: ['avatar', 'av'],
-           category: 'Miscellaneous',
-           description: {
-             content: 'Get a user\'s avatar.',
-             permissions: ['EMBED_LINKS']
-           },
-           args: [{
-              id: 'member',
-              type: 'member',
-              default: message => message.member
-           }]
+          aliases: ['avatar', 'av'],
+          category: 'Miscellaneous',
+          description: {
+            content: 'Get a user\'s avatar.',
+            permissions: ['EMBED_LINKS']
+          },
+          args: [{
+            id: 'member',
+            type: 'member',
+            default: message => message.member
+          }],
+          clientPermissions: ['EMBED_LINKS']
         });
         this.placeholder = "https://i.br4d.vip/G9SXe-5O.png";
     }

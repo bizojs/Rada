@@ -13,7 +13,8 @@ class HelpCommand extends Command {
                 id: 'command',
                 type: 'command',
                 default: null
-            }]
+            }],
+            clientPermissions: ['EMBED_LINKS']
         });
     }
 
@@ -63,7 +64,7 @@ class HelpCommand extends Command {
                 embed.addField(c.id, commandMap.length > 1 ? commandMap.join(', ') : commandMap)    
             })
         }
-         return embed;
+        return embed;
     }
 }
 

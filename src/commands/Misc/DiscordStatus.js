@@ -11,7 +11,8 @@ module.exports = class DiscordStatusCommand extends Command {
             description: {
                 content: 'Get the status of Discord',
                 permissions: ['EMBED_LINKS']
-            }
+            },
+            clientPermissions: ['EMBED_LINKS']
         })
         this.baseUrl = 'https://status.discord.com/api/v2';
         this.logo = 'https://i.br4d.vip/ADlDBUxe.png';
