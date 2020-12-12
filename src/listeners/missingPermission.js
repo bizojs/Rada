@@ -10,6 +10,7 @@ module.exports = class missingPermission extends Listener {
     }
 
     exec(message, command, type, missing) {
+        if (command.id === 'urban') return;
         let permFormat = missing.length > 1 ?
             `\`${missing.join(' ').split(' ', missing.length - 1).join('\`, \`').replace(/_/g, ' ').toLowerCase()}\` and \`${missing[missing.length - 1].replace(/_/g, ' ').toLowerCase()}\`` :
             `\`${missing[0].toLowerCase().replace(/_/g, ' ')}\``
