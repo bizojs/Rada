@@ -44,6 +44,7 @@ class KickCommand extends Command {
         collector.on('collect', msg => {
             switch (msg.content) {
                 case "y":
+                    msg.delete()
                     args.member.kick(`Kicked by: ${message.member.user.tag} - Reason: ${args.reason}.`)
                         .then(() => {
                             collector.stop('success');
@@ -64,8 +65,9 @@ class KickCommand extends Command {
                         */
                     break;
                 case "n":
-                   message.responder.success('**Cancelled**');
-                   collector.stop('success');
+                    msg.delete()
+                    message.responder.success('**Cancelled**');
+                    collector.stop('success');
                 break
                 default:
                     message.responder.success('**Cancelled**');

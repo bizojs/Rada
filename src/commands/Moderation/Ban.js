@@ -45,6 +45,7 @@ class BanCommand extends Command {
         collector.on('collect', msg => {
             switch (msg.content) {
                 case "y":
+                    msg.delete()
                     args.member.ban({days: 0, reason: `Banned by: ${message.member.user.tag} - Reason: ${args.reason}.`})
                         .then(() => {
                             collector.stop('success');
@@ -65,8 +66,9 @@ class BanCommand extends Command {
                         */
                     break;
                 case "n":
-                   message.responder.success('**Cancelled**');
-                   collector.stop('success');
+                    msg.delete()
+                    message.responder.success('**Cancelled**');
+                    collector.stop('success');
                 break
                 default:
                     message.responder.success('**Cancelled**');
