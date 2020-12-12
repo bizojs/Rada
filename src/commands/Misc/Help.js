@@ -7,12 +7,13 @@ class HelpCommand extends Command {
             aliases: ['help', 'h'],
             category: 'Miscellaneous',
             description: {
-                content: 'View all commands available.\nAdd a command name after to view information about that specific command.',
+                content: 'View all commands available.',
+                extended: 'Add a command name after to view information about that specific command.',
                 permissions: ['EMBED_LINKS']
             },
             args: [{
                 id: 'command',
-                type: 'command',
+                type: 'commandAlias',
                 default: null
             }]
         });
