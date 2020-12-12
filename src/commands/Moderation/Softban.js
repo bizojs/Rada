@@ -7,7 +7,8 @@ class BanCommand extends Command {
         aliases: ['softban', 'sb'],
         category: 'Moderation',
         description: {
-            content: 'Ban a user from the server then unban them. Think of it as a kick but to also remove messages.',
+            content: 'Ban a user from the server then instantly unban them.',
+            extended: 'Think of it as a kick but to also remove messages.',
             permissions: ['BAN_MEMBERS']
         },
         args: [{

@@ -7,7 +7,8 @@ class PollCommand extends Command {
             aliases: ['poll', 'vote'],
             category: 'Utility',
             description: {
-                content: 'Create a poll in your server with some options for people to vote on.\nYou can use the flag \`--delete\` anywhere in the message to automatically delete the invocation message as long as Rada has permission to manage messages.',
+                content: 'Create a poll in your server with some options for people to vote on.',
+                extended: 'You can use the flag \`--delete\` anywhere in the message to automatically delete the invocation message as long as Rada has permission to manage messages.',
                 permissions: ['EMBED_LINKS', 'ADD_REACTIONS', 'MANAGE_MESSAGES (ℹ)']
             },
             separator: ',',

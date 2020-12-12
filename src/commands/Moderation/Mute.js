@@ -6,8 +6,9 @@ module.exports = class MuteCommand extends Command {
     constructor() {
         super('mute', {
             aliases: ['mute', 'm', 'silence'],
+            category: 'Moderation',
             description: {
-                content: '',
+                content: 'Mute a user in the server',
                 permissions: ['MUTE_MEMBERS', 'MANAGE_ROLES']
             },
             args: [{
