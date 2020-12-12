@@ -1,7 +1,7 @@
 const { Listener } = require('discord-akairo');
 const { readdirSync } = require('fs');
 
-class ReadyListener extends Listener {
+module.exports = class ReadyListener extends Listener {
     constructor() {
         super('ready', {
             emitter: 'client',
@@ -22,11 +22,12 @@ class ReadyListener extends Listener {
                 type: 5
             }
         });
-        this.client.log.success(`Logged into discord and connected as ${this.client.user.tag}`);
+        this.client.log.success(`Connected to the Discord API`);
+        this.client.log.success(`Logged into as ${this.client.user.tag}`);
         if (process.platform !== 'linux') {
-            this.client.Cli.start();
+            if (!this.client.settings.get(this.client.id, 'debug')) {
+                this.client.Cli.start();
+            }
         }
     }
 }
-
-module.exports = ReadyListener;

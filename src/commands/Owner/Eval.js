@@ -32,15 +32,21 @@ class EvalCommand extends Command {
                 match: 'flag',
                 flag: '--silent',
                 unordered: true
+            },
+            {
+                id: 'depth',
+                match: 'option',
+                flag: '--depth=',
+                default: 0
             }]
         });
     }
 
-    async exec(message, { argresult, async, silent }) {
+    async exec(message, { argresult, async, silent, depth }) {
         if (!argresult) {
             return message.responder.error('**Enter some code that you want to be evaluated**');
         }
-        const { success, result, time, type } = await this.eval(message, argresult, async);
+        const { success, result, time, type } = await this.eval(message, argresult, async, depth);
         const footer = Util.codeBlock('ts', type);
         const output = success ? `**Output**:${Util.codeBlock('js', result)}\n**Type**:${footer}\n${time}` : `**Error**:${Util.codeBlock('js', result)}\n**Type**:${footer}\n${time}`
         if (silent) return null;
@@ -56,7 +62,7 @@ class EvalCommand extends Command {
         return message.util.send(output);
     }
 
-    async eval(message, code, async) {
+    async eval(message, code, async, depth) {
         const msg = message;
         code = code.replace(/[“”]/g, '"').replace(/[‘’]/g, "'");
         const stopwatch = new Stopwatch();
@@ -86,7 +92,7 @@ class EvalCommand extends Command {
         stopwatch.stop();
         if (typeof result !== 'string') {
             result = inspect(result, {
-                depth: 0,
+                depth: depth ? parseInt(depth) || 0 : 0,
                 showHidden: false
             });
         }

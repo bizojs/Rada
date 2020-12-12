@@ -10,7 +10,7 @@ const {
 	MongooseProvider
 } = require('discord-akairo');
 // Custom classes
-const { clientColor, logo, christmasLogo } = require('./lib/constants');
+const { clientColor, logo, christmasLogo, id } = require('./lib/constants');
 const model = require('./src/models/clientSchema');
 const Cli = require('./lib/classes/Cli');
 const Logger = require('./lib/log');
@@ -73,10 +73,10 @@ class RadaClient extends AkairoClient {
         this.settings = new MongooseProvider(model);
         this.flipnote = new Flipnote(process.env.FLIPNOTE);
         this.Timestamp = Timestamp;
-        this.verbose = true // will console log whne commands are ran
+        this.id = id;
     }
     async login(token) {
-    	await this.settings.init();
+        this.settings.init();
         this.log.success('Connected to Dabatase');
         this.Cli.init();
     	return super.login(token);
