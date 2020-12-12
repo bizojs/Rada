@@ -35,11 +35,12 @@ class RadaClient extends AkairoClient {
                 }
 			}
         });
+        this.settings = new MongooseProvider(model);
         this.commandHandler = new CommandHandler(this, {
         	directory: './src/commands/',
         	prefix: (message) => {
                 if (message.guild) {
-                    return message.guild.prefix;
+                    return this.settings.get(message.guild.id, 'prefix', message.guild.prefix)
                 }
                 return config.production ? config.prefix : config.devPrefix;
             },
@@ -70,7 +71,6 @@ class RadaClient extends AkairoClient {
         this.setMaxListeners(30);
         this.log = new Logger;
         this.Cli = new Cli(this);
-        this.settings = new MongooseProvider(model);
         this.flipnote = new Flipnote(process.env.FLIPNOTE);
         this.Timestamp = Timestamp;
         this.id = id;
