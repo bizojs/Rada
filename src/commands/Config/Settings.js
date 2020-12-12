@@ -54,7 +54,7 @@ class SettingsCommand extends Command {
         if (newPrefix > 6) return message.util.send(`❌ **Your prefix can\'t be longer than 6 characters**`);
         await this.client.settings.set(message.guild.id, 'prefix', newPrefix);
         embed.setTitle(`Prefix updated`)
-             .setDescription(`✅ **Your prefix has been updated to** \`${message.guild.prefix}\`\n\nYou can change it back with \`${newPrefix}settings prefix ${message.guild.prefix}\``)
+             .setDescription(`✅ **Your prefix has been updated to** \`${newPrefix}\`\n\nYou can change it back with \`${newPrefix}settings prefix ${message.guild.prefix}\``)
         return message.util.send(embed);
       }
       if (args.option === 'logs') {
