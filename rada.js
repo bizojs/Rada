@@ -74,6 +74,7 @@ class RadaClient extends AkairoClient {
         this.flipnote = new Flipnote(process.env.FLIPNOTE);
         this.Timestamp = Timestamp;
         this.id = id;
+        this.defaultPrefix = config.production ? config.prefix : config.devPrefix;
     }
     async login(token) {
         this.settings.init();
