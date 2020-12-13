@@ -26,7 +26,6 @@ class HelpCommand extends Command {
             .setColor(this.client.color)
             .setFooter(`Requested by ${message.author.username}`)
             .setTimestamp();
-        console.log(args.command)
         if (typeof args.command !== 'string' && args.command) {
             if (args.command.ownerOnly && !this.client.ownerID.includes(message.author.id)) {
                 return message.util.send(this.generateHelp(message));
