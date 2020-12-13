@@ -26,7 +26,8 @@ class HelpCommand extends Command {
             .setColor(this.client.color)
             .setFooter(`Requested by ${message.author.username}`)
             .setTimestamp();
-        if (typeof args.command !== 'string') {
+        console.log(args.command)
+        if (typeof args.command !== 'string' && args.command) {
             if (args.command.ownerOnly && !this.client.ownerID.includes(message.author.id)) {
                 return message.util.send(this.generateHelp(message));
             }
@@ -44,7 +45,7 @@ class HelpCommand extends Command {
             }
             return message.util.send(embed);
         } else {
-            let category = this.client.commandHandler.findCategory(args.command);
+            let category = args.command ? this.client.commandHandler.findCategory(args.command) : null;
             if (category) {
                 let categoryEmbed = this.client.util.embed()
                     .setTitle(`${this.client.user.username} help menu for __${category.id}__ category`)
