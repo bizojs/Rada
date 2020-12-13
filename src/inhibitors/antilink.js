@@ -12,10 +12,10 @@ class Antilink extends Inhibitor {
 
     async exec(message) {
         if (message.author.id === message.guild.me.id) return;
-        let antilink = message.guild.settings.get(message.guild.id, 'antilink', 'None');
+        let antilink = message.guild.settings.get(message.guild.id, 'antilink', 'off');
         const key = `${message.author.id}.antilink-cooldown`;
-        if (antilink === 'None') return;
-        if (antilink) {
+        if (antilink === 'off') return;
+        if (antilink === 'on') {
             let role = message.guild.roles.cache.find(r => r.name.toLowerCase().includes('bypass'));
             if (role && message.member.roles.cache.has(role.id)) return;
             if (message.content.match(message.regex.invites)) {

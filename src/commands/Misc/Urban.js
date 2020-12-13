@@ -8,25 +8,22 @@ class UrbanCommand extends Command {
             category: 'Miscellaneous',
             description: {
                 content: 'Search urban dictionary for a word or phrase and get the first result',
-                permissions: ['EMBED_LINKS', 'MANAGE_MESSAGES']  
+                permissions: ['EMBED_LINKS', 'MANAGE_MESSAGES']
             },
             args: [{
                 id: 'query',
                 type: 'string',
                 match: 'rest'
             }],
-            clientPermissions: ['EMBED_LINKS', 'MANAGE_MESSAGES']
+            clientPermissions: ['EMBED_LINKS', 'MANAGE_MESSAGES'],
         });
-    }
-
-    userPermissions(message) {
-        if (!message.channel.nsfw) {
-            return message.util.send('🔞 **This command must be used in an NSFW marked channel**');
-        }
-        return null;
+        this.nsfw = true;
     }
 
     async exec(message, args) {
+        if (!args.query) {
+            return message.responder.error('**Please provide something to search urban dictionary for**')
+        }
         let search = args.query.split(" ").join("+");
         const data = await req(`http://api.urbandictionary.com/v0/define?term=${search}`).json();
         let result = data.list;

@@ -6,7 +6,8 @@ module.exports = class WarningsCommand extends Command {
             aliases: ['warnings', 'warns'],
             category: 'Moderation',
             description: {
-                content: 'With this command you can View **all** warnings a user has, view a specific warning, delete a specific warning or delete all warnings.\nFind the "Examples" field below',
+                content: 'Warning settings for a user',
+                extended: 'With this command you can View **all** warnings a user has, view a specific warning, delete a specific warning or delete all warnings.\nFind the "Examples" field below',
                 examples: (message) => [
                     `\`${message.guild.prefix}warnings <User>\` - View all warnings`,
                     `\`${message.guild.prefix}warnings <User> <WarnID>\` - View specific warning`,

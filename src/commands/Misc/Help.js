@@ -1,4 +1,4 @@
-const { Command } = require('discord-akairo');
+const { Command, Argument } = require('discord-akairo');
 const Util = require('../../../lib/structures/Util');
 
 class HelpCommand extends Command {
@@ -13,7 +13,7 @@ class HelpCommand extends Command {
             },
             args: [{
                 id: 'command',
-                type: 'commandAlias',
+                type: Argument.union('command', 'commandAlias', 'string'),
                 default: null
             }]
         });
@@ -26,11 +26,11 @@ class HelpCommand extends Command {
             .setColor(this.client.color)
             .setFooter(`Requested by ${message.author.username}`)
             .setTimestamp();
-        if (args.command) {
+        if (typeof args.command !== 'string') {
             if (args.command.ownerOnly && !this.client.ownerID.includes(message.author.id)) {
                 return message.util.send(this.generateHelp(message));
             }
-            embed.setDescription(`Help for command **${args.command.id}**${args.command.ownerOnly ? ' (Owner only)' : ''}`)
+            embed.setDescription(`Help for command **${args.command.id}**${args.command.ownerOnly ? ' (Owner only)' : args.command.nsfw ? ' (NSFW)' : ''}`)
             embed.addField('Description', args.command.description.extended ? `${args.command.description.content}\n${args.command.description.extended}` : args.command.description.content)
             if (args.command.description.examples && args.command.description.examples.length > 0) {
                 embed.addField('Examples', args.command.description.examples(message).map(a => a).join('\n'))
@@ -44,6 +44,18 @@ class HelpCommand extends Command {
             }
             return message.util.send(embed);
         } else {
+            let category = this.client.commandHandler.findCategory(args.command);
+            if (category) {
+                let categoryEmbed = this.client.util.embed()
+                    .setTitle(`${this.client.user.username} help menu for __${category.id}__ category`)
+                    .setThumbnail(this.client.avatar)
+                    .setDescription(category.map(cmd => `\`${Util.toTitleCase(cmd.id)}\`${cmd.ownerOnly ? ' **(Owner only)**' : cmd.nsfw ? ' **(NSFW)**' : ''} - ${cmd.description.content}`).join('\n'))
+                    .setThumbnail(this.client.avatar)
+                    .setColor(this.client.color)
+                    .setFooter(`Requested by ${message.author.username}`)
+                    .setTimestamp();
+                return message.util.send(categoryEmbed)
+            }
             return message.paginate(this.generateHelp(message));
         }
     }

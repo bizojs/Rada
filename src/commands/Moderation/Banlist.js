@@ -12,37 +12,28 @@ module.exports = class BanListCommand extends Command {
             userPermissions: ['VIEW_AUDIT_LOG'],
             clientPermissions: ['VIEW_AUDIT_LOG', 'BAN_MEMBERS']
         });
-        this.preventDuplicate = new Set();
+        this.placeholder = 'https://i.br4d.vip/oS0y6Dkx.png'
     }
 
     async exec(message) {
-        async function fetchAuditBans() {
-            let array = [];
-            let currentlyBanned = await message.guild.fetchBans();
-            await message.guild.fetchAuditLogs({type: 'MEMBER_BAN_ADD'})
-            .then(audit => {
-                audit.entries.filter(entry => currentlyBanned.has(entry.target.id))
-                .forEach(entry => {
-                    let data = {
-                        user: new Object(entry.target),
-                        moderator: new Object(entry.executor),
-                        reason: String(entry.reason ? entry.reason : '⚠ No reason found'),
-                    }
-                    array.push(data)
-                })
-            })
-            return array;
-        }
 
-        const banned = await fetchAuditBans()
+        const fetched = await message.guild.fetchBans();
+        let array = [];
+        fetched.forEach(ban => {
+            let data = {
+                user: new Object(ban.user),
+                reason: String(ban.reason ? ban.reason : '⚠ No reason found')
+            }
+            array.push(data);
+        })
+
         const embeds = [];
-        for (let i = 0; i < banned.length; i++) {
+        for (let i = 0; i < array.length; i++) {
             let embed = this.client.util.embed()
-                .setTitle(`Banned users for ${message.guild.name} (${banned.length} total)`)
-                .addField('Target', `\`${banned[i].user.tag} (${banned[i].user.id})\``)
-                .addField('Moderator', `\`${banned[i].moderator.tag} (${banned[i].moderator.id})\``)
-                .addField('Reason', `${banned[i].reason}`)
-                .setThumbnail(banned[i].user.avatarURL({size: 512}).replace('webp', 'png').replace('webm', 'gif'))
+                .setTitle(`Banned users for ${message.guild.name} (${array.length} total)`)
+                .addField('Target', `\`${array[i].user.tag} (${array[i].user.id})\``)
+                .addField('Reason', `${array[i].reason}`)
+                .setThumbnail(array[i].user.avatarURL() ? array[i].user.avatarURL({size: 512}).replace('webp', 'png').replace('webm', 'gif') : this.placeholder)
                 .setColor(this.client.color)
             embeds.push(embed);
         }
