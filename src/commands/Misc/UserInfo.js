@@ -28,10 +28,6 @@ class UserInfoCommand extends Command {
         if ([undefined, null].includes(member.lastMessage)) {
             userLastMessage = "Last message not found";
         } else { userLastMessage = trimString(member.lastMessage, 30); }
-        let flags = [];
-        for (const flag of member.user.flags.toArray()) {
-            flags.push(Util.toTitleCase(flag.replace(/_/g, ' ')))
-        }
         let embed = this.client.util.embed()
             .setColor(this.client.color)
             .setTitle(`${member.user.tag} User Information`)
@@ -43,8 +39,8 @@ class UserInfoCommand extends Command {
         if (member.user.avatarURL() !== null) {
             embed.setThumbnail(member.user.avatarURL({size:512}).replace(/webp/g, 'png').replace(/web?m/g, 'gif'))
         }
-        if (flags.length > 1) {
-            embed.addField('Badges', flags.join(', '))
+        if (member.user.displayFlags().length > 0) {
+            embed.addField('Badges', member.user.displayFlags())
         }
         return message.util.send(embed);        
     }
