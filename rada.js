@@ -26,7 +26,7 @@ class RadaClient extends AkairoClient {
         	ownerID: config.owners
         }, {
         	disableMentions: 'everyone',
-        	fetchAllMembers: true,
+            fetchAllMembers: true,
         	partials: ['MESSAGE', 'CHANNEL', 'REACTION', 'GUILD_MEMBER', 'USER'],
 			ws: {
 				intents: GUILDS | GUILD_MEMBERS | GUILD_BANS | GUILD_MESSAGES | GUILD_MESSAGE_REACTIONS | GUILD_VOICE_STATES,
@@ -81,6 +81,10 @@ class RadaClient extends AkairoClient {
         this.log.success('Connected to Dabatase');
         this.Cli.init();
     	return super.login(token);
+    }
+    shardId(guildId) {
+        let shardToString = ((guildId >> 22) % 5).toString().replace(/-/, '')
+        return Number(shardToString);
     }
     daysBetween(startDate, endDate) {
         if (!endDate) endDate = Date.now();

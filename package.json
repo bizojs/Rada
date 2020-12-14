@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "node .",
     "lint": "eslint . --fix",
-    "start": "node --expose-gc ."
+    "start": "node lib/ws/ShardManager.js"
   },
   "author": "br4d",
   "license": "MIT",
