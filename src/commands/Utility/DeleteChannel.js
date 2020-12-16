@@ -3,7 +3,7 @@ const { Command } = require('discord-akairo');
 class DeleteChannelCommand extends Command {
     constructor() {
         super('deletechannel', {
-            aliases: ['deletechannel', 'dc'],
+            aliases: ['deletechannel'],
             category: 'Utility',
             description: {
                 content: 'Deletes a channel from the server.',
