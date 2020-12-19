@@ -14,7 +14,8 @@ module.exports = class extends Command {
                 id: 'member',
                 type: 'member',
                 default: null
-            }]
+            }],
+            clientPermissions: ['EMBED_LINKS']
         })
     }
     async exec(message, { member }) {

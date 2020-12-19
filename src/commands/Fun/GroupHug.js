@@ -9,7 +9,8 @@ module.exports = class GroupHugCommand extends Command {
             description: {
                 content: 'Give a few friends a nice hug. @Mention all users you want to hug',
                 permissions: ["EMBED_LINKS"]
-            }
+            },
+            clientPermissions: ['EMBED_LINKS']
         })
     }
     async exec(message) {

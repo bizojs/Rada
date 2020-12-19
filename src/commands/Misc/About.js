@@ -11,7 +11,7 @@ class AboutCommand extends Command {
             permissions: ['EMBED_LINKS']
           },
           clientPermissions: ['EMBED_LINKS']
-        });
+        })
     }
 
     async exec(message) {

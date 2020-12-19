@@ -10,7 +10,7 @@ module.exports = class BanListCommand extends Command {
                 permissions: ['VIEW_AUDIT_LOG', 'EMBED_LINKS']
             },
             userPermissions: ['VIEW_AUDIT_LOG'],
-            clientPermissions: ['VIEW_AUDIT_LOG', 'BAN_MEMBERS']
+            clientPermissions: ['VIEW_AUDIT_LOG', 'BAN_MEMBERS', 'EMBED_LINKS']
         });
         this.placeholder = 'https://i.br4d.vip/oS0y6Dkx.png'
     }

@@ -15,7 +15,8 @@ class HelpCommand extends Command {
                 id: 'command',
                 type: Argument.union('command', 'commandAlias', 'string'),
                 default: null
-            }]
+            }],
+            clientPermissions: ['EMBED_LINKS']
         });
     }
 
