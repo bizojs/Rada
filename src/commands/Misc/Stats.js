@@ -16,6 +16,7 @@ class StatsCommand extends Command {
     }
 
     async exec(message) {
+      let cpuUsage = osUtil.cpu.usage();
       const embed = this.client.util.embed()
         .setTitle('Statistics and information')
         .setColor(this.client.color)
@@ -26,7 +27,7 @@ class StatsCommand extends Command {
         .addField('Operating system', `${process.platform === 'linux' ? 'Ubuntu 18.04' : 'Windows 10'} ${process.arch}`)
         .addField('CPU', os.cpus()[0].model)
         .addField('Memory usage', `\`${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2) > 1024 ? `${(process.memoryUsage().heapUsed / 1024 / 1024 / 1024).toFixed(2)} GB` : `${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MB`}\` used\n\`${(os.totalmem() / 1024 / 1024).toFixed(2) > 1024 ? `${(os.totalmem() / 1024 / 1024 / 1024).toFixed(2)} GB` : `${(os.totalmem() / 1024 / 1024).toFixed(2)} MB`}\` available`, true)
-        .addField('CPU usage', `${osUtil.cpu.usage()}%`, true)
+        .addField('CPU usage', `${cpuUsage}%`, true)
         .addField('Users', `\`${this.client.guilds.cache.reduce((a, c) => a + c.memberCount, 0).toLocaleString()}\``)
         .addField('Guilds', `\`${(this.client.guilds.cache.size).toLocaleString()}\` guild${this.client.guilds.cache.size === 1 ? '' : 's'} (**${(this.client.channels.cache.size).toLocaleString()}** total channels)`)
       return message.util.send(embed);
