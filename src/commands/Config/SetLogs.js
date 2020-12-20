@@ -21,7 +21,6 @@ module.exports = class SetLogsCommand extends Command {
     }
 
     async exec(message, { channel }) {
-        console.log(channel)
         let current = message.guild.settings.get(message.guild.id, 'logs', false);
         let embed = this.client.util.embed()
             .setColor(this.client.color)
