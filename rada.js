@@ -2,12 +2,12 @@ const { GUILDS, GUILD_MEMBERS, GUILD_BANS, GUILD_MESSAGES, GUILD_MESSAGE_REACTIO
 // NPM Packages
 const { Timestamp } = require('@skyra/timestamp');
 const Flipnote = require('alexflipnote.js');
-const { 
-	AkairoClient,
+const {
+    AkairoClient,
     CommandHandler,
-	ListenerHandler,
-	InhibitorHandler,
-	MongooseProvider
+    ListenerHandler,
+    InhibitorHandler,
+    MongooseProvider
 } = require('discord-akairo');
 // Custom classes
 const { clientColor, logo, christmasLogo, id } = require('./lib/constants');
@@ -23,51 +23,51 @@ require('./lib/extensions');
 class RadaClient extends AkairoClient {
     constructor() {
         super({
-        	ownerID: config.owners
+            ownerID: config.owners
         }, {
-        	disableMentions: 'everyone',
+            disableMentions: 'everyone',
             fetchAllMembers: true,
-        	partials: ['MESSAGE', 'CHANNEL', 'REACTION', 'GUILD_MEMBER', 'USER'],
-			ws: {
-				intents: GUILDS | GUILD_MEMBERS | GUILD_BANS | GUILD_MESSAGES | GUILD_MESSAGE_REACTIONS | GUILD_VOICE_STATES,
+            partials: ['MESSAGE', 'CHANNEL', 'REACTION', 'GUILD_MEMBER', 'USER'],
+            ws: {
+                intents: GUILDS | GUILD_MEMBERS | GUILD_BANS | GUILD_MESSAGES | GUILD_MESSAGE_REACTIONS | GUILD_VOICE_STATES,
                 properties: {
                     $browser: "Discord iOS"
                 }
-			}
+            }
         });
         this.settings = new MongooseProvider(model);
         this.commandHandler = new CommandHandler(this, {
-        	directory: './src/commands/',
-        	prefix: (message) => {
+            directory: './src/commands/',
+            prefix: (message) => {
                 if (message.guild) {
                     return this.settings.get(message.guild.id, 'prefix', message.guild.prefix)
                 }
                 return config.production ? config.prefix : config.devPrefix;
             },
             ignoreCooldown: [],
-        	blockBots: true,
-        	allowMention: true,
-        	handleEdits: true,
-    		commandUtil: true
-    	});
+            blockBots: true,
+            allowMention: true,
+            handleEdits: true,
+            commandUtil: true
+        });
         this.inhibitorHandler = new InhibitorHandler(this, {
             directory: './src/inhibitors/'
         });
         this.listenerHandler = new ListenerHandler(this, {
             directory: './src/listeners/'
         });
-		this.listenerHandler.setEmitters({
-		    commandHandler: this.commandHandler,
-		    inhibitorHandler: this.inhibitorHandler,
-		    listenerHandler: this.listenerHandler
+        this.listenerHandler.setEmitters({
+            commandHandler: this.commandHandler,
+            inhibitorHandler: this.inhibitorHandler,
+            listenerHandler: this.listenerHandler
         });
         this.commandHandler.useInhibitorHandler(this.inhibitorHandler);
-		this.commandHandler.useListenerHandler(this.listenerHandler);
-		this.listenerHandler.loadAll();
-		this.inhibitorHandler.loadAll();
-		this.commandHandler.loadAll();
-		this.color = clientColor;
-		this.avatar = new Date().getMonth() === 11 ? christmasLogo : logo;
+        this.commandHandler.useListenerHandler(this.listenerHandler);
+        this.listenerHandler.loadAll();
+        this.inhibitorHandler.loadAll();
+        this.commandHandler.loadAll();
+        this.color = clientColor;
+        this.avatar = new Date().getMonth() === 11 ? christmasLogo : logo;
         this.setMaxListeners(30);
         this.log = new Logger;
         this.Cli = new Cli(this);
@@ -78,13 +78,7 @@ class RadaClient extends AkairoClient {
     }
     async login(token) {
         this.settings.init();
-        this.log.success('Connected to Dabatase');
-        this.Cli.init();
-    	return super.login(token);
-    }
-    shardId(guildId) {
-        let shardToString = ((guildId >> 22) % 5).toString().replace(/-/, '')
-        return Number(shardToString);
+        return super.login(token);
     }
     daysBetween(startDate, endDate) {
         if (!endDate) endDate = Date.now();
@@ -98,7 +92,7 @@ class RadaClient extends AkairoClient {
     }
     chunkify(input, chunkSize) {
         const output = [];
-        for (let i = 0; i < input.length; i += chunkSize){
+        for (let i = 0; i < input.length; i += chunkSize) {
             output.push(input.slice(i, i + chunkSize));
         }
         return output;
@@ -170,39 +164,39 @@ class RadaClient extends AkairoClient {
     }
     leet(text) {
         const leetMap = {
-            a: { translated: '4'},
-            b: { translated: 'B'},
-            c: { translated: 'C'},
-            d: { translated: 'D'},
-            e: { translated: '3'},
-            f: { translated: 'F'},
-            g: { translated: 'G'},
-            h: { translated: 'H'},
-            i: { translated: '1'},
-            j: { translated: 'J'},
-            k: { translated: 'K'},
-            l: { translated: 'L'},
-            m: { translated: 'M'},
-            n: { translated: 'N'},
-            o: { translated: '0'},
-            p: { translated: 'P'},
-            q: { translated: 'Q'},
-            r: { translated: 'R'},
-            s: { translated: 'S'},
-            t: { translated: 'T'},
-            u: { translated: 'U'},
-            v: { translated: 'V'},
-            w: { translated: 'W'},
-            x: { translated: 'X'},
-            y: { translated: 'Y'},
-            z: { translated: 'Z'}
+            a: { translated: '4' },
+            b: { translated: 'B' },
+            c: { translated: 'C' },
+            d: { translated: 'D' },
+            e: { translated: '3' },
+            f: { translated: 'F' },
+            g: { translated: 'G' },
+            h: { translated: 'H' },
+            i: { translated: '1' },
+            j: { translated: 'J' },
+            k: { translated: 'K' },
+            l: { translated: 'L' },
+            m: { translated: 'M' },
+            n: { translated: 'N' },
+            o: { translated: '0' },
+            p: { translated: 'P' },
+            q: { translated: 'Q' },
+            r: { translated: 'R' },
+            s: { translated: 'S' },
+            t: { translated: 'T' },
+            u: { translated: 'U' },
+            v: { translated: 'V' },
+            w: { translated: 'W' },
+            x: { translated: 'X' },
+            y: { translated: 'Y' },
+            z: { translated: 'Z' }
         };
         return text
-        .split('')
-        .map(char => {
-            const mappedChar = leetMap[char.toLowerCase()];
-            return mappedChar ? mappedChar['translated'] : char
-        }).join('');
+            .split('')
+            .map(char => {
+                const mappedChar = leetMap[char.toLowerCase()];
+                return mappedChar ? mappedChar['translated'] : char
+            }).join('');
     }
     owofy(string) {
         const { OwOfy } = require('./lib/constants')

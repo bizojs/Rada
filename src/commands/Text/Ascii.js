@@ -11,16 +11,17 @@ module.exports = class extends Command {
                 permissions: ['EMBED_LINKS']
             },
             args: [{
-                id: 'ascii',
-                type: 'string',
-                default: null
-            },
-            {
-                id: 'text',
-                type: 'string',
-                match: 'rest',
-                default: null
-            }]
+                    id: 'ascii',
+                    type: 'string',
+                    default: null
+                },
+                {
+                    id: 'text',
+                    type: 'string',
+                    match: 'rest',
+                    default: null
+                }
+            ]
         })
     }
     async exec(message, { ascii, text }) {
@@ -36,12 +37,21 @@ module.exports = class extends Command {
         if (!isNaN(text)) return message.responder.error('**You cannot asciify numbers**');
         return message.util.send(
             figlet.textSync(text, { font: validFont }), {
-            code: 'asciidoc'
-        });
+                code: 'asciidoc'
+            });
     }
     async list(message) {
         const fonts = figlet.fontsSync();
         const pages = this.client.chunkify(fonts, 25);
-        return message.paginate(pages, 'Ascii types')
+        let embeds = [];
+        for (let i = 0; i < pages.length; i++) {
+            let embed = this.client.util.embed()
+                .setTitle('Ascii types')
+                .setColor(this.client.color)
+                .setDescription(pages[i])
+                .setTimestamp()
+            embeds.push(embed);
+        }
+        return message.paginate(embeds)
     }
 }

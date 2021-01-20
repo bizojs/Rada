@@ -24,7 +24,7 @@ module.exports = class MuteCommand extends Command {
             clientPermissions: ['MANAGE_ROLES']
         })
     }
-    async exec(message, { member, duration, reason }) {
+    async exec(message, { member, duration }) {
         if (!member) {
             return message.responder.error('**Please provide a user to mute**');
         }
@@ -36,7 +36,7 @@ module.exports = class MuteCommand extends Command {
             return message.responder.error('**I cannot be muted**');
         }
         if (message.member.roles.highest.comparePositionTo(member.roles.highest) <= 0) {
-            return message.responder.error(`**You are unable to mute ${args.member.user.tag}**: \`Higher role\``);
+            return message.responder.error(`**You are unable to mute ${member.user.tag}**: \`Higher role\``);
         }
         if (muteRole && message.guild.me.roles.highest.position > message.guild.roles.cache.get(muteRole.id).position < 0) {
             return message.responder.error('**The mute role must be lower than my role**');
@@ -57,7 +57,7 @@ module.exports = class MuteCommand extends Command {
                 reason: `Mute role configured automatically by ${message.guild.me.user.tag}`
             }).then(async(role) => {
                 await message.guild.settings.set(message.guild.id, 'muterole', role.id);
-                message.guild.channels.cache.forEach(async (channel, id) => {
+                message.guild.channels.cache.forEach(async(channel, id) => {
                     await channel.updateOverwrite(role, {
                         SEND_MESSAGES: false,
                         ADD_REACTIONS: false
@@ -87,12 +87,12 @@ module.exports = class MuteCommand extends Command {
         setTimeout(async() => {
             if (member.roles.cache.has(role)) {
                 await member.roles.remove(role)
-                .then(async() => {
-                    return message.channel.send(`${emotes.success} | **Automatically unmuted \`${member.user.tag} (${member.id})\` after being muted for \`${time}\`**`);
-                })
-                .catch((e) => {
-                    return message.channel.send(`${emotes.error} | **Failed to automatically unmute** \`${member.user.tag} (${member.id})\` - ${e.message}`);
-                })
+                    .then(async() => {
+                        return message.channel.send(`${emotes.success} | **Automatically unmuted \`${member.user.tag} (${member.id})\` after being muted for \`${time}\`**`);
+                    })
+                    .catch((e) => {
+                        return message.channel.send(`${emotes.error} | **Failed to automatically unmute** \`${member.user.tag} (${member.id})\` - ${e.message}`);
+                    })
             }
             return;
         }, ms(duration));
