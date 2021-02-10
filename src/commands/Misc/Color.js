@@ -3,7 +3,7 @@ const { Command } = require('discord-akairo');
 class ColorCommand extends Command {
     constructor() {
         super('color', {
-            aliases: ['color'],
+            aliases: ['color', 'colour'],
             category: 'Miscellaneous',
             description: {
                 content: 'Information about a color if you provide a hex value.\nRunning the command without a hex value will generate a random hex and get information for it.',
