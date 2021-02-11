@@ -31,7 +31,7 @@ class BanCommand extends Command {
             return message.responder.error('**Please provide a valid user to softban**');
         }
         if (!member.bannable) {
-            return message.responder.error(`**I am unable to softban ${args.member.user.tag}**`);
+            return message.responder.error(`**I am unable to softban ${member.user.tag}**`);
         }
         if (message.member.roles.highest.comparePositionTo(member.roles.highest) <= 0) {
             return message.responder.error(`**You are unable to softban ${member.user.tag}**: \`Higher role\``);
