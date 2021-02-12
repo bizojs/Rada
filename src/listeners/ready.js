@@ -18,8 +18,8 @@ module.exports = class ReadyListener extends Listener {
     	this.client.presence.set({
             status: 'online',
             activity: {
-                name: `${this.client.user.username} v1`,
-                type: 5
+                name: `${this.client.users.cache.size} users`,
+                type: 'WATCHING'
             }
         });
         this.client.log.success(`Connected to the Discord API`);

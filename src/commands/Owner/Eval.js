@@ -5,6 +5,7 @@ const Util = require('../../../lib/structures/Util');
 const Type = require('../../../lib/structures/Type');
 const { inspect } = require('util');
 const req = require('@aero/centra');
+const ms = require('ms');
 
 class EvalCommand extends Command {
     constructor() {

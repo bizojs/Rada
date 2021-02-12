@@ -77,13 +77,13 @@ class RadaClient extends AkairoClient {
         this.defaultPrefix = config.production ? config.prefix : config.devPrefix;
     }
     async login(token) {
-        this.settings.init();
+        await this.settings.init();
         return super.login(token);
     }
     daysBetween(startDate, endDate) {
         if (!endDate) endDate = Date.now();
         const treatAsUTC = (date) => {
-            var result = new Date(date);
+            let result = new Date(date);
             result.setMinutes(result.getMinutes() - result.getTimezoneOffset());
             return result;
         };
@@ -110,7 +110,7 @@ class RadaClient extends AkairoClient {
     }
     convertMs(time) {
         const conversion = (ms) => {
-            var d, h, m, s;
+            let d, h, m, s;
             s = Math.floor(ms / 1000);
             m = Math.floor(s / 60);
             s = s % 60;
