@@ -28,6 +28,7 @@ module.exports = class ToDoCommand extends Command {
             }],
             clientPermissions: ['EMBED_LINKS']
         })
+        this.thumbnail = 'https://i.br4d.vip/cXwSd_KM.png';
     }
 
     async exec(message, { option, textOrId }) {
@@ -79,11 +80,10 @@ module.exports = class ToDoCommand extends Command {
             let embed = this.client.util.embed()
                 .setTitle(message.author.username)
                 .setColor(this.client.color)
-                .setThumbnail(this.client.avatar)
-                .setFooter(`Requested by ${message.author.username}`)
-                .setTimestamp()
+                .setThumbnail(this.thumbnail)
+                .setFooter(`Created`)
+                .setTimestamp(task.created)
                 .addField('ID', task.id, true)
-                .addField('Created', task.created.toLocaleString().split(', ').join('\n'), true)
                 .addField('Content', task.text)
             return message.channel.send(embed);
         } else {
@@ -96,18 +96,18 @@ module.exports = class ToDoCommand extends Command {
     generateTDL(message) {
         let db = message.member.settings.get(message.member.id, 'todolist', []);
         let embed = this.client.util.embed()
-            .setTitle(message.author.username)
+            .setTitle(`**${message.author.username}** - To do list`)
             .setColor(this.client.color)
-            .setThumbnail(this.client.avatar)
+            .setThumbnail(this.thumbnail)
             .setFooter(`Requested by ${message.author.username}`)
-            .setTimestamp();
+            .setTimestamp()
         if (db.length < 1) {
             embed.setDescription('Your todo list is now empty!');
             return embed;
         }
         for (let i = 0; i < db.length; i++) {
-            let items = db.map((e, i) => `\`${i+1}.\` ${e.text} **[Created ${e.created.toLocaleString()}]** \`(${e.id})\``);
-            embed.setDescription(items.join('\n'));
+            let items = db.map((e, i) => `**${i+1}.** ${e.text} | \`${e.id}\``);
+            embed.setDescription(items.join('\n') + `\n\n*Get more info with \`${message.guild.prefix}todo view <ID>\`*`);
         }
         return embed;
     }
