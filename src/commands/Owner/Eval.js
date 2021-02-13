@@ -1,8 +1,8 @@
-const { Command } = require('discord-akairo');
 const { MessageEmbed, MessageAttachment, Permissions: { FLAGS } } = require('discord.js');
 const Stopwatch = require('../../../lib/structures/Stopwatch');
 const Util = require('../../../lib/structures/Util');
 const Type = require('../../../lib/structures/Type');
+const { Command } = require('discord-akairo');
 const { inspect } = require('util');
 const req = require('@aero/centra');
 const ms = require('ms');
@@ -48,8 +48,8 @@ class EvalCommand extends Command {
             return message.responder.error('**Enter some code that you want to be evaluated**');
         }
         const { success, result, time, type } = await this.eval(message, argresult, async, depth);
-        const footer = Util.codeBlock('ts', type);
-        const output = success ? `**Output**:${Util.codeBlock('js', result)}\n**Type**:${footer}\n${time}` : `**Error**:${Util.codeBlock('js', result)}\n**Type**:${footer}\n${time}`
+        const footer = this.client.Util.codeBlock('ts', type);
+        const output = success ? `**Output**:${this.client.Util.codeBlock('js', result)}\n**Type**:${footer}\n${time}` : `**Error**:${this.client.Util.codeBlock('js', result)}\n**Type**:${footer}\n${time}`
         if (silent) return null;
 
         if (output.length > 2000) {
@@ -75,7 +75,7 @@ class EvalCommand extends Command {
             result = eval(code);
             syncTime = stopwatch.toString();
             type = new Type(result);
-            if (Util.isThenable(result)) {
+            if (this.client.Util.isThenable(result)) {
                 thenable = true;
                 stopwatch.restart();
                 result = await result;
@@ -97,7 +97,7 @@ class EvalCommand extends Command {
                 showHidden: false
             });
         }
-        return { success, type, time: this.formatTime(syncTime, asyncTime), result: Util.clean(result, this.client.token) };
+        return { success, type, time: this.formatTime(syncTime, asyncTime), result: this.client.Util.clean(result, this.client.token) };
     }
 
     formatTime(syncTime, asyncTime) {

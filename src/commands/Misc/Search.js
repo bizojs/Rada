@@ -1,5 +1,4 @@
 const { Command } = require('discord-akairo');
-const Util = require('../../../lib/structures/Util');
 
 module.exports = class Search extends Command {
     constructor() {
@@ -38,10 +37,10 @@ module.exports = class Search extends Command {
                 embed.setDescription('No results were found for your query... Please try again.')
                 return message.channel.send(embed);
             }
-            embed.setTitle(`Google search - **${Util.toTitleCase(args.query)}**`);
+            embed.setTitle(`Google search - **${this.client.Util.toTitleCase(args.query)}**`);
             embed.setURL(`https://www.google.co.uk/search?q=${term}`)
             for (const result of results) {
-                embed.addField(`**${result.title}**`,result.snippet.length > 0 ? `${Util.trimString(result.snippet, 250)} [__view here__](${result.link})` : result.link)
+                embed.addField(`**${result.title}**`,result.snippet.length > 0 ? `${this.client.Util.trimString(result.snippet, 250)} [__view here__](${result.link})` : result.link)
             }
             return message.channel.send(embed);
         } catch (e) {

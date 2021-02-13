@@ -1,4 +1,3 @@
-const Util = require("../../../lib/structures/Util");
 const { Command } = require('discord-akairo');
 
 module.exports = class ToDoCommand extends Command {
@@ -45,7 +44,7 @@ module.exports = class ToDoCommand extends Command {
                 return message.responder.error('You must provide some text to add to the todolist.');
             }
             const item = {
-                id: Util.generateID(),
+                id: this.client.Util.generateID(),
                 created: new Date(),
                 text: textOrId,
             }

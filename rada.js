@@ -13,6 +13,7 @@ const {
 // Custom classes
 const { clientColor, logo, christmasLogo, id } = require('./lib/constants');
 const model = require('./src/models/clientSchema');
+const Util = require('./lib/structures/Util');
 const Cli = require('./lib/classes/Cli');
 const Logger = require('./lib/log');
 // Configuration
@@ -72,6 +73,7 @@ class RadaClient extends AkairoClient {
         this.setMaxListeners(30);
         this.log = new Logger;
         this.Cli = new Cli(this);
+        this.Util = Util;
         this.flipnote = new Flipnote(process.env.FLIPNOTE);
         this.Timestamp = Timestamp;
         this.id = id;
