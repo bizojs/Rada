@@ -9,6 +9,13 @@ module.exports = class GuildCreateListener extends Listener {
     }
 
     async exec(guild) {
+        this.client.presence.set({
+            status: 'online',
+            activity: {
+                name: `${this.client.users.cache.size} users`,
+                type: 'WATCHING'
+            }
+        });
         this.client.log.success(`${this.client.user.username} has been added to the guild ${guild.name}[${guild.id}]`);
         let embed = this.client.util.embed()
             .setColor(this.client.color)
