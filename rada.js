@@ -2,6 +2,7 @@ const { GUILDS, GUILD_MEMBERS, GUILD_BANS, GUILD_MESSAGES, GUILD_MESSAGE_REACTIO
 // NPM Packages
 const { Timestamp } = require('@skyra/timestamp');
 const Flipnote = require('alexflipnote.js');
+const google = require('google-it');
 const {
     AkairoClient,
     CommandHandler,
@@ -79,6 +80,10 @@ class RadaClient extends AkairoClient {
     async login(token) {
         await this.settings.init();
         return super.login(token);
+    }
+    async search(query, results) {
+        let res = await google({'query': query, 'no-display': true, 'limit': results});
+        return res;
     }
     daysBetween(startDate, endDate) {
         if (!endDate) endDate = Date.now();
