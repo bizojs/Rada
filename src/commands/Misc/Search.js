@@ -38,10 +38,10 @@ module.exports = class Search extends Command {
                 embed.setDescription('No results were found for your query... Please try again.')
                 return message.channel.send(embed);
             }
-            embed.setTitle(`Google search - **${args.query}**`);
+            embed.setTitle(`Google search - **${Util.toTitleCase(args.query)}**`);
             embed.setURL(`https://www.google.co.uk/search?q=${term}`)
             for (const result of results) {
-                embed.addField(`**${Util.trimString(result.title, 35)}** | __${result.link}__`,result.snippet.length > 0 ? Util.trimString(result.snippet, 250) : 'Description not found')
+                embed.addField(`**${result.title}**`,result.snippet.length > 0 ? `${Util.trimString(result.snippet, 250)} [__view here__](${result.link})` : result.link)
             }
             return message.channel.send(embed);
         } catch (e) {
