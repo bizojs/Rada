@@ -1,5 +1,5 @@
 const { Command } = require('discord-akairo');
-const req = require('@aero/centra');
+const Util = require('../../../lib/structures/Util');
 
 module.exports = class Search extends Command {
     constructor() {
@@ -41,7 +41,7 @@ module.exports = class Search extends Command {
             embed.setTitle(`Google search - **${args.query}**`);
             embed.setURL(`https://www.google.co.uk/search?q=${term}`)
             for (const result of results) {
-                embed.addField(`**${result.title}** | __${result.link}__`, result.snippet)
+                embed.addField(`**${Util.trimString(result.title, 35)}** | __${result.link}__`,result.snippet.length > 0 ? Util.trimString(result.snippet, 250) : 'Description not found')
             }
             return message.channel.send(embed);
         } catch (e) {
