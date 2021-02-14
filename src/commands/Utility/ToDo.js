@@ -1,4 +1,5 @@
 const { Command } = require('discord-akairo');
+const { reactions, emotes } = require('../../../lib/constants');
 
 module.exports = class ToDoCommand extends Command {
     constructor() {
@@ -32,14 +33,16 @@ module.exports = class ToDoCommand extends Command {
 
     async exec(message, { option, textOrId }) {
         let todolist = message.member.settings.get(message.member.id, 'todolist', []);
-        if (!option) {
-            // Views todolist
+
+        if (!option) { // This will show all todolist entries
             if (todolist.length < 1) {
                 return message.responder.info('You have no items in your todolist.');
             }
             return message.channel.send(this.generateTDL(message));
         }
+
         if (option.toLowerCase() === "add") {
+
             if (!textOrId) {
                 return message.responder.error('You must provide some text to add to the todolist.');
             }
@@ -49,30 +52,72 @@ module.exports = class ToDoCommand extends Command {
                 text: textOrId,
             }
             message.member.addTDL(item);
-            message.channel.send(this.generateTDL(message));
-            return message.channel.send(`Added a task:\n    • ${item.text}\nThe unique ID is \`${item.id}\``);
-        } else if (["remove", "delete"].some(op => option.toLowerCase() === op)) {
+            let original = `Added a task:\n    • ${item.text}\nThe unique ID is \`${item.id}\``
+            let m = await message.channel.send(`Added a task:\n    • ${item.text}\nThe unique ID is \`${item.id}\`\n*React with ${emotes.success} to view your todo list.*`)
+            await m.reactor.success();
+            const reactionCollector = m.createReactionCollector((reaction, user) =>
+                reaction.emoji.id === reactions.id.success && user.id === message.author.id, { time: 60000 });
+
+            reactionCollector.on('collect', async (reaction) => {
+                reactionCollector.stop();
+                message.channel.send(this.generateTDL(message));
+                m.edit(original);
+                if (!m.deleted && message.guild.me.permissions.has('MANAGE_MESSAGES')) {
+                    await m.reactions.removeAll();
+                }
+                await reaction.users.remove(message.author);
+            });
+
+            reactionCollector.on('end', async () => {
+                if (!m.deleted && message.guild.me.permissions.has('MANAGE_MESSAGES')) {
+                    await m.reactions.removeAll();
+                }
+            });
+
+
+        } else if (["remove", "delete"].some(op => option.toLowerCase() === op)) { // This will be the todolist id to remove
+
             if (!textOrId) {
-                // This will be the todolist id to remove
                 return message.responder.error('You must provide the unique ID for the todolist entry you want to remove.');
             }
             let todolist = message.member.settings.get(message.member.id, 'todolist', []);
-            if (todolist.filter(entry => entry.id === textOrId).length < 1) {
+            if (todolist.filter(entry => entry.id === textOrId.toUpperCase()).length < 1) {
                 return message.responder.error(`The unique todo list ID \`${textOrId}\` was not found`);
             }
-            let filtered =  todolist.filter(warning => warning.id !== textOrId);
-            let deleted =  todolist.filter(warning => warning.id === textOrId);
+            let filtered =  todolist.filter(warning => warning.id !== textOrId.toUpperCase());
+            let deleted =  todolist.filter(warning => warning.id === textOrId.toUpperCase());
             let deletedText = deleted[0].text;
             await message.member.settings.set(message.member.id, 'todolist', filtered);
-            await message.channel.send(this.generateTDL(message));
-            return message.channel.send(`Removed a task:\n    • ${deletedText}`);
-        } else if (option.toLowerCase() === "view") {
+            let original = `Removed a task:\n    • ${deletedText}`
+            let m = await message.channel.send(`Removed a task:\n    • ${deletedText}\n*React with ${emotes.success} to view your todo list.*`);
+            await m.reactor.success();
+            const reactionCollector = m.createReactionCollector((reaction, user) =>
+                reaction.emoji.id === reactions.id.success && user.id === message.author.id, { time: 60000 });
+
+            reactionCollector.on('collect', async (reaction) => {
+                reactionCollector.stop();
+                message.channel.send(this.generateTDL(message));
+                m.edit(original);
+                if (!m.deleted && message.guild.me.permissions.has('MANAGE_MESSAGES')) {
+                    await m.reactions.removeAll();
+                }
+                await reaction.users.remove(message.author);
+            });
+
+            reactionCollector.on('end', async () => {
+                if (!m.deleted && message.guild.me.permissions.has('MANAGE_MESSAGES')) {
+                    await m.reactions.removeAll();
+                }
+            });
+
+
+        } else if (["show", "view"].some(op => option.toLowerCase() === op)) { // This will be the todolist id to show
+
             if (!textOrId) {
-                // This will be the todolist id to remove
                 return message.responder.error('You must provide the unique ID for the todolist entry you want to view.');
             }
             let todolist = message.member.settings.get(message.member.id, 'todolist', []);
-            if (todolist.filter(entry => entry.id === textOrId).length < 1) {
+            if (todolist.filter(entry => entry.id === textOrId.toUpperCase()).length < 1) {
                 return message.responder.error(`The unique todo list ID \`${textOrId}\` was not found`);
             }
             let task =  todolist.filter(warning => warning.id === textOrId)[0];
@@ -80,12 +125,75 @@ module.exports = class ToDoCommand extends Command {
                 .setTitle(message.author.username)
                 .setColor(this.client.color)
                 .setThumbnail(this.thumbnail)
-                .setFooter(`Created`)
-                .setTimestamp(task.created)
                 .addField('ID', task.id, true)
                 .addField('Content', task.text)
+            if (task.edited) {
+                embed.setFooter(`Edited`).setTimestamp(task.edited)
+            } else {
+                embed.setFooter(`Created`).setTimestamp(task.created)
+            }
             return message.channel.send(embed);
+
+
+        } else if (option.toLowerCase() === "clear") {  // This will clear all todolist entries
+
+            await message.member.clearTDL();
+            return message.channel.send(this.generateTDL(message));
+
+
+        } else if (option.toLowerCase() === "edit") {  // This will edit a todolist entry
+            if (!textOrId) {
+                return message.responder.error('You must provide the unique ID for the todolist entry you want to edit.');
+            }
+            let args = textOrId.split(' ');
+            let id = args[0];
+            let arr = [];
+            for (let i = 1; i < args.length; i++) {arr.push(args[i])}
+            let todolist = message.member.settings.get(message.member.id, 'todolist', []);
+            if (todolist.filter(entry => entry.id === id.toUpperCase()).length < 1) {
+                return message.responder.error(`The unique todo list ID \`${id}\` was not found`);
+            }
+            let updated = arr.join(' ');
+            if (arr.length < 1) {
+                return message.responder.error('You must provide the text you want the entry to be edited with.');
+            }
+            let filtered =  todolist.filter(warning => warning.id !== id.toUpperCase());
+            let toEdit =  todolist.filter(warning => warning.id === id.toUpperCase());
+            let toEditID = toEdit[0].id;
+            let toEditText = toEdit[0].text;
+            const item = {
+                id: toEditID,
+                created: new Date(),
+                text: updated,
+                edited: new Date()
+            }
+            await message.member.settings.set(message.member.id, 'todolist', filtered);
+            await message.member.addTDL(item);
+            let original = `Edited a task:\n    • \`Before:\` ${toEditText}\n    • \`After:\` ${updated}`
+            let m = await message.channel.send(`Edited a task:\n    • \`Before:\` ${toEditText}\n    • \`After:\` ${updated}\n*React with ${emotes.success} to view your todo list.*`);
+            await m.reactor.success();
+            const reactionCollector = m.createReactionCollector((reaction, user) =>
+                reaction.emoji.id === reactions.id.success && user.id === message.author.id, { time: 60000 });
+
+            reactionCollector.on('collect', async (reaction) => {
+                reactionCollector.stop();
+                message.channel.send(this.generateTDL(message));
+                m.edit(original);
+                if (!m.deleted && message.guild.me.permissions.has('MANAGE_MESSAGES')) {
+                    await m.reactions.removeAll();
+                }
+                await reaction.users.remove(message.author);
+            });
+
+            reactionCollector.on('end', async () => {
+                if (!m.deleted && message.guild.me.permissions.has('MANAGE_MESSAGES')) {
+                    await m.reactions.removeAll();
+                }
+            });
+
+
         } else {
+
             if (todolist.length < 1) {
                 return message.responder.info('You have no items in your todolist.');
             }
