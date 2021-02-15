@@ -78,14 +78,27 @@ class RadaClient extends AkairoClient {
         this.Timestamp = Timestamp;
         this.id = id;
         this.defaultPrefix = config.production ? config.prefix : config.devPrefix;
+        this.contributorRole = '789310316105170945';
+        this.settings.addContributor = async (user) => {
+            let array = [];
+            let db = this.settings.get(this.id, 'contributors', array);
+            if (db.length < 1) {
+                array.push(user);
+            } else {
+                for(let i = 0; i < db.length; i++) {
+                    array.push(db[i]);
+                }
+                array.push(user);
+            }
+            await this.settings.set(this.id, 'contributors', array);
+        }
     }
     async login(token) {
         await this.settings.init();
         return super.login(token);
     }
     async search(query, results) {
-        let res = await google({'query': query, 'no-display': true, 'limit': results});
-        return res;
+        return await google({'query': query, 'no-display': true, 'limit': results});
     }
     daysBetween(startDate, endDate) {
         if (!endDate) endDate = Date.now();

@@ -89,7 +89,7 @@ module.exports = class ToDoCommand extends Command {
             let deletedText = deleted[0].text;
             await message.member.settings.set(message.member.id, 'todolist', filtered);
             let original = `Removed a task:\n    • ${deletedText}`
-            let m = await message.channel.send(`Removed a task:\n    • ${deletedText}\n*React with ${emotes.success} to view your todo list.*`);
+            let m = await message.util.send(`Removed a task:\n    • ${deletedText}\n*React with ${emotes.success} to view your todo list.*`);
             await m.reactor.success();
             const reactionCollector = m.createReactionCollector((reaction, user) =>
                 reaction.emoji.id === reactions.id.success && user.id === message.author.id, { time: 60000 });
@@ -132,7 +132,7 @@ module.exports = class ToDoCommand extends Command {
             } else {
                 embed.setFooter(`Created`).setTimestamp(task.created)
             }
-            return message.channel.send(embed);
+            return message.util.send(embed);
 
 
         } else if (option.toLowerCase() === "clear") {  // This will clear all todolist entries
@@ -170,7 +170,7 @@ module.exports = class ToDoCommand extends Command {
             await message.member.settings.set(message.member.id, 'todolist', filtered);
             await message.member.addTDL(item);
             let original = `Edited a task:\n    • \`Before:\` ${toEditText}\n    • \`After:\` ${updated}`
-            let m = await message.channel.send(`Edited a task:\n    • \`Before:\` ${toEditText}\n    • \`After:\` ${updated}\n*React with ${emotes.success} to view your todo list.*`);
+            let m = await message.util.send(`Edited a task:\n    • \`Before:\` ${toEditText}\n    • \`After:\` ${updated}\n*React with ${emotes.success} to view your todo list.*`);
             await m.reactor.success();
             const reactionCollector = m.createReactionCollector((reaction, user) =>
                 reaction.emoji.id === reactions.id.success && user.id === message.author.id, { time: 60000 });

@@ -15,7 +15,8 @@ class ContributorsCommand extends Command {
 
     async exec(message) {
         let contributors = [
-            `[${this.client.users.cache.get('443166863996878878').tag}](https://github.com/brys0) \`[${this.client.users.cache.get('443166863996878878').id}]\`` // Brys
+            `[${this.client.users.cache.get('443166863996878878').tag}](https://github.com/brys0) \`[${this.client.users.cache.get('443166863996878878').id}]\``, // Brys
+            `[${this.client.users.cache.get('776705827922247681').tag}](https://github.com/Bradyn1710) \`[${this.client.users.cache.get('776705827922247681').id}]\`` // Bradyn
         ]
         for (let i = 0; i < contributors.length; i++);
         let embed = this.client.util.embed()
