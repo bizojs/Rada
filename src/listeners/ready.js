@@ -15,10 +15,10 @@ module.exports = class ReadyListener extends Listener {
         this.client.log.success(`Loaded ${this.client.commandHandler.modules.size} commands`);
         this.client.log.success(`Loaded ${readdirSync(process.cwd() + '/lib/extensions').length - 1} extensions`);
         this.client.log.success(`Loaded ${readdirSync(process.cwd() + '/src/models').length - 1} models`);
-    	this.client.presence.set({
+        this.client.presence.set({
             status: 'online',
             activity: {
-                name: `${this.client.users.cache.size} users`,
+                name: `${this.client.guilds.cache.size} guilds`,
                 type: 'WATCHING'
             }
         });
