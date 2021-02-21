@@ -28,7 +28,7 @@ class RadaClient extends AkairoClient {
             ownerID: config.owners
         }, {
             disableMentions: 'everyone',
-            fetchAllMembers: true,
+            fetchAllMembers: false,
             partials: ['MESSAGE', 'CHANNEL', 'REACTION', 'GUILD_MEMBER', 'USER'],
             ws: {
                 intents: GUILDS | GUILD_MEMBERS | GUILD_BANS | GUILD_MESSAGES | GUILD_MESSAGE_REACTIONS | GUILD_VOICE_STATES,
@@ -79,13 +79,13 @@ class RadaClient extends AkairoClient {
         this.id = id;
         this.defaultPrefix = config.production ? config.prefix : config.devPrefix;
         this.contributorRole = '789310316105170945';
-        this.settings.addContributor = async (user) => {
+        this.settings.addContributor = async(user) => {
             let array = [];
             let db = this.settings.get(this.id, 'contributors', array);
             if (db.length < 1) {
                 array.push(user);
             } else {
-                for(let i = 0; i < db.length; i++) {
+                for (let i = 0; i < db.length; i++) {
                     array.push(db[i]);
                 }
                 array.push(user);
@@ -98,7 +98,7 @@ class RadaClient extends AkairoClient {
         return super.login(token);
     }
     async search(query, results) {
-        return await google({'query': query, 'no-display': true, 'limit': results});
+        return await google({ 'query': query, 'no-display': true, 'limit': results });
     }
     daysBetween(startDate, endDate) {
         if (!endDate) endDate = Date.now();
