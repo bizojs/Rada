@@ -4,21 +4,21 @@ const Util = require('../../../lib/structures/Util');
 
 module.exports = class AntilinkCommand extends Command {
     constructor() {
-      super('antilink', {
-        aliases: ['antilink'],
-        category: 'Config',
-        description: {
-          content: 'Change the current antilink setting',
-          permissions: ['EMBED_LINKS']
-        },
-        args: [{
-          id: 'toggle',
-          type: /^(on|off)$/i,
-          default: null,
-        }],
-        userPermissions: ['MANAGE_GUILD'],
-        clientPermissions: ['EMBED_LINKS']
-      });
+        super('antilink', {
+            aliases: ['antilink'],
+            category: 'Config',
+            description: {
+                content: 'Change the current antilink setting',
+                permissions: ['EMBED_LINKS']
+            },
+            args: [{
+                id: 'toggle',
+                type: /^(on|off)$/i,
+                default: null,
+            }],
+            userPermissions: ['MANAGE_GUILD'],
+            clientPermissions: ['EMBED_LINKS']
+        });
     }
 
     async exec(message, { toggle }) {
@@ -41,7 +41,7 @@ module.exports = class AntilinkCommand extends Command {
     current(message, embed, current) {
         embed.setTitle(`${this.client.user.username} antilink settings`)
             .setDescription('You can find information about the antilink below.')
-            .addField('Current setting', `\`${current ? 'On' : 'Off'}\``)
+            .addField('Current setting', current ? message.emotes.checked : message.emotes.unchecked)
             .addField('Update setting', `\`${message.guild.prefix}antilink <on|off>\``)
         return embed;
     }
