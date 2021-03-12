@@ -267,7 +267,7 @@ class RadaClient extends AkairoClient {
             .map(char => {
                 const mappedChar = vaporwaveMap[char.toLowerCase()];
                 return mappedChar ? mappedChar['translated'] : char
-            }).join('').replace(/\s/g, '   ');
+            }).join(' ').replace(/\s/g, '  ');
     }
 }
 const client = new RadaClient();
