@@ -235,10 +235,39 @@ class RadaClient extends AkairoClient {
         return string;
     };
     vaporwave(text) {
-        return text.split('').map(char => {
-            const code = char.charCodeAt(0)
-            return code >= 33 && code <= 126 ? String.fromCharCode((code - 33) + 65281) : char
-        }).join('').replace(/\s/g, '  ');
+        const vaporwaveMap = {
+            a: { translated: '𝙖' },
+            b: { translated: '𝙗' },
+            c: { translated: '𝙘' },
+            d: { translated: '𝙙' },
+            e: { translated: '𝙚' },
+            f: { translated: '𝙛' },
+            g: { translated: '𝙜' },
+            h: { translated: '𝙝' },
+            i: { translated: '𝙞' },
+            j: { translated: '𝙟' },
+            k: { translated: '𝙠' },
+            l: { translated: '𝙡' },
+            m: { translated: '𝙢' },
+            n: { translated: '𝙣' },
+            o: { translated: '𝙤' },
+            p: { translated: '𝙥' },
+            q: { translated: '𝙦' },
+            r: { translated: '𝙧' },
+            s: { translated: '𝙨' },
+            t: { translated: '𝙩' },
+            u: { translated: '𝙪' },
+            v: { translated: '𝙫' },
+            w: { translated: '𝙬' },
+            x: { translated: '𝙭' },
+            y: { translated: '𝙮' },
+            z: { translated: '𝙯' }
+        };
+        return text.split('')
+            .map(char => {
+                const mappedChar = vaporwaveMap[char.toLowerCase()];
+                return mappedChar ? mappedChar['translated'] : char
+            }).join('').replace(/\s/g, '   ');
     }
 }
 const client = new RadaClient();
