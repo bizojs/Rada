@@ -26,7 +26,8 @@ class TriviaCommand extends Command {
             let trivia = data.results[0];
             let question = trivia.question.replace(/&#039;/g, "'").replace(/&quot;/g, '"').replace(/&eacute;/, 'é');
             let answer = trivia.correct_answer.replace(/&#039;/g, "'").replace(/&quot;/g, '"').replace(/&eacute;/, 'é');
-            if (trivia.type === 'multiple') trivia.incorrect_answers.push(answer);
+            let wrong = trivia.incorrect_answers;
+            if (trivia.type === 'multiple') wrong.push(answer);
 
             let embed = this.client.util.embed()
                 .setColor('BLUE')
