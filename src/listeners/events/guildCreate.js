@@ -12,7 +12,7 @@ module.exports = class GuildCreateListener extends Listener {
         this.client.presence.set({
             status: 'online',
             activity: {
-                name: `${this.client.users.cache.size} users`,
+                name: `${this.client.guilds.cache.size} guilds`,
                 type: 'WATCHING'
             }
         });

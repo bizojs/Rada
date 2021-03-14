@@ -128,7 +128,7 @@ class RadaClient extends AkairoClient {
     reverse(str) {
         return str.split("").reverse().join("");
     }
-    convertMs(time) {
+    convertMs(time, song = false) {
         const conversion = (ms) => {
             let d, h, m, s;
             s = Math.floor(ms / 1000);
@@ -147,12 +147,18 @@ class RadaClient extends AkairoClient {
         };
         let u = conversion(time);
         let uptime;
+        let ms_song;
         if (u.s) uptime = `${u.s} second${u.s < 2 ? '' : 's'}`;
-        if (u.m) uptime = `${u.m} minute${u.m > 0 && u.m < 2 ? '' : 's'} and ${u.s} second${u.s > 0 && u.s < 2 ? '' : 's'}`;;
+        if (u.m) uptime = `${u.m} minute${u.m > 0 && u.m < 2 ? '' : 's'} and ${u.s} second${u.s > 0 && u.s < 2 ? '' : 's'}`;
         if (u.h) uptime = `${u.h} hour${u.h > 0 && u.h < 2 ? '' : 's'}, ${u.m} minute${u.m > 0 && u.m < 2 ? '' : 's'} and ${u.s} second${u.s > 0 && u.s < 2 ? '' : 's'}`;
         if (u.d) uptime = `${u.d} day${u.d > 0 && u.d < 2 ? '' : 's'}, ${u.h} hour${u.h > 0 && u.h < 2 ? '' : 's'}, ${u.m} minute${u.m > 0 && u.m < 2 ? '' : 's'} and ${u.s} second${u.s > 0 && u.s < 2 ? '' : 's'}`;
 
-        return uptime;
+        if (u.s) ms_song = `00:${u.s < 10 ? '0' + u.s : u.s}`;
+        if (u.m) ms_song = `${u.m < 10 ? '0' + u.m : u.m}:${u.s < 10 ? '0' + u.s : u.s}`;
+        if (u.h) ms_song = `${u.h < 10 ? '0' + u.h : u.h}:${u.m < 10 ? '0' + u.m : u.m}:${u.s < 10 ? '0' + u.s : u.s}`;
+        if (u.d) ms_song = `${u.d < 10 ? '0' + u.d : u.d}:${u.h < 10 ? '0' + u.h : u.h}:${u.m < 10 ? '0' + u.m : u.m}:${u.s < 10 ? '0' + u.s : u.s}`;
+
+        return song ? ms_song : uptime;
     }
     emojify(text) {
         const specialCodes = {

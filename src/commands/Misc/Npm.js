@@ -8,7 +8,7 @@ class NpmCommand extends Command {
             category: 'Miscellaneous',
             description: {
                 content: 'Fetch information about an npm package',
-                permissions: ['EMBED_LINKS']  
+                permissions: ['EMBED_LINKS']
             },
             args: [{
                 id: 'package',
@@ -47,9 +47,9 @@ class NpmCommand extends Command {
                 .setTitle(`**${body.name}** Npm package information`)
                 .setThumbnail(this.npmIcon)
                 .addField(`Package Description`, `${version.description || "No description provided."}`)
-                .addField(`Package Version`, `${body['dist-tags'].latest}`, true)
-                .addField(`Package License`, `${body.license}`, true)
                 .addField(`Package Maintainers`, `${maintainers.join(", ")}`, true)
+                .addField(`Package License`, `${body.license ? body.license : 'Unlicensed'}`, true)
+                .addField(`Package Version`, `${body['dist-tags'].latest ? body['dist-tags'].latest : '1.0.0'}`, true)
                 .addField(`Dependencies`, `${deps && deps.length ? deps.join(", ") : "None"}`, false)
                 .addField(`Link`, `https://www.npmjs.com/package/${query.toLowerCase()}`)
                 .setFooter(`Requested by ${message.author.username}`)

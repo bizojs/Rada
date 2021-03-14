@@ -29,7 +29,7 @@ module.exports = class DiscordStatusCommand extends Command {
         const components = summary.components.filter(c => !c.group_id);
         const array = [];
         for (let i = 0; i < components.length; i++) {
-            array.push(`${components[i].status === 'operational' ? emotes.success : emotes.error} **${components[i].name}**`)
+            array.push(`${components[i].status === 'operational' ? message.emotes.checked : message.emotes.unchecked} **${components[i].name}**`)
         }
         const previous = [];
         for (let i = 0; i < 3; i++) {

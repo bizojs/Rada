@@ -12,8 +12,8 @@ class MCStatusCommand extends Command {
                 permissions: ['EMBED_LINKS']
             },
             args: [{
-              id: 'ip',
-              type: 'string'
+                id: 'ip',
+                type: 'string'
             }],
             cooldown: 60000,
             ratelimit: 1,
@@ -27,6 +27,9 @@ class MCStatusCommand extends Command {
     }
 
     async exec(message, args) {
+        if (!args.ip) {
+            return message.responder.error('Provide an IP or server address');
+        }
         let ip = args.ip;
         let a = message.util.send('**Loading status...** This may take a little while.');
         try {
@@ -57,21 +60,21 @@ class MCStatusCommand extends Command {
                     embed.addField('Online players', more_data.players.list.join(', '))
                 }
             }
-            await a.then(async (m) => { await m.edit('', embed) });
+            await a.then(async(m) => { await m.edit('', embed) });
         } catch (e) {
             if (this.error_responses.some(error => error === e.message)) {
-                await a.then(async (m) => { await m.edit(`There are issues with the API. Please check back later.`) });
+                await a.then(async(m) => { await m.edit(`There are issues with the API. Please check back later.`) });
                 return;
             }
             if (e.message === "Unexpected token T in JSON at position 4") {
-                await a.then(async (m) => { await m.edit(`:x: Server \`${ip}\` not found`) });
+                await a.then(async(m) => { await m.edit(`:x: Server \`${ip}\` not found`) });
                 return;
             }
             if (e.message === "Unexpected end of JSON input") {
-                await a.then(async (m) => { await m.edit(`:x: Server \`${ip}\` not found`) });
+                await a.then(async(m) => { await m.edit(`:x: Server \`${ip}\` not found`) });
                 return;
             }
-            await a.then(async (m) => { await m.edit(`An error occured: \`${e.message}\``) });
+            await a.then(async(m) => { await m.edit(`An error occured: \`${e.message}\``) });
         }
     }
 }
