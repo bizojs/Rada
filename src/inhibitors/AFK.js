@@ -10,6 +10,7 @@ module.exports = class AFK extends Inhibitor {
         }
 
         async exec(message) {
+                if (message.author.bot) return;
                 let user = await this.client.users.fetch(message.author.id);
                 let author = this.client.users.cache.get(user.id);
                 let afkStatus = await author.settings.get(author.id, 'afk', { afk: false, message: null });
