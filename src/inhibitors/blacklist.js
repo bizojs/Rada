@@ -9,6 +9,7 @@ class BlacklistInhibitor extends Inhibitor {
 
     exec(message) {
         // He's a meanie!
+        if (message.channel.type === 'dm') return;
         const blacklist = [];
         return blacklist.includes(message.author.id);
     }

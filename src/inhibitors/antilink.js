@@ -11,6 +11,7 @@ class Antilink extends Inhibitor {
     }
 
     async exec(message) {
+        if (message.channel.type === 'dm') return;
         if (message.author.id === message.guild.me.id) return;
         let antilink = message.guild.settings.get(message.guild.id, 'antilink', 'off');
         const key = `${message.author.id}.antilink-cooldown`;

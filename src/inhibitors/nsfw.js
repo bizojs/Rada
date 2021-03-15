@@ -9,6 +9,7 @@ module.exports = class NSFW extends Inhibitor {
     }
 
     exec(message) {
+        if (message.channel.type === 'dm') return;
         if (message.content.startsWith(message.guild.prefix)) {
             let command = this.client.commandHandler.findCommand(message.content.replace(message.guild.prefix, '').split(' ')[0]);
             if (command) {

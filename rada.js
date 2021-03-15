@@ -79,19 +79,6 @@ class RadaClient extends AkairoClient {
         this.id = id;
         this.defaultPrefix = config.production ? config.prefix : config.devPrefix;
         this.contributorRole = '789310316105170945';
-        this.settings.addContributor = async(user) => {
-            let array = [];
-            let db = this.settings.get(this.id, 'contributors', array);
-            if (db.length < 1) {
-                array.push(user);
-            } else {
-                for (let i = 0; i < db.length; i++) {
-                    array.push(db[i]);
-                }
-                array.push(user);
-            }
-            await this.settings.set(this.id, 'contributors', array);
-        }
     }
     async login(token) {
         await this.settings.init();
@@ -117,13 +104,13 @@ class RadaClient extends AkairoClient {
         }
         return output;
     }
-    timeFormat(ts, date, encased = false) {
+    timeFormat(ts, date, encased = false, days = false) {
         const timestamp = new Timestamp(ts);
-        const days = this.daysBetween(date).toFixed(0);
+        const daysSince = this.daysBetween(date).toFixed(0);
         if (encased) {
-            return `${timestamp.display(date)} [${days} day${days !== 1 ? 's' : ''} ago]`;
+            return days ? `${timestamp.display(date)} [${daysSince} day${daysSince !== 1 ? 's' : ''} ago]` : timestamp.display(date);
         }
-        return `${timestamp.display(date)}\n${days} day${days !== 1 ? 's' : ''} ago`;
+        return days ? `${timestamp.display(date)}\n${daysSince} day${daysSince !== 1 ? 's' : ''} ago` : timestamp.display(date);
     }
     reverse(str) {
         return str.split("").reverse().join("");
