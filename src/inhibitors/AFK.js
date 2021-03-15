@@ -20,8 +20,8 @@ module.exports = class AFK extends Inhibitor {
                     let embed = this.client.util.embed()
                         .setTitle('AFK')
                         .setDescription(`Your AFK mode has been turned off${afkPings.length > 0 ? `\nWhile you was away, you was mentioned **${afkPings.length} times**.\nDo you want to see the pings you got? (React below)` : ''}`)
-                .setColor(this.client.color)
-                .setTimestamp()
+                        .setColor(this.client.color)
+                        .setTimestamp()
             let msg = await message.channel.send(`<@!${author.id}>`, embed)
             if (afkPings.length < 1) return;
             for (const emoji of this.emojiList) await msg.react(emoji);
