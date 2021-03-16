@@ -24,6 +24,17 @@ module.exports = class AFK extends Inhibitor {
                         .setTimestamp()
             let msg = await message.channel.send(`<@!${author.id}>`, embed)
             if (afkPings.length < 1) return;
+            const pages = this.client.chunkify(afkPings, 5);
+            let embeds = [];
+            for (let i = 0; i < pages.length; i++) {
+                let embed = this.client.util.embed()
+                    .setTitle('Your @mentions while you was AFK')
+                    .setColor(this.client.color)
+                    .setDescription(pages[i])
+                    .setTimestamp()
+                    .setFooter(`Page ${i+1} of ${pages.length} | Requested by ${message.author.username}`)
+                embeds.push(embed);
+            }
             for (const emoji of this.emojiList) await msg.react(emoji);
 
             const collector = msg.createReactionCollector((reaction, user) => 
@@ -35,18 +46,20 @@ module.exports = class AFK extends Inhibitor {
                 switch (reaction.emoji.id) {
                     case this.emojiList[0]:
                         try {
-                            author.send(afkPings.join('\n'));
-                            message.channel.send('**Your mentions have been send to you in DMs.**');
+                            for (const embed of embeds) await message.author.send(embed);
+                            msg.edit(`${author} **Your mentions have been send to you in DMs.**`);
                             await author.settings.set(author.id, 'afkPings', []);
                             collector.stop('success');
                         } catch (e) {
-                            message.channel.send(`**${author.tag}** I was unable to dm you, here are your pings\n${afkPings.join('\n')}`);
+                            msg.edit(`${author} **I was unable to dm you, here are your pings**`);
+                            for (const embed of embeds) await message.channel.send(embed);
+                            message.paginate(pages);
                             collector.stop('success');
                         }
                     break;
                     case this.emojiList[1]:
                         await author.settings.set(author.id, 'afkPings', []);
-                        message.channel.send('**Your mentions have been cleared.**');
+                        msg.edit(`${author} **Your mentions have been cleared.**`);
                         collector.stop('success');
                     break;
                     default:
@@ -55,6 +68,7 @@ module.exports = class AFK extends Inhibitor {
                 }
             });
             collector.on('end', async () => {
+                await author.settings.set(author.id, 'afkPings', []);
                 if (!msg.deleted && msg.guild.me.permissions.has('MANAGE_MESSAGES')) {
                     await msg.reactions.removeAll();
                 }
