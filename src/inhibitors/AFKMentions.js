@@ -21,7 +21,10 @@ module.exports = class AFKMentions extends Inhibitor {
             .setDescription(`**${mentioned.username}** is currently AFK with the reason **${mentionedAfk.message}**\nThey will be notified of your ping when they get back!`)
             .setTimestamp();
         if (mentionedAfk.afk) {
-            await mentioned.addAfkPing(`**${message.author.tag}** ➜ [${message.guild.name}] : [${message.content}](${message.jumplink})`)
+            let content = message.content.replace(`<@!${message.mentions.users.first().id}> `, '').replace(`<@!${message.mentions.users.first().id}>`, '');
+            if (content.length < 1) content = '';
+            else message.content.replace(`<@!${message.mentions.users.first().id}> `, '').replace(`<@!${message.mentions.users.first().id}>`, '');
+            await mentioned.addAfkPing(`**${message.author.tag}** ➜ [${message.guild.name}] : ${message.mentions.users.first().toString()} [${content.length <= 1 ? '*No content (only a ping)*' : content}](${message.jumplink})`)
             return message.channel.send(`<@!${message.author.id}>`, embed)
         }
     }

@@ -53,7 +53,6 @@ module.exports = class AFK extends Inhibitor {
                         } catch (e) {
                             msg.edit(`${author} **I was unable to dm you, here are your pings**`);
                             for (const embed of embeds) await message.channel.send(embed);
-                            message.paginate(pages);
                             collector.stop('success');
                         }
                     break;
