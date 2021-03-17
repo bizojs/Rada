@@ -48,7 +48,7 @@ module.exports = class SetLogsCommand extends Command {
         current(message, embed, current) {
                 embed.setTitle(`${this.client.user.username} modlog settings`)
                     .setDescription('You can find information about the modlogs below.')
-                    .addField('Current channel', `${current ? `${message.emotes.checked} ${message.guild.channels.cache.get(current).name}` : message.emotes.unchecked}`)
+                    .addField('Current channel', `${current ? `${message.emotes.checked} ${message.guild.channels.cache.get(current)}` : `${message.emotes.unchecked} None`}`)
             .addField('Update channel', `\`${message.guild.prefix}setlogs <#channel>\``)
         return embed;
     }

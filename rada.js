@@ -1,4 +1,4 @@
-const { GUILDS, GUILD_MEMBERS, GUILD_BANS, GUILD_MESSAGES, GUILD_MESSAGE_REACTIONS, GUILD_VOICE_STATES } = require('./lib/constants').intents;
+const { GUILDS, GUILD_MEMBERS, GUILD_BANS, GUILD_MESSAGES, GUILD_MESSAGE_REACTIONS, GUILD_VOICE_STATES, GUILD_EMOJIS } = require('./lib/constants').intents;
 // NPM Packages
 const { Timestamp } = require('@skyra/timestamp');
 const Flipnote = require('alexflipnote.js');
@@ -31,7 +31,7 @@ class RadaClient extends AkairoClient {
             fetchAllMembers: false,
             partials: ['MESSAGE', 'CHANNEL', 'REACTION', 'GUILD_MEMBER', 'USER'],
             ws: {
-                intents: GUILDS | GUILD_MEMBERS | GUILD_BANS | GUILD_MESSAGES | GUILD_MESSAGE_REACTIONS | GUILD_VOICE_STATES,
+                intents: GUILDS | GUILD_MEMBERS | GUILD_BANS | GUILD_MESSAGES | GUILD_MESSAGE_REACTIONS | GUILD_VOICE_STATES | GUILD_EMOJIS,
                 properties: {
                     $browser: "Discord iOS"
                 }
