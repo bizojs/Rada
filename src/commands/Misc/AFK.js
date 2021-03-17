@@ -20,12 +20,12 @@ module.exports = class AFKCommand extends Command {
     }
 
     async exec(message, args) {
-        let afkCurrent = await message.author.settings.get(message.author.id, 'afk', { afk: false, message: null });
+        let afkCurrent = await message.author.settings.get(message.author.id, 'afk', { afk: false, message: null, started: null });
         if (!afkCurrent.afk) {
             let afkReason = args.message ? args.message : 'n/a';
-            await message.author.settings.set(message.author.id, 'afk', { afk: true, message: afkReason });
+            await message.author.settings.set(message.author.id, 'afk', { afk: true, message: afkReason, started: new Date() });
             let embed = this.client.util.embed()
-                .setTitle('AFK')
+                .setAuthor(`AFK ➜ ${message.author.username}`, message.author.avatarURL({ dynamic: true }))
                 .setDescription(`You are now set as afk with the reason **${afkReason}**\nYour AFK status will be cleared when you next speak.`)
                 .setColor(this.client.color)
                 .setTimestamp();
