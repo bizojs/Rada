@@ -38,7 +38,7 @@ module.exports = class messageDelete extends Listener {
                 embed.setImage(message.attachments.first().proxyURL);
             }
             let msg = await logs.send(embed);
-            if (extra_content === '[Embed]') {
+            if (message.embeds.length > 1) {
                 let logged = await logs.send(message.embeds[0]);
                 let embed = msg.embeds[0];
                 embed.fields[2].value = `⬇ [Embed](${logged.jumplink}) ⬇`
