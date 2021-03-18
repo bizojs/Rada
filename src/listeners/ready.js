@@ -26,7 +26,7 @@ module.exports = class ReadyListener extends Listener {
         this.client.log.success(`Logged into as ${this.client.user.tag}`);
         if (process.platform !== 'linux') {
             if (!this.client.settings.get(this.client.id, 'debug')) {
-                this.client.Cli.start();
+                // this.client.Cli.start();
             }
         }
     }

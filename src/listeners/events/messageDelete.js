@@ -19,7 +19,7 @@ module.exports = class messageDelete extends Listener {
             .setTimestamp()
         let content;
         let contentTitle = message.content && message.content.length > 1024 ? "[1024+ Characters] Content" : "Content";
-        if (message.content.length > 1024) {
+        if (message.content && message.content.length > 1024) {
             content = this.client.Util.trimString(message.content, 1000)
         } else {
             content = message.content
@@ -44,6 +44,7 @@ module.exports = class messageDelete extends Listener {
                 embed.fields[2].value = `⬇ [Embed](${logged.jumplink}) ⬇`
                 msg.edit(embed)
             }
+            return;
         }
     }
 }

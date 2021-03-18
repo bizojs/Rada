@@ -18,10 +18,10 @@ module.exports = class emojiUpdate extends Listener {
         if (logs) {
             if (oldEmoji.name !== newEmoji.name) {
                 embed.setDescription('An emote name has been changed')
-                     .addField('Old name', oldEmoji.name, true)
-                     .addField('New name', newEmoji.name, true)
-                     .addField('ID', oldEmoji.id)
-                return logs.send(embed)
+                    .addField('Old name', oldEmoji.name, true)
+                    .addField('New name', newEmoji.name, true)
+                    .addField('ID', oldEmoji.id)
+                logs.send(embed)
             }
         }
     }

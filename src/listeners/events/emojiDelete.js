@@ -18,7 +18,7 @@ module.exports = class emojiDelete extends Listener {
             .addField('ID', emoji.id, true)
             .setTimestamp()
         if (logs) {
-            return logs.send(embed)
+            logs.send(embed)
         }
     }
 }
