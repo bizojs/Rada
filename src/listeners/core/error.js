@@ -14,7 +14,7 @@ class ErrorListener extends Listener {
         let embed = this.client.util.embed()
             .setColor(this.client.color)
             .setTitle('Error')
-            .setDescription(`Guild: **${message.guild ? message.guild.name : 'Direct messages'}**\nUser: \`${message.author.tag} (${message.author.id})\`\nCommand: \`${message.content}\`\n\n${error.stack}`)
+            .setDescription(`Guild: **${message.guild ? message.guild.name : 'Direct messages'}**\nUser: \`${message.author.tag} (${message.author.id})\`\nCommand: \`${message.content}\`\n\n\`\`\`properties\n${error.stack}\`\`\``)
             .setTimestamp()
         if (this.client.settings.get(this.client.id, 'debug') && production) {
             this.client.channels.cache.get('787745780432764948').send(embed);
