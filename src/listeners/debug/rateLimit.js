@@ -26,7 +26,7 @@ module.exports = class RateLimit extends Listener {
             .setThumbnail(this.client.avatar)
             .setDescription(`**${this.client.user.username}** is currently being ratelimited`)
             .addField('Timeout', rateLimitInfo.timeout, true)
-            .addField('Method', `${rateLimitInfo.method} ➜ ${parts[3]}`, true)
+            .addField('Method', `${rateLimitInfo.method} ➜ ${parts[3]}${parts[5] ? ` ➜ ${parts[5]}` : ''}`, true)
             .addField('Path', `\`${rateLimitInfo.path}\``)
             .addField('Guild', `${guild.name}\n${guild.id}`, true)
             .addField('Guild Owner', `${guildOwner.tag}\n${guild.ownerID}`, true)
