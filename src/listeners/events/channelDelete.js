@@ -8,10 +8,14 @@ module.exports = class channelDelete extends Listener {
         });
     }
 
-    exec(channel) {
+    async exec(channel) {
         if (channel.type === "dm") return;
         let ChannelDeleteEmote = this.client.emojis.cache.find(e => e.name === "channel_delete");
         let logs = channel.guild.channels.cache.get(channel.guild.settings.get(channel.guild.id, 'logs'));
+        let votechannel = channel.guild.settings.get(channel.guild.id, 'vote', null);
+        if (channel.id === votechannel) {
+            await channel.guild.settings.set(channel.guild.id, 'vote', null);
+        }
         let embed = this.client.util.embed()
             .setColor(this.client.color)
             .setAuthor('Channel deleted', ChannelDeleteEmote.url)
