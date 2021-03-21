@@ -10,7 +10,7 @@ module.exports = class WarnListener extends Listener {
 
     async exec(info) {
         if (this.client.settings.get(this.client.id, 'debug')) {
-            console.log(info);
+            this.client.log.warn(info);
         }
     }
 };
