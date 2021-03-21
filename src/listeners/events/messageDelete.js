@@ -33,7 +33,7 @@ module.exports = class messageDelete extends Listener {
         if (logs) {
             embed.addField('User', `${message.author}\n\`${message.author.tag} [${message.author.id}]\``, true)
                 .addField('Channel', `${message.channel}\n\`${message.channel.name} [${message.channel.id}]\``, true)
-                .addField(contentTitle, content ? content : extra_content === '[Embed]' ? '⬇ Embed ⬇' : '')
+                .addField(contentTitle, content ? content : extra_content === '[Embed]' ? '⬇ Embed ⬇' : 'Image')
             if (message.attachments.first() !== undefined) {
                 embed.setImage(message.attachments.first().proxyURL);
             }
