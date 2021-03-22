@@ -54,7 +54,7 @@ class CreateRoleCommand extends Command {
                     reason: `Role created by ${message.author.tag}`
                 })
                 .then((r) => {
-                    return message.responder.success(`**The role __${r.name}__ has been created**\nAdditional details:\nColor: \`${color ? color : 'Default'}\`\nHoist: ${hoist ? message.emotes.checked : message.emotes.unchecked}\nMentionable: ${r.mentionable ? message.emotes.checked : message.emotes.unchecked}`);
+                    return message.responder.success(`**The role __${r.name}__ has been created**\nAdditional details:\nColor: \`${color ? color : 'Default'}\`\nHoist: ${r.hoist ? message.emotes.checked : message.emotes.unchecked}\nMentionable: ${r.mentionable ? message.emotes.checked : message.emotes.unchecked}`);
                 })
         } catch (e) {
             return message.responder.error(`**${e.message}**`);
