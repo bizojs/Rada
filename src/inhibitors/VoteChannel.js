@@ -13,8 +13,7 @@ module.exports = class VoteChannel extends Inhibitor {
             if (!message.guild.me.permissions.has('ADD_REACTIONS') || !message.channel.permissionsFor(message.guild.me).has('ADD_REACTIONS')) {
                 return message.responder.error('**This channel is set as the vote channel, but I don\'t have permission to add reactions**');
             }
-            await message.reacter.success();
-                  message.reacter.error();
+            await message.vote();
         }
     }
 }
