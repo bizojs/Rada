@@ -19,7 +19,7 @@ module.exports = class messageUpdate extends Listener {
         let message1 = message.content;
         let caching = await this.client.users.fetch(message.author.id);
         let cached = this.client.users.cache.get(caching.id);
-        let user = cached.tag;
+        let user = cached.tag || null;
         if ([oldMessage, oldMessage.content].some(content => content === message1)) return;
         let oldContent;
         let newContent;
