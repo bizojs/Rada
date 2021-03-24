@@ -16,38 +16,54 @@ module.exports = class WarningsCommand extends Command {
                 ],
                 permissions: ['EMBED_LINKS']
             },
-            args: [
-            {
+            args: [{
                 id: 'member',
                 type: 'member',
                 default: message => message.member
             },
             {
                 id: 'clear',
-                type: 'lowercase',
                 default: null
             },
             {
                 id: 'id',
-                type: 'lowercase',
                 default: null
-            }
-            ],
+            }],
             clientPermissions: ['EMBED_LINKS']
         });
     }
 
     async exec(message, { member, clear, id }) {
         let warnings = member.settings.get(member.id, 'warnings', [])
-        if (clear !== 'clear') {
-            if (warnings.length < 1) {
+        if (clear !== 'clear') { // "clear" didnt match, view warning(s)
+
+            if (warnings.length < 1) { // Member has no warnings
                 return message.responder.error(`**\`${member.user.tag}\` has no warnings**`);
             }
-            if (clear) {
-                if (warnings.filter(warning => warning.id === clear).length < 1) {
-                    return message.responder.error(`**The unique warning ID** \`${clear}\` **was not found**`);
+
+            let guildWarnings = warnings.filter(warning => warning.guild_id === message.guild.id)
+            if (guildWarnings.length < 1) { // Member has no warnings
+                return message.responder.error(`**\`${member.user.tag}\` has no warnings in this guild**`);
+            }
+
+            if (!clear) { // no ID, view all warnings
+
+                let embeds = [];
+                let pages = this.client.chunkify(guildWarnings, 5);
+                for (let i = 0; i < pages.length; i ++) {
+                    let embed = this.client.util.embed()
+                        .setTitle(`Warnings for ${member.user.username} (${member.settings.get(member.id, 'warnings', []).length} total)`)
+                        .setColor(this.client.color)
+                        .setThumbnail(member.user.avatarURL({size: 512}).replace('webp', 'png').replace('webm', 'gif'))
+                        .setDescription(pages[i].map(page => `\`[${page.id}]\` ${page.fullReason}`))
+                        .setTimestamp()
+                    embeds.push(embed);
                 }
-                let warning = warnings.filter(warning => warning.id === clear)[0];
+                message.paginate(embeds);
+
+            } else { // ID found, view that ID
+            
+                let warning = guildWarnings.filter(warning => warning.id === clear)[0];
                 let embed = this.client.util.embed()
                     .setTitle('Warning info')
                     .setColor(this.client.color)
@@ -59,20 +75,12 @@ module.exports = class WarningsCommand extends Command {
                     .setFooter(`Requested by ${message.author.username}`)
                     .setTimestamp()
                 return message.util.send(embed);
+
             }
-            let embeds = [];
-            let pages = this.client.chunkify(warnings, 5);
-            for (let i = 0; i < pages.length; i ++) {
-                let embed = this.client.util.embed()
-                    .setTitle(`Warnings for ${member.user.username} (${member.settings.get(member.id, 'warnings', []).length} total)`)
-                    .setColor(this.client.color)
-                    .setThumbnail(member.user.avatarURL({size: 512}).replace('webp', 'png').replace('webm', 'gif'))
-                    .setDescription(pages[i].map(page => `\`[${page.id}]\` ${page.fullReason}`))
-                    .setTimestamp()
-                embeds.push(embed);
-            }
-            message.paginate(embeds);
-        } else {
+
+        } else if (clear.toLowerCase() === 'clear') { // "clear" matched, clear warning(s)
+            
+            let guildWarnings = warnings.filter(warning => warning.guild_id === message.guild.id)
             if (!message.member.permissions.has('MANAGE_GUILD')) {
                 return message.responder.error('**You must have the manage server permission to clear infractions**');
             }
@@ -82,18 +90,23 @@ module.exports = class WarningsCommand extends Command {
             if (!id) {
                 return message.responder.error('**Provide the unique ID for the warning you want to remove or type \`all\` to clear all warnings**');
             }
-            if (warnings.length < 1) {
-                return message.responder.error(`**\`${member.user.tag}\` has no warnings to clear**`);
-            }
-            if (id !== 'all') {
-                if (warnings.filter(warning => warning.id === id).length < 1) {
+
+            if (id.toLowerCase() !== 'all') { // clear specific warning
+                
+                if (guildWarnings.filter(warning => warning.id === id).length < 1) {
                     return message.responder.error(`**The unique warning ID** \`${id}\` **was not found**`);
                 }
-                /* let valueToFilter = warnings.filter(warning => warning.id === id)[0] */
-                let filteredValue =  warnings.filter(warning => warning.id !== id)
+                let filteredValue = guildWarnings.filter(warning => warning.id !== id)
                 await member.settings.set(member.id, 'warnings', filteredValue);
-                return message.responder.success(`**The warning with ID \`${id}\` for \`${member.user.tag}\` has been cleared**`);
+                return message.responder.success(`**The warning with the ID \`${id}\` for \`${member.user.tag}\` has been cleared**`);
+            
+            } else { // clear all warnings
+                let guildWarningsFilter = warnings.filter(warning => warning.guild_id !== message.guild.id)
+                await member.settings.set(member.id, 'warnings', guildWarningsFilter.length > 1 ? guildWarningsFilter : []);
+                return message.responder.success(`**All warnings for \`${member.user.tag}\` have been cleared**`);
+            
             }
+
         }
     }
 }
