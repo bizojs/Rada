@@ -32,7 +32,11 @@ module.exports = class VoteChannelCommand extends Command {
             if (!channel.id && channel.toLowerCase() !== 'reset') {
                 return message.util.send(this.current(message, embed, current));
             }
-            if (!channel.id && channel.toLowerCase() === 'reset') {
+            if (!channel.id && ['reset', 'clear', 'delete'].some(option => channel.toLowerCase() === option)) {
+                if (!current) {
+                    embed.addField(`${emotes.error} | Failed`, 'There is no votechannel to reset')
+                    return message.util.send(embed); 
+                }
                 await message.guild.settings.set(message.guild.id, 'vote', null);
                 embed.addField(`${emotes.success} | Vote channel reset`, 'The vote channel has been reset')
                 return message.util.send(embed);

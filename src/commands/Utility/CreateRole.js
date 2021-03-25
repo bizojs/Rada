@@ -16,28 +16,14 @@ class CreateRoleCommand extends Command {
                 ]
             },
             args: [{
-                    id: 'role',
-                    type: 'string',
-                    match: 'rest',
-                    default: null
-                },
-                {
-                    id: 'color',
-                    match: 'option',
-                    flag: '--color=',
-                    default: null
-                },
-                {
-                    id: 'hoist',
-                    match: 'flag',
-                    flag: '--hoist',
-                },
-                {
-                    id: 'mention',
-                    match: 'flag',
-                    flag: '--mention',
-                }
-            ],
+                    id: 'role', type: 'string', match: 'rest', default: null
+                }, {
+                    id: 'color', match: 'option', flag: '--color=', default: null
+                }, {
+                    id: 'hoist', match: 'flag', flag: '--hoist',
+                }, {
+                    id: 'mention', match: 'flag', flag: '--mention',
+            }],
             userPermissions: ['MANAGE_ROLES'],
             clientPermissions: ['MANAGE_ROLES']
         })

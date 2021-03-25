@@ -32,7 +32,11 @@ module.exports = class SetLogsCommand extends Command {
             if (!channel.id && channel.toLowerCase() !== 'reset') {
                 return message.util.send(this.current(message, embed, current));
             }
-            if (!channel.id && channel.toLowerCase() === 'reset') {
+            if (!channel.id && ['reset', 'clear', 'delete'].some(option => channel.toLowerCase() === option)) {
+                if (!current) {
+                    embed.addField(`${emotes.error} | Failed`, 'There is no modlog channel to reset')
+                    return message.util.send(embed); 
+                }
                 await message.guild.settings.set(message.guild.id, 'logs', null);
                 embed.addField(`${emotes.success} | Modlogs reset`, 'The modlogs channel has been reset')
                 return message.util.send(embed);

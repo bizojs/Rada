@@ -22,7 +22,7 @@ module.exports = class GuildCreateListener extends Listener {
         let embed = this.client.util.embed()
             .setColor(this.client.color)
             .setAuthor('Guild', 'https://cdn.discordapp.com/emojis/822855012110696448.png?v=1')
-            .setThumbnail(this.client.avatar)
+            .setThumbnail(guild.iconURL({dynamic: true, size: 512}))
             .setDescription(`${this.client.user.username} has been added to a new guild which has **${guild.memberCount}** members`)
             .addField('Guild', `${guild.name}\n${guild.id}`, true)
             .addField('Owner', `${owner.tag}\n${owner.id}`, true)
