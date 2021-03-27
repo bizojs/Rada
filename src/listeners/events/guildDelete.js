@@ -9,6 +9,7 @@ module.exports = class GuildDeleteListener extends Listener {
     }
 
     async exec(guild) {
+        await guild.settings.clear(guild.id);
         this.client.presence.set({
             status: 'online',
             activity: {
