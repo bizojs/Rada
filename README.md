@@ -19,3 +19,6 @@ This bot is the first proper bot that I have open sourced. I prefer to keep bots
 **Running with sharding**
 - Navigate to `lib\ws\ShardManager.js` and then change the `totalShards` to your desired number (`auto` works too.)
 - Simply type `npm start` in the command prompt to start the bot with shards.
+
+# ATTENTION
+This branch contains the RADA api which is not finished or stable!
