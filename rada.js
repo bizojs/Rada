@@ -18,6 +18,7 @@ const Cli = require('./lib/classes/Cli');
 const Logger = require('./lib/log');
 // Configuration
 const config = require('./src/config');
+const server = require('./lib/api/RadaAPI');
 require('dotenv').config();
 // Instantiating extensions
 require('./lib/extensions');
@@ -38,6 +39,10 @@ class RadaClient extends AkairoClient {
                 }
                 */
             }
+        });
+        let api = new server.RadaAPI(this).setup()
+        api.listen(3000, () => {
+            this.log.success("Rada API online")
         });
         this.settings = new MongooseProvider(model);
         this.commandHandler = new CommandHandler(this, {
@@ -84,7 +89,8 @@ class RadaClient extends AkairoClient {
     }
     async login(token) {
         await this.settings.init();
-        return super.login(token);
+        super.login(token);
+        return
     }
     async search(query, results) {
         return await google({ 'query': query, 'no-display': true, 'limit': results });
@@ -266,4 +272,5 @@ class RadaClient extends AkairoClient {
     }
 }
 const client = new RadaClient();
+client.Cli.start()
 client.login(process.env.TOKEN);
