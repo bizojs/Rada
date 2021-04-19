@@ -15,6 +15,7 @@
         "@skyra/timestamp": "^1.0.0",
         "alexflipnote.js": "^2.3.1",
         "colors": "^1.4.0",
+        "cors": "^2.8.5",
         "discord-akairo": "^8.1.0",
         "discord.js": "github:monbrey/discord.js#inline-replies",
         "dotenv": "^8.2.0",

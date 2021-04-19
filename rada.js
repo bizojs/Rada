@@ -19,6 +19,7 @@ const Logger = require('./lib/log');
 // Configuration
 const config = require('./src/config');
 const server = require('./lib/api/RadaAPI');
+
 require('dotenv').config();
 // Instantiating extensions
 require('./lib/extensions');
@@ -29,7 +30,7 @@ class RadaClient extends AkairoClient {
             ownerID: config.owners
         }, {
             disableMentions: 'everyone',
-            fetchAllMembers: false,
+            fetchAllMembers: true,
             partials: ['MESSAGE', 'CHANNEL', 'REACTION', 'GUILD_MEMBER', 'USER'],
             ws: {
                 intents: GUILDS | GUILD_MEMBERS | GUILD_BANS | GUILD_MESSAGES | GUILD_MESSAGE_REACTIONS | GUILD_VOICE_STATES | GUILD_EMOJIS,
@@ -40,7 +41,7 @@ class RadaClient extends AkairoClient {
                 */
             }
         });
-        let api = new server.RadaAPI(this).setup()
+        let api = new server.RadaAPI(this).setup();
         api.listen(3000, () => {
             this.log.success("Rada API online")
         });
@@ -272,5 +273,5 @@ class RadaClient extends AkairoClient {
     }
 }
 const client = new RadaClient();
-client.Cli.start()
+// client.Cli.start()
 client.login(process.env.TOKEN);
