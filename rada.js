@@ -30,7 +30,7 @@ class RadaClient extends AkairoClient {
             ownerID: config.owners
         }, {
             disableMentions: 'everyone',
-            fetchAllMembers: true,
+            fetchAllMembers: false,
             partials: ['MESSAGE', 'CHANNEL', 'REACTION', 'GUILD_MEMBER', 'USER'],
             ws: {
                 intents: GUILDS | GUILD_MEMBERS | GUILD_BANS | GUILD_MESSAGES | GUILD_MESSAGE_REACTIONS | GUILD_VOICE_STATES | GUILD_EMOJIS,

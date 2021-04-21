@@ -41,7 +41,7 @@ module.exports = class AntilinkCommand extends Command {
     current(message, embed, current) {
         embed.setTitle(`${this.client.user.username} antilink settings`)
             .setDescription('You can find information about the antilink below.')
-            .addField('Current setting', current ? message.emotes.checked : message.emotes.unchecked)
+            .addField('Current setting', current === 'on' ? message.emotes.checked : message.emotes.unchecked)
             .addField('Update setting', `\`${message.guild.prefix}antilink <on|off>\``)
         return embed;
     }
