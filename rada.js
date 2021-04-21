@@ -42,7 +42,7 @@ class RadaClient extends AkairoClient {
             }
         });
         let api = new server.RadaAPI(this).setup();
-        api.listen(3000, () => {
+        api.listen(config.ApiPort, () => {
             this.log.success("Rada API online")
         });
         this.settings = new MongooseProvider(model);
