@@ -19,7 +19,7 @@ const Logger = require('./lib/log');
 // Configuration
 const config = require('./src/config');
 const server = require('./lib/api/RadaAPI');
-
+const WebSocket = require('ws');
 require('dotenv').config();
 // Instantiating extensions
 require('./lib/extensions');
