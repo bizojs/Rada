@@ -1,6 +1,7 @@
 const { Command } = require('discord-akairo');
 const { emotes } = require('../../../lib/constants');
-
+const RadaAPIEvents = require('../../../lib/api/RadaAPI').EventManager;
+const RadaAPIPrefixEvent = require('../../../lib/api/common/Structures').RadaAPIPrefixEvent;
 module.exports = class SetPrefixCommand extends Command {
     constructor() {
       super('setprefix', {
@@ -30,7 +31,8 @@ module.exports = class SetPrefixCommand extends Command {
             return message.util.send(this.current(message, embed));
         }
         if (prefix.toLowerCase() === 'reset') {
-            await this.client.settings.set(message.guild.id, 'prefix', this.client.defaultPrefix);
+            RadaAPIEvents.emit('prefix', new RadaAPIPrefixEvent(message.guild.prefix, this.client.defaultPrefix, message.member, message.guild))
+            await this.client.settings.set(message.guild.id, 'prefix', this.client.defaultPrefiiox);
             embed.addField(`${emotes.success} | Prefix reset`, `The prefix has been reset to \`${this.client.defaultPrefix}\``)
             return message.util.send(embed);
         }
@@ -42,6 +44,7 @@ module.exports = class SetPrefixCommand extends Command {
             embed.addField(`${emotes.error} | Failed`, 'The prefix can\'t be longer than 6 characters')
             return message.util.send(embed);
         }
+        RadaAPIEvents.emit('prefix', new RadaAPIPrefixEvent(message.guild.prefix, prefix, message.member, message.guild))
         await this.client.settings.set(message.guild.id, 'prefix', prefix);
         embed.addField(`${emotes.success} | Prefix updated`, `The prefix has been set to \`${prefix}\`\nYou can change it back with \`${prefix}setprefix reset\``)
         return message.util.send(embed);
