@@ -18,7 +18,7 @@ It works until the session becomes disconnected in which case you will need to r
 {
   "oldPrefix": String,
   "newPrefix": String,
-  "member": {},
-  "guild": {}
+  "member": Object,
+  "guild": Object
 }
 ```
