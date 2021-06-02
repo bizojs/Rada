@@ -3,6 +3,7 @@ const { GUILDS, GUILD_MEMBERS, GUILD_BANS, GUILD_MESSAGES, GUILD_MESSAGE_REACTIO
 const { Timestamp } = require('@skyra/timestamp');
 const Flipnote = require('alexflipnote.js');
 const google = require('google-it');
+const cron = require('cron');
 const {
     AkairoClient,
     CommandHandler,
@@ -90,12 +91,31 @@ class RadaClient extends AkairoClient {
     }
     async login(token) {
         await this.settings.init();
-        super.login(token);
-        return
+        await super.login(token);
     }
+
     async search(query, results) {
         return await google({ 'query': query, 'no-display': true, 'limit': results });
     }
+
+    createReminder(start, author, embed, reminder, channel, duration) {
+        new cron.CronJob(start, () =>
+            author.send(embed.setDescription(`You asked me \`${duration}\` ago to remind you of the following:\n\n${reminder}`)).catch(() => {
+                return channel.send(author, embed.setDescription(`I tried to DM you your reminder, but I was unable to.\n\nYou asked me \`${duration}\` ago to remind you of the following: **${reminder}**`))
+            })
+        ).start();
+        return true;
+    }
+
+    convertTemp(temp, unit = "c") {
+        return {
+            success: !!temp,
+            from: unit,
+            to: unit.toLowerCase() === "c" ? "f" : "c",
+            converted: unit.toLowerCase() === "c" ? temp * 9 / 5 + 32 : (temp - 32) * 5 / 9
+        }
+    }
+
     daysBetween(startDate, endDate) {
         if (!endDate) endDate = Date.now();
         const treatAsUTC = (date) => {

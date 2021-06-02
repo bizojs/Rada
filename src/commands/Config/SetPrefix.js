@@ -27,7 +27,7 @@ module.exports = class SetPrefixCommand extends Command {
             .setFooter(`Requested by ${message.author.username}`)
             .setTimestamp()
         if (!prefix) {
-            return message.util.send(this.current(message, embed));
+            return message.util.send(this.current(message, embed, current));
         }
         if (prefix.toLowerCase() === 'reset') {
             await this.client.settings.set(message.guild.id, 'prefix', this.client.defaultPrefix);
@@ -46,10 +46,10 @@ module.exports = class SetPrefixCommand extends Command {
         embed.addField(`${emotes.success} | Prefix updated`, `The prefix has been set to \`${prefix}\`\nYou can change it back with \`${prefix}setprefix reset\``)
         return message.util.send(embed);
     }
-    current(message, embed) {
+    current(message, embed, current) {
         embed.setTitle(`${this.client.user.username} prefix settings`)
             .setDescription('You can find information about the prefix below.')
-            .addField('Current prefix', `\`${message.guild.prefix}\``)
+            .addField('Current prefix', `\`${current}\``)
             .addField('Update prefix', `\`${message.guild.prefix}setprefix <new_prefix>\``)
         return embed;
     }
