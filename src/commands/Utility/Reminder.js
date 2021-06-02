@@ -29,6 +29,12 @@ module.exports = class ReminderCommand extends Command {
         if (!duration || !ms(duration)) {
             return message.responder.error('**Please provide a valid time** (Example: \`5h\`, \`1d\`, \`30m\`)')
         }
+        if (ms(duration) > 604800000) {
+            return message.responder.error('You can\'t create a reminder longer than 1 week.');
+        }
+        if (ms(duration) < 10000) {
+            return message.responder.error('You can\'t create a reminder shorter than 10 seconds.');
+        }
         if (!reminder) {
             return message.responder.error('**Please provide a message for the reminder**');
         }
