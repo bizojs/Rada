@@ -18,7 +18,7 @@ module.exports = class messageUpdate extends Listener {
         let AntilinkEmote = this.client.emojis.cache.get(message.emoteID.info);
         let message1 = message.content;
         let caching = await this.client.users.fetch(message.author.id).catch(() => {null});
-        let cached = this.client.users.cache.get(caching.id);
+        let cached = this.client.users.cache.get(caching.id).catch(() => {});
         let user = cached.tag || null;
         if ([oldMessage, oldMessage.content].some(content => content === message1)) return;
         let oldContent;
