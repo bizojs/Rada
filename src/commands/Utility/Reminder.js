@@ -45,6 +45,6 @@ module.exports = class ReminderCommand extends Command {
             .setTitle('Reminder')
         let startDate = new Date(Date.now() + ms(duration));
         this.client.createReminder(startDate, message.author, embed, reminder, message.channel, current);
-        return message.responder.success(`I will remind you in \`${current}\``);
+        return message.responder.success(`I will remind you in \`${current}\`. Make sure I am able to DM you.`);
     }
 }
