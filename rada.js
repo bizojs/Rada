@@ -100,19 +100,18 @@ class RadaClient extends AkairoClient {
 
     createReminder(start, author, embed, reminder, channel, duration) {
         new cron.CronJob(start, () =>
-            author.send(embed.setDescription(`You asked me \`${duration}\` ago to remind you of the following:\n\n${reminder}`)).catch(() => {
+            author.send(embed.setDescription(`You asked me \`${duration}\` ago to remind you of the following:\n\n${reminder}`))
+            .catch(() => {
                 return channel.send(author, embed.setDescription(`I tried to DM you your reminder, but I was unable to.\n\nYou asked me \`${duration}\` ago to remind you of the following: **${reminder}**`))
             })
         ).start();
         return true;
     }
 
-    convertTemp(temp, unit = "c") {
+    convertTemp(temp) {
         return {
-            success: !!temp,
-            from: unit,
-            to: unit.toLowerCase() === "c" ? "f" : "c",
-            converted: unit.toLowerCase() === "c" ? temp * 9 / 5 + 32 : (temp - 32) * 5 / 9
+            CtoF: (temp * 9 / 5 + 32).toFixed(1),
+            FtoC: ((temp - 32) * 5 / 9).toFixed(1)
         }
     }
 
