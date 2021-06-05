@@ -110,8 +110,8 @@ class RadaClient extends AkairoClient {
 
     convertTemp(temp) {
         return {
-            CtoF: (temp * 9 / 5 + 32).toFixed(1),
-            FtoC: ((temp - 32) * 5 / 9).toFixed(1)
+            CtoF: Number((temp * 9 / 5 + 32).toFixed(1)),
+            FtoC: Number(((temp - 32) * 5 / 9).toFixed(1))
         }
     }
 
