@@ -3,7 +3,6 @@ const { GUILDS, GUILD_MEMBERS, GUILD_BANS, GUILD_MESSAGES, GUILD_MESSAGE_REACTIO
 const { Timestamp } = require('@skyra/timestamp');
 const Flipnote = require('alexflipnote.js');
 const google = require('google-it');
-const cron = require('cron');
 const {
     AkairoClient,
     CommandHandler,
@@ -24,6 +23,7 @@ const WebSocket = require('ws');
 require('dotenv').config();
 // Instantiating extensions
 require('./lib/extensions');
+const ReminderController = require("./lib/classes/ReminderController");
 
 class RadaClient extends AkairoClient {
     constructor() {
@@ -42,6 +42,7 @@ class RadaClient extends AkairoClient {
                 */
             }
         });
+
         let api = new server.RadaAPI(this).setup();
         api.listen(config.ApiPort, () => {
             this.log.success("Rada API online")
@@ -88,6 +89,7 @@ class RadaClient extends AkairoClient {
         this.id = id;
         this.defaultPrefix = config.production ? config.prefix : config.devPrefix;
         this.contributorRole = '789310316105170945';
+        this.reminderController = new ReminderController()
     }
     async login(token) {
         await this.settings.init();
@@ -98,14 +100,6 @@ class RadaClient extends AkairoClient {
         return await google({ 'query': query, 'no-display': true, 'limit': results });
     }
 
-    createReminder(start, author, embed, reminder, channel, duration) {
-        new cron.CronJob(start, () =>
-            author.send(embed.setDescription(`You asked me \`${duration}\` ago to remind you of the following:\n\n${reminder}`)).catch(() => {
-                return channel.send(author, embed.setDescription(`I tried to DM you your reminder, but I was unable to.\n\nYou asked me \`${duration}\` ago to remind you of the following: **${reminder}**`))
-            })
-        ).start();
-        return true;
-    }
 
     convertTemp(temp, unit = "c") {
         return {

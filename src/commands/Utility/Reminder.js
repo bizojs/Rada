@@ -25,6 +25,7 @@ module.exports = class ReminderCommand extends Command {
     }
 
     async exec(message, { duration, reminder }) {
+        let reminderController = this.client.reminderController;
         if (!duration || !ms(duration)) {
             return message.responder.error('**Please provide a valid time** (Example: \`5h\`, \`1d\`, \`30m\`)')
         }
@@ -37,7 +38,7 @@ module.exports = class ReminderCommand extends Command {
             .setThumbnail(this.client.avatar)
             .setTitle('Reminder')
         let startDate = new Date(Date.now() + ms(duration));
-        this.client.createReminder(startDate, message.author, embed, reminder, message.channel, current);
+        reminderController.createReminder(startDate, message.author, embed, reminder, message.channel, current);
         return message.responder.success(`I will remind you in \`${current}\``);
     }
 }
