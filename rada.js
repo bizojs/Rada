@@ -13,10 +13,12 @@ const {
 const { Intents } = require('discord.js');
 // Custom classes
 const { clientColor, logo, christmasLogo, id } = require('./lib/constants');
+const { RadaReminderController } = require('./lib/classes/RadaReminderController');
 const model = require('./src/models/clientSchema');
 const Util = require('./lib/structures/Util');
 const Cli = require('./lib/classes/Cli');
 const Logger = require('./lib/log');
+
 // Configuration
 const config = require('./src/config');
 const server = require('./lib/api/RadaAPI');
@@ -49,6 +51,7 @@ class RadaClient extends AkairoClient {
             this.log.success("Rada API online")
         });
         this.settings = new MongooseProvider(model);
+        this.reminderController = new RadaReminderController(this);
         this.commandHandler = new CommandHandler(this, {
             directory: './src/commands/',
             prefix: (message) => {
@@ -98,16 +101,6 @@ class RadaClient extends AkairoClient {
 
     async search(query, results) {
         return await google({ 'query': query, 'no-display': true, 'limit': results });
-    }
-
-    createReminder(start, author, embed, reminder, channel, duration) {
-        new cron.CronJob(start, () =>
-            author.send(embed.setDescription(`You asked me \`${duration}\` ago to remind you of the following:\n\n${reminder}`))
-            .catch(() => {
-                return channel.send(author, embed.setDescription(`I tried to DM you your reminder, but I was unable to.\n\nYou asked me \`${duration}\` ago to remind you of the following: **${reminder}**`))
-            })
-        ).start();
-        return true;
     }
 
     convertTemp(temp) {
