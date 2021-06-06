@@ -10,23 +10,22 @@ module.exports = class ReminderCommand extends Command {
                 content: 'Create a reminder'
             },
             args: [{
-                id: 'duration',
-                type: 'string',
-                default: null
-            },
-            {
-                id: 'reminder',
-                type: 'string',
-                match: 'rest',
-                default: null
-            }],
-            clientPermissions: ['EMBED_LINKS', 'ADD_REACTIONS', 'MANAGE_MESSAGES']
+                    id: 'duration',
+                    type: 'string',
+                    default: null
+                },
+                {
+                    id: 'reminder',
+                    type: 'string',
+                    match: 'rest',
+                    default: null
+                }
+            ],
+            clientPermissions: ['EMBED_LINKS', 'ADD_REACTIONS']
         });
     }
 
     async exec(message, { duration, reminder }) {
-        return message.responder.error('Due to an issue with cron tasks on linux, this command has to be disabled due to causing a memory leak.');
-        let reminderController = this.client.reminderController;
         if (!duration || !ms(duration)) {
             return message.responder.error('**Please provide a valid time** (Example: \`5h\`, \`1d\`, \`30m\`)')
         }
@@ -41,8 +40,8 @@ module.exports = class ReminderCommand extends Command {
             .setColor(this.client.color)
             .setThumbnail(this.client.avatar)
             .setTitle('Reminder')
-        let startDate = new Date(Date.now() + ms(duration));
-        reminderController.createReminder(startDate, message.author, embed, reminder, message, current);
+        let date = new Date(Date.now() + ms(duration));
+        await this.client.RadaReminder.create(date, message, reminder, embed, current);
         return message.responder.success(`I will remind you in \`${current}\``);
     }
 }

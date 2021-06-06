@@ -12,7 +12,7 @@ const {
 const { Intents } = require('discord.js');
 // Custom classes
 const { clientColor, logo, christmasLogo, id } = require('./lib/constants');
-const { RadaReminderController } = require('./lib/classes/RadaReminderController');
+const RadaScheduler = require('./lib/classes/RadaScheduler');
 const model = require('./src/models/clientSchema');
 const Util = require('./lib/structures/Util');
 const Cli = require('./lib/classes/Cli');
@@ -50,7 +50,7 @@ class RadaClient extends AkairoClient {
             this.log.success("Rada API online")
         });
         this.settings = new MongooseProvider(model);
-        this.reminderController = new RadaReminderController(this);
+        this.RadaReminder = new RadaScheduler(this);
         this.commandHandler = new CommandHandler(this, {
             directory: './src/commands/',
             prefix: (message) => {

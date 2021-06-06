@@ -1,6 +1,6 @@
 const { Command } = require('discord-akairo');
 const ms = require('ms');
-const {RadaOldReminderController} = require('../../../lib/classes/RadaReminderController');
+const ReminderHistory = require('../../../lib/classes/RadaReminderHistory');
 module.exports = class RemindersCommand extends Command {
     constructor() {
         super('reminders', {
@@ -10,7 +10,7 @@ module.exports = class RemindersCommand extends Command {
                 content: 'View your reminders, if any exist.',
                 permissions: []
             },
-            clientPermissions: ['EMBED_LINKS', 'ADD_REACTIONS', 'MANAGE_MESSAGES'],
+            clientPermissions: ['EMBED_LINKS', 'ADD_REACTIONS'],
             args: [{
                 id: 'clear',
                 match: 'flag',
@@ -20,13 +20,13 @@ module.exports = class RemindersCommand extends Command {
     }
 
     async exec(message, { clear }) {
-        let oldReminderController = new RadaOldReminderController(message.author);
-        oldReminderController.populateData(); // This is required to populate data
+        let history = new ReminderHistory(message.author);
+        history.populate(); // This is required to populate data
         let reminders = message.author.reminders.current;
         let past = message.author.reminders.old;
         if (clear) {
-            this.client.reminderController.clearAllReminders(message.author);
-            this.client.reminderController.clearAllSaved(message.author);
+            this.client.RadaReminder.clear(message.author);
+            this.client.RadaReminder.clearSaved(message.author);
             return message.responder.success('**Your reminders have been cleared**');
         } else {
             let embed = this.client.util.embed()
