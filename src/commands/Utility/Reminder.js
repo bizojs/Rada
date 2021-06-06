@@ -7,8 +7,7 @@ module.exports = class ReminderCommand extends Command {
             aliases: ['reminder', 'remindme'],
             category: 'Utility',
             description: {
-                content: 'Create a reminder',
-                permissions: []
+                content: 'Create a reminder'
             },
             args: [{
                 id: 'duration',
@@ -26,14 +25,9 @@ module.exports = class ReminderCommand extends Command {
     }
 
     async exec(message, { duration, reminder }) {
+        let reminderController = this.client.reminderController;
         if (!duration || !ms(duration)) {
             return message.responder.error('**Please provide a valid time** (Example: \`5h\`, \`1d\`, \`30m\`)')
-        }
-        if (ms(duration) > 604800000) {
-            return message.responder.error('You can\'t create a reminder longer than 1 week.');
-        }
-        if (ms(duration) < 10000) {
-            return message.responder.error('You can\'t create a reminder shorter than 10 seconds.');
         }
         if (!reminder) {
             return message.responder.error('**Please provide a message for the reminder**');
@@ -44,7 +38,7 @@ module.exports = class ReminderCommand extends Command {
             .setThumbnail(this.client.avatar)
             .setTitle('Reminder')
         let startDate = new Date(Date.now() + ms(duration));
-        this.client.createReminder(startDate, message.member, embed, reminder, message.channel, current);
-        return message.responder.success(`I will remind you in \`${current}\`. Make sure I am able to DM you.`)
+        reminderController.createReminder(startDate, message.author, embed, reminder, message.channel, current);
+        return message.responder.success(`I will remind you in \`${current}\``);
     }
 }
