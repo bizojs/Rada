@@ -1,4 +1,3 @@
-const { GUILDS, GUILD_MEMBERS, GUILD_BANS, GUILD_MESSAGES, GUILD_MESSAGE_REACTIONS, GUILD_VOICE_STATES, GUILD_EMOJIS } = require('./lib/constants').intents;
 // NPM Packages
 const { Timestamp } = require('@skyra/timestamp');
 const Flipnote = require('alexflipnote.js');
@@ -11,6 +10,7 @@ const {
     InhibitorHandler,
     MongooseProvider
 } = require('discord-akairo');
+const { Intents } = require('discord.js');
 // Custom classes
 const { clientColor, logo, christmasLogo, id } = require('./lib/constants');
 const model = require('./src/models/clientSchema');
@@ -33,14 +33,16 @@ class RadaClient extends AkairoClient {
             disableMentions: 'everyone',
             fetchAllMembers: false,
             partials: ['MESSAGE', 'CHANNEL', 'REACTION', 'GUILD_MEMBER', 'USER'],
-            ws: {
-                intents: GUILDS | GUILD_MEMBERS | GUILD_BANS | GUILD_MESSAGES | GUILD_MESSAGE_REACTIONS | GUILD_VOICE_STATES | GUILD_EMOJIS,
-                /*
-                properties: {
-                    $browser: "Discord iOS"
-                }
-                */
-            }
+            intents: [
+                Intents.FLAGS.GUILDS,
+                Intents.FLAGS.GUILD_MESSAGES,
+                Intents.FLAGS.GUILD_MEMBERS,
+                Intents.FLAGS.GUILD_BANS,
+                Intents.FLAGS.GUILD_MESSAGES,
+                Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
+                Intents.FLAGS.GUILD_VOICE_STATES,
+                Intents.FLAGS.GUILD_EMOJIS
+            ]
         });
         let api = new server.RadaAPI(this).setup();
         api.listen(config.ApiPort, () => {
