@@ -2,7 +2,6 @@
 const { Timestamp } = require('@skyra/timestamp');
 const Flipnote = require('alexflipnote.js');
 const google = require('google-it');
-const cron = require('cron');
 const {
     AkairoClient,
     CommandHandler,

@@ -25,6 +25,7 @@ module.exports = class ReminderCommand extends Command {
     }
 
     async exec(message, { duration, reminder }) {
+        return message.responder.error('Due to an issue with cron tasks on linux, this command has to be disabled due to causing a memory leak.');
         let reminderController = this.client.reminderController;
         if (!duration || !ms(duration)) {
             return message.responder.error('**Please provide a valid time** (Example: \`5h\`, \`1d\`, \`30m\`)')
