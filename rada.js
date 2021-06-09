@@ -233,6 +233,23 @@ class RadaClient extends AkairoClient {
                 return mappedChar ? mappedChar['translated'] : char
             }).join('');
     }
+    toggleCase(str) {
+        if (str.length !== 1) return str;
+        if (str.match(/^[A-z]$/)) {
+            if (str.toUpperCase() === str) {
+                return str.toLowerCase();
+            } else {
+                return str.toUpperCase();
+            }
+        }
+        return str;
+    }
+    mock(str) {
+        return str.split("").map((char, index) => {
+            if (index % 2 === 0) return this.toggleCase(char);
+            return char;
+        }).join("");
+    }
     owofy(string) {
         const { OwOfy } = require('./lib/constants')
         let i = Math.floor(Math.random() * OwOfy.length);
