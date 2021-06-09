@@ -21,7 +21,7 @@ module.exports = class extends Command {
         if (!text) return message.responder.error('**Please provide some text**')
         try {
             let mock = this.client.mock(text);
-            if (leet.length > 1999) {
+            if (mock.length > 1999) {
                 return message.responder.error('**Please provide less text**');
             }
             return message.util.send(mock);
