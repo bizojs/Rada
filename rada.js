@@ -250,6 +250,54 @@ class RadaClient extends AkairoClient {
             return char;
         }).join("");
     }
+
+    generateEmojipasta(text) {
+        var blocks = this.splitIntoBlocks(text);
+        var newBlocks = [];
+        var emojis = [];
+        blocks.forEach(block => {
+            newBlocks.push(block);
+            emojis = this.generateEmojisFrom(block);
+            if (emojis) {
+                newBlocks.push(" " + emojis);
+            }
+        });
+        return newBlocks.join("");
+    }
+    
+    splitIntoBlocks(text) {
+        return text.match(/\s*[^\s]*/g);
+    }
+    
+    generateEmojisFrom(block) {
+        var trimmedBlock = this.trimNonAlphanumericalChars(block);
+        var matchingEmojis = this.getMatchingEmojis(trimmedBlock);
+        var emojis = [];
+        if (matchingEmojis) {
+            var numEmojis = Math.floor(Math.random() * (1 + 1));
+            for (var i = 0; i < numEmojis; i++) {
+                emojis.push(matchingEmojis[Math.floor(Math.random() * matchingEmojis.length)]);
+            }
+        }
+        return emojis.join("");
+    }
+    
+    trimNonAlphanumericalChars(text) {
+        return text.replace(/^\W*/, "").replace(/\W*$/, "");
+    }
+    
+    getMatchingEmojis(word) {
+        const emoji_mapping = require("./lib/structures/EmojiMappings").emojiMap;
+        var key = this.getAlphanumericPrefix(word.toLowerCase());
+        if (key in emoji_mapping) {
+            return emoji_mapping[key];
+        }
+        return [];
+    }
+    
+    getAlphanumericPrefix(s) {
+        return s.match(/^[a-z0-9]*/i);
+    }    
     owofy(string) {
         const { OwOfy } = require('./lib/constants')
         let i = Math.floor(Math.random() * OwOfy.length);
