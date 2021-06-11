@@ -274,7 +274,7 @@ class RadaClient extends AkairoClient {
         var matchingEmojis = this.getMatchingEmojis(trimmedBlock);
         var emojis = [];
         if (matchingEmojis) {
-            var numEmojis = Math.floor(Math.random() * (3 + 1));
+            var numEmojis = Math.floor(Math.random() * (2 + 1));
             for (var i = 0; i < numEmojis; i++) {
                 emojis.push(matchingEmojis[Math.floor(Math.random() * matchingEmojis.length)]);
             }
