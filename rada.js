@@ -22,6 +22,7 @@ const Logger = require('./lib/log');
 const config = require('./src/config');
 const server = require('./lib/api/RadaAPI');
 const WebSocket = require('ws');
+const constants = require('./lib/constants');
 require('dotenv').config();
 // Instantiating extensions
 require('./lib/extensions');
@@ -170,24 +171,7 @@ class RadaClient extends AkairoClient {
         return song ? ms_song : uptime;
     }
     emojify(text) {
-        const specialCodes = {
-            '0': ':zero:',
-            '1': ':one:',
-            '2': ':two:',
-            '3': ':three:',
-            '4': ':four:',
-            '5': ':five:',
-            '6': ':six:',
-            '7': ':seven:',
-            '8': ':eight:',
-            '9': ':nine:',
-            '#': ':hash:',
-            '*': '*️⃣',
-            '?': ':grey_question:',
-            '!': ':grey_exclamation:',
-            ' ': '   ',
-            '.': ':white_small_square:'
-        }
+        const specialCodes = constants.specialCodes;
         return text.toLowerCase().split('').map(letter => {
             if (/[a-z]/g.test(letter)) {
                 return `:regional_indicator_${letter}: `
@@ -198,40 +182,10 @@ class RadaClient extends AkairoClient {
         }).join('');
     }
     leet(text) {
-        const leetMap = {
-            a: { translated: '4' },
-            b: { translated: 'B' },
-            c: { translated: 'C' },
-            d: { translated: 'D' },
-            e: { translated: '3' },
-            f: { translated: 'F' },
-            g: { translated: 'G' },
-            h: { translated: 'H' },
-            i: { translated: '1' },
-            j: { translated: 'J' },
-            k: { translated: 'K' },
-            l: { translated: 'L' },
-            m: { translated: 'M' },
-            n: { translated: 'N' },
-            o: { translated: '0' },
-            p: { translated: 'P' },
-            q: { translated: 'Q' },
-            r: { translated: 'R' },
-            s: { translated: 'S' },
-            t: { translated: 'T' },
-            u: { translated: 'U' },
-            v: { translated: 'V' },
-            w: { translated: 'W' },
-            x: { translated: 'X' },
-            y: { translated: 'Y' },
-            z: { translated: 'Z' }
-        };
+        const leetMap = constants.leetMap;
         return text
             .split('')
-            .map(char => {
-                const mappedChar = leetMap[char.toLowerCase()];
-                return mappedChar ? mappedChar['translated'] : char
-            }).join('');
+            .map(char => leetMap[char.toLowerCase()] ? mappedChar['translated'] : char).join('');
     }
     toggleCase(str) {
         if (str.length !== 1) return str;
@@ -315,34 +269,7 @@ class RadaClient extends AkairoClient {
         return string;
     };
     vaporwave(text) {
-        const vaporwaveMap = {
-            a: { translated: '𝙖' },
-            b: { translated: '𝙗' },
-            c: { translated: '𝙘' },
-            d: { translated: '𝙙' },
-            e: { translated: '𝙚' },
-            f: { translated: '𝙛' },
-            g: { translated: '𝙜' },
-            h: { translated: '𝙝' },
-            i: { translated: '𝙞' },
-            j: { translated: '𝙟' },
-            k: { translated: '𝙠' },
-            l: { translated: '𝙡' },
-            m: { translated: '𝙢' },
-            n: { translated: '𝙣' },
-            o: { translated: '𝙤' },
-            p: { translated: '𝙥' },
-            q: { translated: '𝙦' },
-            r: { translated: '𝙧' },
-            s: { translated: '𝙨' },
-            t: { translated: '𝙩' },
-            u: { translated: '𝙪' },
-            v: { translated: '𝙫' },
-            w: { translated: '𝙬' },
-            x: { translated: '𝙭' },
-            y: { translated: '𝙮' },
-            z: { translated: '𝙯' }
-        };
+        const vaporwaveMap = constants.vaporwaveMap;
         return text.split('')
             .map(char => {
                 const mappedChar = vaporwaveMap[char.toLowerCase()];
