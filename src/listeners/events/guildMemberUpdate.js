@@ -24,17 +24,18 @@ module.exports = class guildMemberUpdate extends Listener {
                 embed.setDescription(`**${oldMember.user.tag}**'s nickname has been updated`)
                     .addField('Before', oldMember.nickname ? oldMember.nickname : 'None', true)
                     .addField('After', newMember.nickname ? newMember.nickname : 'None', true)
+                return logs.send(embed);
             }
             if (oldMember.roles.cache.size < newMember.roles.cache.size) {
                 embed.setDescription(`**${oldMember.user.tag}** has been given ${addedRoles.length > 1 ? 'some roles' : 'a role'}`)
                     .addField('Added', `${added}`)
+                return logs.send(embed);
             }
             if (oldMember.roles.cache.size > newMember.roles.cache.size) {
                 embed.setDescription(`**${oldMember.user.tag}** has been removed from ${removedRoles.length > 1 ? 'some roles' : 'a role'}`)
                     .addField('Removed', `${removed}`)
+                return logs.send(embed);
             }
-            if (embed.fields.length < 1) return;
-            logs.send(embed);
         }
     }
 }
