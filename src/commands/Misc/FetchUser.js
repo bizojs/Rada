@@ -31,7 +31,7 @@ class FetchUserCommand extends Command {
                 .setTimestamp()
                 .addField('ID', args.id)
                 if (user.displayFlags().length > 0) {
-                    embed.addField('Badges', user.displayFlags())
+                    embed.addField(`${this.client.emojis.cache.get('856475335854784522')} Badges`, user.displayFlags())
                 }
                 embed.addField('Joined Discord', `${this.client.timeFormat('dddd d MMMM YYYY', user.createdAt)}`)
                 .addField(`Mutual servers with ${this.client.user.username}`, mutualCount == 0 ? 'No mutual servers' : `Found ${mutualCount} mutual server${mutualCount > 1 ? 's' : ''}`)
