@@ -40,7 +40,7 @@ class UserInfoCommand extends Command {
             embed.setThumbnail(member.user.avatarURL({size:512, dynamic: true}).replace(/webp/g, 'png').replace(/webm/g, 'gif'))
         }
         if (member.user.displayFlags().length > 0) {
-            embed.addField('Badges', member.user.displayFlags())
+            embed.addField(`${this.client.emojis.cache.get('856475335854784522')} Badges`, member.user.displayFlags())
         }
         return message.util.send(embed);        
     }

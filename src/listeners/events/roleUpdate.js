@@ -19,20 +19,22 @@ module.exports = class roleUpdate extends Listener {
             if (oldRole.name !== newRole.name) {
                 embed.addField('Old name', oldRole.name, true)
                     .addField('New name', newRole.name, true)
+                return logs.send(embed);
             }
             if (oldRole.color !== newRole.color) {
                 embed.setColor(newRole.hexColor === '#000000' ? '#36393f' : newRole.hexColor)
                     .addField('Old color', oldRole.hexColor, true)
                     .addField('New color', newRole.hexColor, true)
+                return logs.send(embed);
             }
             if (oldRole.mentionable !== newRole.mentionable) {
                 embed.addField('Mentionable', newRole.mentionable ? `${oldRole.guild.emotes.checked} enabled` : `${oldRole.guild.emotes.unchecked} disabled`, true)
+                return logs.send(embed);
             }
             if (oldRole.hoist !== newRole.hoist) {
                 embed.addField('Hoisted', newRole.hoist ? `${oldRole.guild.emotes.checked} enabled` : `${oldRole.guild.emotes.unchecked} disabled`, true)
+                return logs.send(embed);
             }
-            if (embed.fields.length < 1) return;
-            logs.send(embed)
         }
     }
 }

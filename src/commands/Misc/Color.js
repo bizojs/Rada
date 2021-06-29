@@ -24,12 +24,11 @@ class ColorCommand extends Command {
         const data = await this.client.flipnote.others.color(color);
         return message.util.send({ embed: this.client.util.embed()
             .setColor(hex)
-            .setTitle(args.hex ? `Color Information for ${data.hex}` : `No hex matches, generating random: #${hex}`)
-            .setDescription(`Color Name: \`${data.name}\`\nBrightness: \`${data.brightness}\`\nInt: \`${data.int}\`\nRGB: \`${data.rgb}\``)
-            .addField('Shade', data.shade.join(', '))
-            .addField('Tint', data.tint.join(', '))
+            .setTitle(args.hex ? data.hex : `#${hex}`)
+            .setDescription(`\`${data.name}\``)
             .setThumbnail(data.image)
             .setImage(data.image_gradient)
+            .setTimestamp()
         });
     }
     generateHex() {

@@ -2,11 +2,11 @@ const { Command } = require('discord-akairo');
 
 module.exports = class extends Command {
     constructor() {
-        super('emojify', {
-            aliases: ['emojify'],
+        super('Mock', {
+            aliases: ['mock'],
             category: 'Text',
             description: {
-                content: 'Send your text as regional indicator emojis',
+                content: 'Mock your text like the spongebob meme.',
                 permissions: []
             },
             args: [{
@@ -18,12 +18,13 @@ module.exports = class extends Command {
         })
     }
     async exec(message, { text }) {
+        if (!text) return message.responder.error('**Please provide some text**')
         try {
-            let emojified = this.client.emojify(text);
-            if (emojified.length > 1999) {
+            let mock = this.client.mock(text);
+            if (mock.length > 1999) {
                 return message.responder.error('**Please provide less text**');
             }
-            return message.channel.send(emojified);
+            return message.util.send(mock);
         } catch (e) {
             return message.responder.error(e.message);
         }

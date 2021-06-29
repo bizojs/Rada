@@ -42,7 +42,7 @@ class KickCommand extends Command {
             time: 20000
         });
         collector.on('collect', msg => {
-            switch (msg.content) {
+            switch (msg.content.toLowerCase()) {
                 case "y":
                     msg.delete()
                     args.member.kick(`Kicked by: ${message.member.user.tag} - Reason: ${args.reason}.`)

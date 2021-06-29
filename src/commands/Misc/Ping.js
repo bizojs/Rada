@@ -22,7 +22,7 @@ class PingCommand extends Command {
 	    	.setDescription([
 	            `🔂 **RTT**: ${timeDiff} ms`,
 	            `💟 **Heartbeat**: ${Math.round(this.client.ws.ping)} ms`
-	        ])
+	        ].join('\n'))
 	    	.setColor(this.client.color)
 	    	.setFooter(`Requested by ${message.author.username}`)
 	    	.setTimestamp();

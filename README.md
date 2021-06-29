@@ -11,7 +11,7 @@ This bot is the first proper bot that I have open sourced. I prefer to keep bots
 - Open command prompt and type `git clone https://github.com/Iskawo/Rada.git`
 - In command prompt, type `cd Rada` to enter the directory. Once in the directory, type `npm i`. This will install all required packages
 - Edit `example.env` (main directory) with your own information then rename it to `.env`
-- Edit `example-config.js` (src folder) again with your own information then rename it to `config.js`
+- Edit `config.js` (src folder) again with your own information then rename it to `config.js`
 
 **Running**
 - Simply type `node .` or `node rada.js` in the command prompt to start the bot
@@ -19,3 +19,6 @@ This bot is the first proper bot that I have open sourced. I prefer to keep bots
 **Running with sharding**
 - Navigate to `lib\ws\ShardManager.js` and then change the `totalShards` to your desired number (`auto` works too.)
 - Simply type `npm start` in the command prompt to start the bot with shards.
+
+# ATTENTION
+This branch contains the RADA api which is not finished or stable!

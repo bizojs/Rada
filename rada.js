@@ -1,4 +1,3 @@
-const { GUILDS, GUILD_MEMBERS, GUILD_BANS, GUILD_MESSAGES, GUILD_MESSAGE_REACTIONS, GUILD_VOICE_STATES, GUILD_EMOJIS } = require('./lib/constants').intents;
 // NPM Packages
 const { Timestamp } = require('@skyra/timestamp');
 const Flipnote = require('alexflipnote.js');
@@ -10,14 +9,20 @@ const {
     InhibitorHandler,
     MongooseProvider
 } = require('discord-akairo');
+const { Intents } = require('discord.js');
 // Custom classes
 const { clientColor, logo, christmasLogo, id } = require('./lib/constants');
+const RadaScheduler = require('./lib/classes/RadaScheduler');
 const model = require('./src/models/clientSchema');
 const Util = require('./lib/structures/Util');
 const Cli = require('./lib/classes/Cli');
 const Logger = require('./lib/log');
+
 // Configuration
 const config = require('./src/config');
+const server = require('./lib/api/RadaAPI');
+const WebSocket = require('ws');
+const constants = require('./lib/constants');
 require('dotenv').config();
 // Instantiating extensions
 require('./lib/extensions');
@@ -30,16 +35,23 @@ class RadaClient extends AkairoClient {
             disableMentions: 'everyone',
             fetchAllMembers: false,
             partials: ['MESSAGE', 'CHANNEL', 'REACTION', 'GUILD_MEMBER', 'USER'],
-            ws: {
-                intents: GUILDS | GUILD_MEMBERS | GUILD_BANS | GUILD_MESSAGES | GUILD_MESSAGE_REACTIONS | GUILD_VOICE_STATES | GUILD_EMOJIS,
-                /*
-                properties: {
-                    $browser: "Discord iOS"
-                }
-                */
-            }
+            intents: [
+                Intents.FLAGS.GUILDS,
+                Intents.FLAGS.GUILD_MESSAGES,
+                Intents.FLAGS.GUILD_MEMBERS,
+                Intents.FLAGS.GUILD_BANS,
+                Intents.FLAGS.GUILD_MESSAGES,
+                Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
+                Intents.FLAGS.GUILD_VOICE_STATES,
+                Intents.FLAGS.GUILD_EMOJIS
+            ]
+        });
+        let api = new server.RadaAPI(this).setup();
+        api.listen(config.ApiPort, () => {
+            this.log.success("Rada API online")
         });
         this.settings = new MongooseProvider(model);
+        this.RadaReminder = new RadaScheduler(this);
         this.commandHandler = new CommandHandler(this, {
             directory: './src/commands/',
             prefix: (message) => {
@@ -84,11 +96,20 @@ class RadaClient extends AkairoClient {
     }
     async login(token) {
         await this.settings.init();
-        return super.login(token);
+        await super.login(token);
     }
+
     async search(query, results) {
         return await google({ 'query': query, 'no-display': true, 'limit': results });
     }
+
+    convertTemp(temp) {
+        return {
+            CtoF: Number((temp * 9 / 5 + 32).toFixed(1)),
+            FtoC: Number(((temp - 32) * 5 / 9).toFixed(1))
+        }
+    }
+
     daysBetween(startDate, endDate) {
         if (!endDate) endDate = Date.now();
         const treatAsUTC = (date) => {
@@ -150,24 +171,7 @@ class RadaClient extends AkairoClient {
         return song ? ms_song : uptime;
     }
     emojify(text) {
-        const specialCodes = {
-            '0': ':zero:',
-            '1': ':one:',
-            '2': ':two:',
-            '3': ':three:',
-            '4': ':four:',
-            '5': ':five:',
-            '6': ':six:',
-            '7': ':seven:',
-            '8': ':eight:',
-            '9': ':nine:',
-            '#': ':hash:',
-            '*': '*️⃣',
-            '?': ':grey_question:',
-            '!': ':grey_exclamation:',
-            ' ': '   ',
-            '.': ':white_small_square:'
-        }
+        const specialCodes = constants.specialCodes;
         return text.toLowerCase().split('').map(letter => {
             if (/[a-z]/g.test(letter)) {
                 return `:regional_indicator_${letter}: `
@@ -178,41 +182,76 @@ class RadaClient extends AkairoClient {
         }).join('');
     }
     leet(text) {
-        const leetMap = {
-            a: { translated: '4' },
-            b: { translated: 'B' },
-            c: { translated: 'C' },
-            d: { translated: 'D' },
-            e: { translated: '3' },
-            f: { translated: 'F' },
-            g: { translated: 'G' },
-            h: { translated: 'H' },
-            i: { translated: '1' },
-            j: { translated: 'J' },
-            k: { translated: 'K' },
-            l: { translated: 'L' },
-            m: { translated: 'M' },
-            n: { translated: 'N' },
-            o: { translated: '0' },
-            p: { translated: 'P' },
-            q: { translated: 'Q' },
-            r: { translated: 'R' },
-            s: { translated: 'S' },
-            t: { translated: 'T' },
-            u: { translated: 'U' },
-            v: { translated: 'V' },
-            w: { translated: 'W' },
-            x: { translated: 'X' },
-            y: { translated: 'Y' },
-            z: { translated: 'Z' }
-        };
+        const leetMap = constants.leetMap;
         return text
             .split('')
-            .map(char => {
-                const mappedChar = leetMap[char.toLowerCase()];
-                return mappedChar ? mappedChar['translated'] : char
-            }).join('');
+            .map(char => leetMap[char.toLowerCase()] ? mappedChar['translated'] : char).join('');
     }
+    toggleCase(str) {
+        if (str.length !== 1) return str;
+        if (str.match(/^[A-z]$/)) {
+            if (str.toUpperCase() === str) {
+                return str.toLowerCase();
+            } else {
+                return str.toUpperCase();
+            }
+        }
+        return str;
+    }
+    mock(str) {
+        return str.split("").map((char, index) => {
+            if (index % 2 === 0) return this.toggleCase(char);
+            return char;
+        }).join("");
+    }
+
+    generateEmojipasta(text) {
+        var blocks = this.splitIntoBlocks(text);
+        var newBlocks = [];
+        var emojis = [];
+        blocks.forEach(block => {
+            newBlocks.push(block);
+            emojis = this.generateEmojisFrom(block);
+            if (emojis) {
+                newBlocks.push(" " + emojis);
+            }
+        });
+        return newBlocks.join("");
+    }
+    
+    splitIntoBlocks(text) {
+        return text.match(/\s*[^\s]*/g);
+    }
+    
+    generateEmojisFrom(block) {
+        var trimmedBlock = this.trimNonAlphanumericalChars(block);
+        var matchingEmojis = this.getMatchingEmojis(trimmedBlock);
+        var emojis = [];
+        if (matchingEmojis) {
+            var numEmojis = Math.floor(Math.random() * (1 + 1));
+            for (var i = 0; i < numEmojis; i++) {
+                emojis.push(matchingEmojis[Math.floor(Math.random() * matchingEmojis.length)]);
+            }
+        }
+        return emojis.join("");
+    }
+    
+    trimNonAlphanumericalChars(text) {
+        return text.replace(/^\W*/, "").replace(/\W*$/, "");
+    }
+    
+    getMatchingEmojis(word) {
+        const emoji_mapping = require("./lib/structures/EmojiMappings").emojiMap;
+        var key = this.getAlphanumericPrefix(word.toLowerCase());
+        if (key in emoji_mapping) {
+            return emoji_mapping[key];
+        }
+        return [];
+    }
+    
+    getAlphanumericPrefix(s) {
+        return s.match(/^[a-z0-9]*/i);
+    }    
     owofy(string) {
         const { OwOfy } = require('./lib/constants')
         let i = Math.floor(Math.random() * OwOfy.length);
@@ -230,34 +269,7 @@ class RadaClient extends AkairoClient {
         return string;
     };
     vaporwave(text) {
-        const vaporwaveMap = {
-            a: { translated: '𝙖' },
-            b: { translated: '𝙗' },
-            c: { translated: '𝙘' },
-            d: { translated: '𝙙' },
-            e: { translated: '𝙚' },
-            f: { translated: '𝙛' },
-            g: { translated: '𝙜' },
-            h: { translated: '𝙝' },
-            i: { translated: '𝙞' },
-            j: { translated: '𝙟' },
-            k: { translated: '𝙠' },
-            l: { translated: '𝙡' },
-            m: { translated: '𝙢' },
-            n: { translated: '𝙣' },
-            o: { translated: '𝙤' },
-            p: { translated: '𝙥' },
-            q: { translated: '𝙦' },
-            r: { translated: '𝙧' },
-            s: { translated: '𝙨' },
-            t: { translated: '𝙩' },
-            u: { translated: '𝙪' },
-            v: { translated: '𝙫' },
-            w: { translated: '𝙬' },
-            x: { translated: '𝙭' },
-            y: { translated: '𝙮' },
-            z: { translated: '𝙯' }
-        };
+        const vaporwaveMap = constants.vaporwaveMap;
         return text.split('')
             .map(char => {
                 const mappedChar = vaporwaveMap[char.toLowerCase()];
@@ -266,4 +278,5 @@ class RadaClient extends AkairoClient {
     }
 }
 const client = new RadaClient();
+// client.Cli.start()
 client.login(process.env.TOKEN);

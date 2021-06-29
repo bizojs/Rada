@@ -42,7 +42,7 @@ class BanCommand extends Command {
             time: 20000
         });
         collector.on('collect', msg => {
-            switch (msg.content) {
+            switch (msg.content.toLowerCase()) {
                 case "y":
                     msg.delete()
                     member.ban({days: 7, reason: `Softbanned by: ${message.member.user.tag} - Reason: ${reason ? reason : 'Not provided'}`})
