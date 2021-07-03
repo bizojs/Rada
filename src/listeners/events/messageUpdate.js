@@ -10,6 +10,7 @@ module.exports = class messageUpdate extends Listener {
     }
 
     async exec(message, oldMessage, newMessage) {
+        if (!message.author.id) return;
         if (message.channel.type === "dm") return;
         let logs = message.guild.channels.cache.get(message.guild.settings.get(message.guild.id, 'logs'));
         let antilink = message.guild.channels.cache.get(message.guild.settings.get(message.guild.id, 'antilink', null));
@@ -17,7 +18,7 @@ module.exports = class messageUpdate extends Listener {
         let MessageUpdateEmote = this.client.emojis.cache.find(e => e.name === "message_update");
         let AntilinkEmote = this.client.emojis.cache.get(message.emoteID.info);
         let message1 = message.content;
-        let caching = await this.client.users.fetch(message.author.id).catch(() => {});
+        let caching = await this.client.users.fetch(message.author.id);
         let cached = this.client.users.cache.get(caching.id)
         let user = cached.tag || null;
         if ([oldMessage, oldMessage.content].some(content => content === message1)) return;
