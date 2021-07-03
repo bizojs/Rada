@@ -18,7 +18,7 @@ module.exports = class messageDeleteBulk extends Listener {
         let MessageDeleteEmote = this.client.emojis.cache.find(e => e.name === "message_delete");
         let authors = [];
         for (const msg of messageMap) {
-            let fetching = await this.client.users.fetch(msg.authorID)
+            let fetching = await this.client.users.fetch(msg.author.id)
             this.cache.add(this.client.users.cache.get(fetching.id))
         }
         for (const author of this.cache) authors.push(author);
