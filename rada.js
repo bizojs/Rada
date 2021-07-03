@@ -34,6 +34,9 @@ class RadaClient extends AkairoClient {
         }, {
             disableMentions: 'everyone',
             fetchAllMembers: false,
+            allowedMentions: {
+                repliedUser: false
+            },
             partials: ['MESSAGE', 'CHANNEL', 'REACTION', 'GUILD_MEMBER', 'USER'],
             intents: [
                 Intents.FLAGS.GUILDS,
