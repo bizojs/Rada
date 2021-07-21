@@ -13,7 +13,7 @@ module.exports = class GuildDeleteListener extends Listener {
         this.client.presence.set({
             status: 'online',
             activity: {
-                name: `https://radabot.net | ${this.client.guilds.cache.size} servers`,
+                name: `radabot.net | ${this.client.guilds.cache.size} servers`,
                 type: 'WATCHING'
             }
         });
