@@ -7,7 +7,8 @@ module.exports = class ReminderCommand extends Command {
             aliases: ['reminder', 'remindme'],
             category: 'Utility',
             description: {
-                content: 'Create a reminder'
+                content: 'Create a reminder',
+                permissions: []
             },
             args: [{
                     id: 'duration',
